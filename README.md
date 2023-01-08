@@ -127,3 +127,61 @@ Neste caso, se obtém uma nova instância do serviço com cada nova instância d
 
 O @Injectable() decorator define uma classe como um serviço no angular e permite  que o Angular o injete
 em um componente como uma dependência. 
+
+# Property Binding
+
+O property binding faz a ligação (binding) de um elemento do DOM, ou diretiva com um campo atribuído no componente o interpolation string => {{ name }} é um syntatic sugar do property binding.
+o property binding é muito utilizado para fazer coisas como togglar botões, definir caminhos dinamicamente e compartilhar valores entre componentes.
+O VALOR SE MOVE EM UMA ÚNICA DIREÇÃO, vai da propriedade de componente para a propriedade de um elemento alvo. para fazer a ligação com uma propriedade de um elemento utiliza-se colchetes [], isso irá identificar a propriedade como uma target property, uma target property é uma propriedade (atributo) do DOM a qual você quer atribuir um valor, assim:
+
+<img alt="item" [src]="itemImageUrl">
+
+o valor a diretia do atributo [src] será avaliado dinamicamente e não como uma string, sem os colchetes o valor seria avaliado como se uma string fosse.
+
+Um erro comum é confundir os elementos do DOM com os elementos HTML, o property bind utiliza-se dos elementos do DOM, então, para mudar dinamicamente o colspan utiliza-se [colSpan]="value" e não [colspan] como no HTML.
+
+# Adicionando bootstrap ao projeto
+
+utilize o npm para instalar o bootstrap no seu projeto angular, faça npm install bootstrap --save
+a instrução --save irá adicionar a versão do bootstrap no package.json, neste padrão ^5.2.3 => major.minor.patch, o circunflexo no início indica que podemos sempre usar a versão mais nova da minor version, caso a major version seja alterada a mudança não será feita em automático. 
+
+A pasta node_modules, por padrão, não vai para o github quando fazemos o "git push origin master", apenas o package.json, com esse arquivo, qualquer pessoa que queira baixar o código e atualizar as dependências, basta teclar npm install para pegar todas as dependências do package.json
+
+# importando o css
+
+Adicione ao arquivo style.css a importação do css do bootstrap => @import "~bootstrap/dist/css/bootstrap.css";
+
+# Class Binding
+
+É uma variação do property binding, utiliza-se da seguinte forma:
+[class.nameClass]="fieldComponent"
+É usado para adicionar ou remover classes CSS dos atributos class e setar estilos dinamicamente
+o fieldComponent será um valor booleano. 
+Para fazer o binding com múltiplas classes utiliza-se [class]="classExpression", a expressão pode ser: 1) uma string de nome de classes, delimitada por espaços;
+2) um objeto com o nome das classes como chave e o valor como expressões booleanas
+3) uma array de nome de classes
+Referências: https://angular.io/guide/class-binding
+
+# Style Binding
+
+utiliza a mesma lógica do class binding, a sintaxe é a seguinte:
+[style.background-color]="expression",
+para múltiplos estilos, utiliza-se a seguinte expressão:
+[style]="styleExpression"
+a expressão pode ser:
+1) uma string com uma lista de estilos separados por ponto e vírgula;
+2) um objeto chave valor, o style name como chave e os valores como valores
+
+Exemplo: 
+[...]
+template: `
+<nav [style]='navStyle'>
+    <a [style.text-decoration]="activeLinkStyle"> Home Page </a>
+</nav> 
+`
+[...]
+export class NavBarComponent {
+    navStyle = 'font-size: 1.2rem; color; cornflowerblue;';
+    activeLinkStyle = 'overline';
+}
+
