@@ -187,4 +187,72 @@ Exemplo:
 
 # Event Binding
 
-Event Binding permite que você capture e responda a ações do usuário, tais como acionamento de teclas, movimentos do mouse, cliques e outros.
+Event Binding permite que você capture e responda a ações do usuário, tais como acionamento de teclas, movimentos do mouse, cliques e outros. a sintaxe do event binding é composta pelo nome do evento entre parenteses o sinal de igual e o nome do método entre aspas, assim:
+        <button (click)="onSave()">Save</button>
+
+o event binding espera pelo evento de clique no botão e chama o método do componente associado.
+
+## Determinando um event target
+
+Usualmente precisamos ter acesso ao event object que foi acionado, através do event handler, por exemplo, ao movimentar o mouse, o evento de movimentar nos dará um objeto com as coordenadas do mouse (x,y). para ter acesso ao event object, é preciso informá-lo no parâmetro do método chamado, assim:
+        <button (click)="onSave($event)">Save</button>
+
+Para determinar um evento alvo, o angular verifica se o nome do evento alvo bate com uma propriedade de evento de uma diretiva conhecida, conforme exemplo abaixo, em que o angular verifica se myClick é um evento na diretiva customizada ClickDirective
+
+        <h4> myClick is an event on the custom ClickDirective: </h4>
+        <button type="button" (myClick)="clickMessage=$event" clickable> click with myClick </button>
+        {{ clickMessage }}
+
+## Event Filtering
+
+É possível filtrar o evento, por exemplo:
+
+        <input (onKeyUp.Enter)="onKeyUp()">
+
+Com esta sintaxe, o método onKeyUp() somente será chamado se o Enter for pressionado, ou seja, o evento onKeyUp foi filtrado para responder apenas quando o Enter.
+É possível fazer o bind para vários eventos do teclado, você pode especificar a tecla ou o código que você quiser, Combinações de teclas podem ser separadas por ponto (.)
+
+# Template Variables
+
+Template variables auxilia o uso de dados de uma parte do template em outra parte do template. São muito usadas para executar tarefas como responder a entradas do usuário ou ajustar os formulários de sua aplicação. Uma variável de template pode se referir:
+
+1) Um DOM element dentro de um template;
+2) a uma diretiva ou componente;
+3) A um templateRef de um ng-template;
+4) um web component
+
+## Sintaxe
+
+é utilizada a hastTag (#) para declarar uma variável de template, no exemplo a seguir a template variable #phone é usada em um input (Dom element)
+
+        <input #phone placeholder="phone number">
+
+uma vez declarada, pode ser utilizada em qualquer lugar no template do componente.
+Para passar o valor de um campo texto para o componente, pode ser utilizada uma template variable, da seguinte forma;
+
+        <input #email (keyup.enter)="onKeyUp(email.value)">
+no componente, fazemos assim:
+
+        onKeyUp(email:any) {
+            console.log(email)
+        }
+
+Essa mesma função também pode ser feita através do property binding, assim:
+        
+        <input [value]="email2" (keyup.enter)="onKeyUp()">
+        class..
+        email2 = "email@email.com"
+
+
+Como a template variable foi declarada dentro de um elemento html, ela faz referência ao elemento. 
+
+# Two ways data binding
+
+O binding pode ocorrer em duas vias, o property binding leva o valor do componente para o DOM element,
+o event binding leva o valor do Dom element para o componente, 
+
+    <!-- two way binding, maneira longa -->    
+    <input #emailT [value]="email" (keyup.enter)="onKeyUp(emailT.value)" />
+
+    <!-- two way binding bananaBox -->    
+    <input [(ngModel)]="email" (keyup.enter)="onKeyUp()" />
