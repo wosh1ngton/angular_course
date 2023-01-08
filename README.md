@@ -99,27 +99,27 @@ pode ser parte dos metadados do serviço, fazendo com que o serviço esteja disp
 ou pode ser registrado para módulos ou componentes específicos. Pode ser registrado no @Injectable do
 próprio serviço, ou no @NgModule ou no @Component.
 Por padrão, o comando "ng g s service" registra o provider com o root injector assim:
-@Injectable({
-    providedIn: 'root',
-})
+        @Injectable({
+            providedIn: 'root',
+        })
 neste caso estará disponível para qualquer classe que o solicite, o 'root' é o application-wide injector
 que no bootstrap da aplicação fará as injeções de dependência necessárias
 
 No nível de módulo, seria assim
-@NgModule({
-    providers:[
-        BackendService,
-        Logger
-    ],
-})
+        @NgModule({
+            providers:[
+                BackendService,
+                Logger
+            ],
+        })
 Neste caso estaria disponível para qualquer classe do módulo
 
 No nível de componente seria assim:
-@Component({
-    selector: '',
-    templateUrl: '',
-    providers: [HeroService]
-})
+        @Component({
+            selector: '',
+            templateUrl: '',
+            providers: [HeroService]
+        })
 
 Neste caso, se obtém uma nova instância do serviço com cada nova instância do componente
 
@@ -174,14 +174,17 @@ a expressão pode ser:
 
 Exemplo: 
 [...]
-template: `
-<nav [style]='navStyle'>
-    <a [style.text-decoration]="activeLinkStyle"> Home Page </a>
-</nav> 
-`
+        template: `
+        <nav [style]='navStyle'>
+            <a [style.text-decoration]="activeLinkStyle"> Home Page </a>
+        </nav> 
+        `
 [...]
-export class NavBarComponent {
-    navStyle = 'font-size: 1.2rem; color; cornflowerblue;';
-    activeLinkStyle = 'overline';
-}
+        export class NavBarComponent {
+            navStyle = 'font-size: 1.2rem; color; cornflowerblue;';
+            activeLinkStyle = 'overline';
+        }
 
+# Event Binding
+
+Event Binding permite que você capture e responda a ações do usuário, tais como acionamento de teclas, movimentos do mouse, cliques e outros.

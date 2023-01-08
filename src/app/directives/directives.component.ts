@@ -16,6 +16,7 @@ import { DirectiveService } from './directive.service';
     </table>
     <button class="btn btn-primary" [class.active]="isActive"> Teste </button>
     <button [style.backgroundColor]="isActive ? 'blue': 'white'"> Update </button>
+    <button (click)="onSave()"> </button>
     <ul>
       <!-- abaixo exemplifica-se o uso da diretiva ngFor que utiliza um for para repetir o elemento li
       até o limite do número de cursos  -->
@@ -44,6 +45,9 @@ export class DirectivesComponent implements OnInit {
   courses = ['Course1','Course2','Course3'];
   colsSpan = 2;
   isActive = true;
+  onSave() {
+    console.log("Button was clicked!");
+  }
   ngOnInit(): void {
   }
 
