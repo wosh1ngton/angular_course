@@ -30,7 +30,7 @@ import { DirectiveService } from './directive.service';
       é preciso prefixá-la com um asterisco -->
       <li *ngFor="let course of courses">
         <!-- como se trata de variável do ts é preciso usar o marcado de string interpolation -->
-        {{ course }}
+        {{ course }} <app-favorite></app-favorite>
       </li>
     </ul>
     <!-- passando o valor digitado através do event target -->
