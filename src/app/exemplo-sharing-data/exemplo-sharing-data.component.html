@@ -1,0 +1,8 @@
+<label for="item-input"> Add an item: </label>
+<input type="text" id="item-input" #newItem>
+
+<!-- 
+    ao clicar no botão o método addNewItem é chamado e o valor é passado, o método
+    chama um eventEmitter que sobe o evento para o eventHandler
+-->
+<button type="button" (click)="addNewItem(newItem.value)"> Add to parent's list </button>

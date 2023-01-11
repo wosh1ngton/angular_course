@@ -153,7 +153,9 @@ Até aqui, foi possível visualizar o uso de property binding em elementos conhe
 
     <favorite [isFavorite]="post.isFavorite"></favorite>
 
-resultaria em erro, pois isFavorite não é reconhecido
+resultaria em erro, pois isFavorite não é reconhecido como uma property do componente favorite, para poder utilizar o property binding é preciso designar a propriedade como uma "input property", através do decoratar @Input(), assim:
+
+    @Input() isFavorite = false;
 
 # Adicionando bootstrap ao projeto
 
@@ -213,6 +215,22 @@ Exemplo:
         activeLinkStyle = 'overline';
     }
 
+
+# Aplicando estilos a um componente
+
+Há três formas de usar estilos em um componente:
+
+1. utlizando a propriedade styleUrls: no @Component decorator, passando um ou mais arquivo(s) de estilo
+2. utlizando a propriedade styles no @Component decorator, assim:
+styles: [`
+    padding: 3px;
+    margin: 0;
+`]
+3. Escrevendo as instruções inline dentro do arquivo html do componente. (não recomendável)
+
+Em caso de declarações conflitantes, por exemplo, uso de stylesUrls e styles de forma concomitante com instruções que se anulam, será considerada a última como válida. caso utlize instruções no arquivo html, essas serão as instruções válidas.
+
+
 # Event Binding
 
 Event Binding permite que você capture e responda a ações do usuário, tais como acionamento de teclas, movimentos do mouse, cliques e outros. a sintaxe do event binding é composta pelo nome do evento entre parenteses o sinal de igual e o nome do método entre aspas, assim:
@@ -220,6 +238,10 @@ Event Binding permite que você capture e responda a ações do usuário, tais c
     <button (click)="onSave()">Save</button>
 
 o event binding espera pelo evento de clique no botão e chama o método do componente associado.
+
+O event binding, quando aplicado a um componente, deve especificar o método como um output, da seguinte forma:
+
+    @Output doSomething() { ; }
 
 ## Determinando um event target
 
@@ -324,6 +346,95 @@ import { Pipe, PipeTransform } from '@angular/core';
         }
 
     }
+
+
+# Input e Outputs properties
+
+Quando trabalhamos com componentes, eventualmente necessitamos utilizar suas propriedades e seus métodos para passar o estado do componente e reagir a eventos disparados, para isso, utilizamos Input e Output properties, a isso dá-se o nome de "public API". Sem as anotações de Input e Output não é possível utilizar property binding e event binding no componente.
+
+Os decorators @Input() e @Output() permitem o compartilhamento de dados entre child e parent directives e components, o @Input() permite que o componente pai atualize dados no componente filho, já o @Output() permite que o elemento filho envie dados para o elemento pai.
+
+## Enviando dados para um elemento filho
+
+O @Input() decorator em um elemento filho ou diretiva significa que a propriedade pode receber seu valor de um componente pai.
+
+@Input => Parent => Child.
+
+Para utilizar o @Input é preciso configurar parent e child elements.
+
+    @Input() item = '';
+
+item pode ser de qualquer tipo, inclusive um objeto, o valor de item vem do componente pai. No template do componente filho, tem-se:
+
+    <p>
+        Today's item: {{ item }}
+    </p>
+
+No componente pai, fazemos o property binding propriamente dito, neste caso estamos trabalhando no app-component como sendo o componente pai, pois ele engloba o componente app-item-detail.
+
+    <app-item-detail [item]="currentItem"> </app-item-detail>
+
+No componente pai, designamos o valor para o currentItem
+
+    export class AppComponent {
+        currentItem = 'Television';
+    }
+
+# Enviando dados para o componente pai
+
+o @Output decorator em um componente filho ou diretiva permite o fluxo de dados do filho para o pai. o componente filho utiliza o @Output decorator para subir um evento para notificar o componente pai da mudança, para subir o evento, um @Output precisa ter o tipo EventEmitter, que é uma classe do @angular/core que utilizamos para emitir eventos customizados.__
+O exemplo a seguir mostra como configurar um @Output() em um componente filho que envia dados de um <input> HTML para uma array no componente pai. Para usar o @Output() é preciso configurar parent e child.
+
+## Configurando o componente filho
+
+    //app-item-output é o emissor ou fornecedor do evento newItemEvent
+    @Output() newItemEvent = new EventEmitter<string>();
+
+na mesma classe do componente, cria-se um método que irá emitir o evento
+
+    addNewItem(value: string) {
+        this.newItemEvent.emit(value);
+    }
+
+A função addNewItem() utiliza o @Output(), newItemEvent, para subir um evento com o valor que o usuário informar no <input>
+
+## Configurando o template do elemento filho
+
+    <label for="item-input"> Add an item: </lable>
+    <input type="text" id="item-input" #newItem>
+    <button type="button" (click)="addNewItem(newItem.value)"> Add to parent's list </button>
+
+Ao clicar no botão o método addNewItem() do componente é acionado, ele possui como parâmetro o valor da template variable #newItem, que nada mais é que o valor que o usuário irá informar no campo de texto
+
+## Configurando o componente pai
+
+Neste exemplo, utilizamos o AppComponent, o qual terá uma lista de itens e um método para adicionar mais itens.
+
+
+    export class AppComponent {
+        items = ['item1','item2','item3','item4'];
+
+        addItem(newItem:string) {
+            this.items.push(newItem);
+        }
+    }
+
+o método addItem() irá receber o argumento, no exemplo, uma string.
+
+## Configurando o template do elemento pai
+
+No template, (app.component.html), linkamos o método do elemento pai (addItem()), com o evento, marcado como @Output no elemento filho (newItemEvent).
+Essa chamada é feita na tag do elemento filho, assim:
+
+    //app.component é o cliente ou consumidor do evento (newItemEvent)
+    <app-item-output (newItemEvent)="addItem($event)"></app-item-output>
+
+O even binding, (newItemEvent)='addItem($event)', liga o evento do elemento filho ao método do elemento pai. o objeto $event contém os dados que o usuário informa no <input>.
+Para ver o @Output() funcionando, adicione o seguinte no parent's template:
+
+    <ul>
+        <li *ngFor="let item of items"> {{item}} </li>
+    </ul>
 
 
 

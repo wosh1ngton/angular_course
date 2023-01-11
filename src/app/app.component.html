@@ -3,3 +3,21 @@
 
 <app-directives></app-directives>
 <app-pipe-example> </app-pipe-example>
+<!-- app-favorite é um child selector -->
+<!-- [favorito] é um child selector, vem do componente favorito, "post.isFavorite" é uma property from parent-->
+<app-favorite [favorito]="post.isFavorite" (change)="onFavoriteChanged($event)"> </app-favorite>
+
+<!-- 
+  a chamada desse componente tem um evento criado (newItemEvent) que chama um método
+  do componente atual (app.component.ts) esse método passa o valor do evento, que no caso
+  é um valor que vem do child template
+-->
+<app-exemplo-sharing-data (newItemEvent)="addItems($event)"> </app-exemplo-sharing-data>
+
+<ul>
+  <li *ngFor="let item of items">
+      {{ item }}
+  </li>
+</ul>
+
+<span>  </span>

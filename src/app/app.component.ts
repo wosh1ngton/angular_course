@@ -7,4 +7,20 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'angular-course';
+  post = {
+    title : "title",
+    isFavorite : false
+  }
+
+  onFavoriteChanged(eventArgs:{}) {
+    console.log("favorite changed!",eventArgs);
+  }
+
+  items = ['item1','item2','item3'];
+
+  addItems(value:string) {
+    this.items.push(value);
+  }
+
+
 }

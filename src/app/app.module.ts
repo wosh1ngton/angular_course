@@ -9,6 +9,7 @@ import { DirectivesComponent } from './directives/directives.component';
 import { PipeExampleComponent } from './pipe-example/pipe-example.component';
 import { SummaryPipe } from './summary.pipe';
 import { FavoriteComponent } from './favorite/favorite.component';
+import { ExemploSharingDataComponent } from './exemplo-sharing-data/exemplo-sharing-data.component';
 
 //Esta classe está decorada com uma decorator funcion chamada NgModule, sinalizando que trata-se de um módulo angular
 @NgModule({
@@ -19,7 +20,8 @@ import { FavoriteComponent } from './favorite/favorite.component';
     DirectivesComponent,
     PipeExampleComponent,
     SummaryPipe,
-    FavoriteComponent
+    FavoriteComponent,
+    ExemploSharingDataComponent
   ],
   imports: [
     BrowserModule,

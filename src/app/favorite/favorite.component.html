@@ -1,1 +1,1 @@
-<i (click)="onClick()" [class]="favorito ? 'bi-star': 'bi-star-fill'" class="h4 mt-3"></i> 
+<i (click)="onClick()" [class.bi-star-fill]="favorito" [class.bi-star]="!favorito" class="h4 mt-3"></i> 
