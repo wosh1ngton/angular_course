@@ -1,9 +1,10 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-exemplo-sharing-data',
   templateUrl: './exemplo-sharing-data.component.html',
-  styleUrls: ['./exemplo-sharing-data.component.css']
+  styleUrls: ['./exemplo-sharing-data.component.css'],
+  encapsulation: ViewEncapsulation.Emulated
 })
 export class ExemploSharingDataComponent implements OnInit {
 

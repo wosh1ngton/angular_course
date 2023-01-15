@@ -17,6 +17,12 @@ export class AppComponent {
   }
 
   items = ['item1','item2','item3'];
+  
+  tweet = {
+    post : "exemplo de tweet",
+    isLiked : true,
+    totalLikes : 0
+  };
 
   addItems(value:string) {
     this.items.push(value);

@@ -10,6 +10,9 @@ import { PipeExampleComponent } from './pipe-example/pipe-example.component';
 import { SummaryPipe } from './summary.pipe';
 import { FavoriteComponent } from './favorite/favorite.component';
 import { ExemploSharingDataComponent } from './exemplo-sharing-data/exemplo-sharing-data.component';
+import { PanelComponent } from './panel/panel.component';
+import { LikeComponent } from './like/like.component';
+
 
 //Esta classe está decorada com uma decorator funcion chamada NgModule, sinalizando que trata-se de um módulo angular
 @NgModule({
@@ -21,7 +24,9 @@ import { ExemploSharingDataComponent } from './exemplo-sharing-data/exemplo-shar
     PipeExampleComponent,
     SummaryPipe,
     FavoriteComponent,
-    ExemploSharingDataComponent
+    ExemploSharingDataComponent,
+    PanelComponent,
+    LikeComponent    
   ],
   imports: [
     BrowserModule,

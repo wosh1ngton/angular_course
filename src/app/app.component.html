@@ -1,3 +1,7 @@
+<app-like
+  [totalCounts]="tweet.totalLikes"
+  [isActive]="tweet.isLiked"
+> </app-like>
 <h1> Angular </h1>
 <!-- Chamada para o componente -->
 
@@ -21,3 +25,16 @@
 </ul>
 
 <span>  </span>
+<!-- para setar o body e o heading do painel, é possível fazer via property binding 
+assim <app-panel [body]="body"> </app-panel>,
+mas essa sintaxe não é a mais adequada, para isso existe o ngContent element
+-->
+<app-panel>
+   
+  <ng-container class="heading"> Heading+ </ng-container>
+  <div class="body"> 
+    <h2> Body </h2> 
+    <p>some content</p>
+  </div>
+</app-panel>
+

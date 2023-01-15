@@ -1,0 +1,16 @@
+<div class="card">
+    <div class="card-body">
+        <div class="card-title"> 
+            <!-- quero que o consumer deste componente possa injetar conteúdo aqui -->
+            <ng-content select=".heading"></ng-content>    
+        </div>
+        <div class="card-text" style="color: red;"> 
+            <!-- quero que o consumer deste componente possa injetar conteúdo aqui 
+            como este é o segundo ng-content, é preciso distingui-lo do primeiro,
+            para isso utiliza-se o elemento select, que cria um seletor css para o ng-element
+            -->
+            <ng-content select=".body"> </ng-content>    
+        </div>
+    </div>
+    
+</div>

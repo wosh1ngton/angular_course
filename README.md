@@ -437,5 +437,88 @@ Para ver o @Output() funcionando, adicione o seguinte no parent's template:
     </ul>
 
 
+# View Encapsulation
+
+No angular, o estilo de um componente pode ser encapsulado para limitar-se ao componente, assim, não afeta o restante da aplicação, dentro do @Component decorator é disponibilizada a opção encapsulation, que pode ser utilizada para controlar como o encapsulamento é aplicado. Existem os seguintes modos:
+
+1. ViewEncapsulation.SadowDom => O Angular utilizará o Shadow DOM API built-in do navegador para aplicar os estilos de forma isolada ao componente, contudo, nem todos os navegadores possuem suporte para tal.
+
+2. ViewEncapsulation.Emulated => O Angular modifica os seletores CSS aplicados ao componente, dessa forma ele emula o Shadow DOM. Exemplo: quando definimos no css do nosso componente um h1 { color: red; } os elementos h1 definidos no html do componente receberão um atributo do tipo ngcontent, e o angular criará uma marcação css diferenciada para todos os h1 que tiverem esse atributo, assim:
+
+HTML gerado automaticamente:
+
+        <h1 _ngcontent-lia-c47=""> teste</h1>
+
+CSS gerado automaticamente
+
+        h1[_ngcontent-lia-c47] {
+            color: red;
+        }
+
+3. ViewEncapsulation.None => O Shadow DOM não é aplicado, assim, os estilos são válidos globalmente.
+
+# Projeção de conteúdo (Conent Projection)
+
+Content Projection é um padrão em que é possível inserir, ou projetar, o conteúdo que você quiser dentro de outro componente. Por exemplo, você poderia ter um componente Card que aceia o conteúdo provido por outro componente. As seções seguintes descrevem as implementações usuais de projeção de conteúdo em Angular:
+
+## Single-slot content projection
+
+O componente aceita conteúdo de uma única fonte. é a forma mais básica de projeção de conteúdo, para sua implementação é preciso criar uma tag <ng-content> onde se deseja projetar o conteúdo. Por exemplo:
+
+    import { Component } from '@angular/core';
+
+    @Component({
+    selector: 'app-panel',
+    template: `
+        <h2>Single-slot content projection</h2>
+        <ng-content></ng-content>
+    `
+    })
+    export class PanelComponent {}
+
+Com o ng-content configurado, os consumidores deste componente poderão injetar conteúdo no lugar do componente, imagine o conteúdo abaixo no template app.component.html:
+
+    <app-panel>
+        <p> Conteúdo projetado </p>
+    </app-panel>
+
+O ng-content funciona como um placeholder, de maneira que ele não cria um elemento DOM real. atributos customizados para esse tipo de elemento são ignorados.
+
+
+## Multi-slot content projection
+
+Neste cenário, o componente aceita conteúdo de múltiplas fontes. Para este cenário é preciso distinguir os ng-contents para que o angular saiba referenciar o local onde o conteúdo deve ser inserido, para fazer essa distinção é utilziado o atributo select="identificador-css", assim:
+
+
+    import { Component } from '@angular/core';
+
+    @Component({
+    selector: 'app-panel',
+    template: `
+        <h2>Multi-slot content projection</h2>
+
+        Default:
+        <ng-content></ng-content>
+
+        Question:
+        <ng-content select="[question]"></ng-content>
+    `
+    })
+    export class PanelComponent {}
+
+
+Note que o uso do atributo select para efetuar a distinção dos ng-contents, no app.component.html fica assim:
+
+    <app-panel>
+    <p question>
+        Is content projection cool?
+    </p>
+    <p>Let's learn about content projection!</p>
+    </app-panel>
+
+
+
+
+
 
 
