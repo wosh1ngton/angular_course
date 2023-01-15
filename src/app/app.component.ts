@@ -6,12 +6,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
+  viewMode = 'map';
   title = 'angular-course';
   post = {
     title : "title",
     isFavorite : false
   }
-
+  courses = [];
   onFavoriteChanged(eventArgs:{}) {
     console.log("favorite changed!",eventArgs);
   }

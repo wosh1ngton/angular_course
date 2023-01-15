@@ -12,6 +12,7 @@ import { FavoriteComponent } from './favorite/favorite.component';
 import { ExemploSharingDataComponent } from './exemplo-sharing-data/exemplo-sharing-data.component';
 import { PanelComponent } from './panel/panel.component';
 import { LikeComponent } from './like/like.component';
+import { NgifComponent } from './ngif/ngif.component';
 
 
 //Esta classe está decorada com uma decorator funcion chamada NgModule, sinalizando que trata-se de um módulo angular
@@ -26,7 +27,8 @@ import { LikeComponent } from './like/like.component';
     FavoriteComponent,
     ExemploSharingDataComponent,
     PanelComponent,
-    LikeComponent    
+    LikeComponent,
+    NgifComponent    
   ],
   imports: [
     BrowserModule,

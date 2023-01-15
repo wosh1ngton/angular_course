@@ -60,12 +60,97 @@ AngularJS directives possuem o prefixo ng-name
 
 As diretivas mudam a aparência e comportamento dos elementos DOM e dos componentes do angular
 
-# Directive CLI
+## Directive CLI
 
 para criar uma diretiva basta comandar: ng g d name.
 A criação resultará em um arquivo typescript com uma função decorator 
     
     @Directive({ selector: '[name]'})
+
+## Built-in directives
+
+Diretivas são classes que adicional comportamento adicional para os elementos em sua aplicação Angular. As diretivas built-in do Angular gerenciam forms, listas e estilos. Os tipos de diretivas do Angular podem ser divididos em 3 categorias:
+
+Components: Utilizadas com um template. Este tipo de diretiva é o mais comum;
+Attribute directives: Mudam a aparência e comportamento de um elemento, componente, ou outra diretiva;
+Structural directive: altera o layout do DOM adicionando e removendo elementos do DOM.
+
+Attribute Directives escutam e modificam o comportamento de outros elementos HTML, atributos, propriedades e componentes. Alguns NgModules tais como o RouterModule e o FormsModule definem suas próprias diretivas de atributo. Seguem as mais comuns:
+
+NgClass: adiciona e remove um conjunto de classes CSS;
+NgStyle: Adiciona e remove um conjunto de estilos;
+NgModel: adiciona o two-way data binding a um elemento HTML.
+
+### Adicionando e removendo classes com o NgClass
+
+Para adicionar ou remover uma única classe, utilize o class binding ao invés do NgClass. Adicione o ngClass no elemento que você gostaria de estilizar, o ngClass pode ser utilizado em conjunto com uma expressão, assim:
+
+    <div [ngClass]="isSpecial ? 'special' : ''"> This div is special </div>
+
+O ngClass também pode ser utilizado em conjunto com um método, para tanto, adicione ao método a classe do componente, no exemplo abaixo cria-se uma property (currentClasses) que guarda um objeto que adiciona ou remove três classes baseado no critério true ou false de outras três propriedades de componentes.
+Cada chave do objeto é uma classe CSS. Se uma chave é verdade, ngClass adiciona a classe, se é falsa o ngClass remove a classe
+
+    currentClasses: Record<string, boolean> = {};
+
+    setCurrentClasses() {
+
+        this.currentClasses = {
+            saveable:  this.canSave
+            modified: !this.isUnchanged,
+            special:   this.isSpecial
+        };
+    }
+
+No template, faça o binding do ngClass com a property
+
+    <div [ngClass]="currentClasses"> This div is initially saveable, unchanged, an special </div>
+
+## Adicionando ou removendo elementos com NgIf
+
+Para adicionar ou remover um elemento, utilize *ngIf em conjunto com uma expressão ou variável booleana. Por padrão, NgIf evita que seja exibido um elemento com um valor nulo associado, por exemplo
+
+    <div *ngIf="currentCustomer"> Hello, {{currentCustomer.name}} </div>
+
+se o currentCustomer for nulo, a div não aparecerá.
+
+## Utilizando o NgFor
+
+A diretiva NgFor mostra uma lista de itens, a sintaxe fica assim:
+
+    <div *ngFor="let item of items"> {{item.name}} </div>
+
+A string "let item of items" instrui o Angular a fazer o seguinte:
+
+## Utilizando o ngSwitchCase para ativar subMenus
+
+O ngSwitchCase directive é recomendável para quando queremos comparar uma propertie ou um field contra múltiplos valores, um exemplo prático de uso seria a ativação de menus quando clicados. 
+
+    <ul class="nav nav-pills">
+    <li class="nav-item">
+        <!-- se viewMode for map a classe active aparecerá, quando clicamos em 
+        viewMode ela passa a ser map -->
+        <a class="nav-link" [class.active]="viewMode == 'map'" (click)="viewMode = 'map'"  aria-current="page" >Active</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" (click)="viewMode = 'list'" [class.active]="viewMode == 'list'">Link</a>
+    </li>  
+    </ul>
+
+    <div [ngSwitch]="viewMode">
+        <div *ngSwitchCase="'map'"> Map View Content </div>
+        <div *ngSwitchCase="'list'"> List View Content</div>
+        <div *ngSwitchDefault> Otherwise </div>
+    </div>   
+
+No componente app.component.ts, passaríamos o valor de viewMode, o que em termos mais práticos seria feito através de um serviço
+
+
+
+## listagem de itens com NgFor
+
+
+
+
 
 # Service
 
@@ -457,7 +542,7 @@ CSS gerado automaticamente
 
 3. ViewEncapsulation.None => O Shadow DOM não é aplicado, assim, os estilos são válidos globalmente.
 
-# Projeção de conteúdo (Conent Projection)
+# Projeção de conteúdo (Content Projection)
 
 Content Projection é um padrão em que é possível inserir, ou projetar, o conteúdo que você quiser dentro de outro componente. Por exemplo, você poderia ter um componente Card que aceia o conteúdo provido por outro componente. As seções seguintes descrevem as implementações usuais de projeção de conteúdo em Angular:
 
@@ -518,7 +603,5 @@ Note que o uso do atributo select para efetuar a distinção dos ng-contents, no
 
 
 
-
-
-
+# Diretivas
 
