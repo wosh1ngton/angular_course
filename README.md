@@ -148,7 +148,7 @@ No componente app.component.ts, passaríamos o valor de viewMode, o que em termo
 
 ## listagem de itens com NgFor
 
-
+Utilizado para renderizar uma lista de objetos
 
 
 
@@ -251,7 +251,18 @@ A pasta node_modules, por padrão, não vai para o github quando fazemos o push,
 
 # Importando o css
 
-Adicione ao arquivo style.css a importação do css do bootstrap => @import "~bootstrap/dist/css/bootstrap.css";
+Há pelo menos duas formas de fazer, na primeira opção:
+1. Adicione ao arquivo style.css a importação do css do bootstrap => @import "~bootstrap/dist/css/bootstrap.css";
+2. Caso prefira, você pode adicionar ao angular.json os estilos do bootstrap, para tal acesse o angular.json, procure pela array de estilos, "styles" e acrescente o endereço do bootstrap.css ou boostrap.scss (o que preferir) e também o js que o bootstrap utilizará
+
+    "styles": [            
+              "node_modules/bootstrap/dist/css/bootstrap.css",
+              "node_modules/bootstrap-icons/font/bootstrap-icons.css",
+              "src/styles.css"
+            ],
+    "scripts": [
+      "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+    ]
 
 # Class Binding
 

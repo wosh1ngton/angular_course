@@ -1,84 +1,196 @@
-<app-like
-  [totalCounts]="tweet.totalLikes"
-  [isActive]="tweet.isLiked"
-> </app-like>
-<h1> Angular </h1>
-<!-- Chamada para o componente -->
+<div class="container">
 
-<app-directives></app-directives>
-<app-pipe-example> </app-pipe-example>
-<!-- app-favorite é um child selector -->
-<!-- [favorito] é um child selector, vem do componente favorito, "post.isFavorite" é uma property from parent-->
-<app-favorite [favorito]="post.isFavorite" (change)="onFavoriteChanged($event)"> </app-favorite>
+  <nav class="navbar navbar-expand-md navbar-light bg-light">
+    <div class="container-fluid">
+      <a href="#" class="navbar-brand">
+        <img src="../assets/AngularJS-Shield.svg" width="50px" height="55px" alt="">
+        <strong> Curso de Angular </strong>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarPrincipal"
+        aria-expanded="false" aria-label="Toggle navigation" aria-controls="navbarPrincipal">
+        <span class="navbar-toggler-icon">
+        </span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarPrincipal">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a href="#" class="nav-link" aria-current="page" (click)="menuEscolhido = 'Home'"
+              [class.active]="menuEscolhido == 'Home'">Home</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link" aria-current="page" (click)="menuEscolhido = 'Diretivas'"
+              [class.active]="menuEscolhido == 'Diretivas'">Diretivas</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link" aria-current="page" (click)="menuEscolhido = 'Componente'"
+              [class.active]="menuEscolhido == 'Componente'">Componentes</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link" aria-current="page" (click)="menuEscolhido = 'Template'"
+              [class.active]="menuEscolhido == 'Template'">Templates</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link" aria-current="page" (click)="menuEscolhido = 'Injecao'"
+              [class.active]="menuEscolhido == 'Injecao'">Injeção de Dependência</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link" aria-current="page" (click)="menuEscolhido = 'Outros'"
+              [class.active]="menuEscolhido == 'Outros'">Outros</a>
+          </li>
+        </ul>
 
-<!-- 
-  a chamada desse componente tem um evento criado (newItemEvent) que chama um método
-  do componente atual (app.component.ts) esse método passa o valor do evento, que no caso
-  é um valor que vem do child template
--->
-<app-exemplo-sharing-data (newItemEvent)="addItems($event)"> </app-exemplo-sharing-data>
+      </div>
+    </div>
+  </nav>
 
-<ul>
-  <li *ngFor="let item of items">
-      {{ item }}
-  </li>
-</ul>
+  <div [ngSwitch]="menuEscolhido">
 
-<span>  </span>
-<!-- para setar o body e o heading do painel, é possível fazer via property binding 
-assim <app-panel [body]="body"> </app-panel>,
-mas essa sintaxe não é a mais adequada, para isso existe o ngContent element
--->
-<app-panel>
-   
-  <ng-container class="heading"> Heading+ </ng-container>
-  <div class="body"> 
-    <h2> Body </h2> 
-    <p>some content</p>
+    <div *ngSwitchCase="'Diretivas'">
+
+      <nav class="navbar navbar-expand-md navbar-light" style="background-color: #e3f2fd;">
+        <div class="container-fluid">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarDiretivas">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarDiretivas">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <!-- se viewMode for map a classe active aparecerá, quando clicamos em viewMode ela passa a ser map -->
+                <a class="nav-link" (click)="viewMode = 'if'" [class.active]="viewMode == 'if'" aria-current="page">If
+                  Statement</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" (click)="viewMode = 'switch'" [class.active]="viewMode == 'switch'">Switch Statement
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" (click)="viewMode = 'for'" [class.active]="viewMode == 'for'"> For Statement </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <div [ngSwitch]="viewMode">
+        <div *ngSwitchCase="'if'" class="m-2">
+          <span class="fs-6 lh-base">
+            Para adicionar ou remover um elemento, utilize *ngIf em conjunto com uma expressão ou variável booleana.
+            Por padrão, ngIf evita que seja exibido um elemento com um valor nulo associado. Há diversas formas de
+            adicionar ou
+            remover elementos, no exemplo abaixo, a div aparecerá se a condição do if retornar verdadeiro, caso retorne
+            falso, o elemento
+            é retirado da tela e também do DOM.
+          </span>
+
+          <div class="mt-3 row g-2 m2">
+            
+              <div class="col-auto">
+                <label for="totalDeCursos">Total de Cursos</label>
+              </div>
+              <div class="col-auto">
+                <input type="number" #totalCursos class="form-control form-control-md">
+              </div>
+              <div class="col-auto">
+                <button class="btn btn-primary btn-md" (click)="onKeyUp(totalCursos.value)">Enviar</button>
+              </div>
+            
+          </div>
+
+          <pre class="bg-light m-2">
+                {{ textoHtml }}
+              </pre>
+
+          <div *ngIf="courses.length > 0" class="bg-primary">
+            Lista de Cursos
+          </div>
+
+          <div *ngIf="courses.length == 0" class="bg-danger">
+            Ainda não há cursos
+          </div>
+
+          <span>
+            A seguir, têm-se o mesmo resultado do if anterior, utilizando ng-template e a instrução else,
+            repare que a template variable #noCourses e #coursesList foram utilizadas para chamar o ng-template
+            correspondente
+          </span>
+
+          <pre class="bg-light">
+                {{ textoHtmlIfNGTemplate }}
+              </pre>
+
+          <div *ngIf="courses.length > 0; then coursesList else noCourses"> </div>
+          <ng-template #coursesList>
+            Lista de Cursos
+          </ng-template>
+
+          <ng-template #noCourses>
+            Ainda não há cursos
+          </ng-template>
+
+          <!-- uma solução diferente para o mesmo problema, neste caso ambas as divs aparecem no DOM -->
+
+          <div [hidden]="courses.length == 0">
+            List of courses
+          </div>
+          <div [hidden]="courses.length > 0">
+            No courses yet
+          </div>
+
+        </div>
+
+        <div *ngSwitchCase="'switch'"> List View Content</div>
+
+        <div *ngSwitchCase="'for'">
+          <ul>
+            <!-- index é um dos valores exportáveis, há vários outros como
+              first: boolean; last: boolean; even: boolean; odd: boolean  -->
+            <li *ngFor="let curso of cursos; let i = index; let isEven = even">
+              <span [style.background-color]="isEven ? '#ccc' : '#fff'"> {{ i }} - {{ curso.nome }} </span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+    </div>
+    <div *ngSwitchCase="'Outros'">
+      <app-directives></app-directives>
+      <app-pipe-example> </app-pipe-example>
+      <!-- app-favorite é um child selector -->
+      <!-- [favorito] é um child selector, vem do componente favorito, "post.isFavorite" é uma property from parent-->
+      <app-favorite [favorito]="post.isFavorite" (change)="onFavoriteChanged($event)"> </app-favorite>
+
+      <!-- 
+              a chamada desse componente tem um evento criado (newItemEvent) que chama um método
+              do componente atual (app.component.ts) esse método passa o valor do evento, que no caso
+              é um valor que vem do child template
+            -->
+      <app-exemplo-sharing-data (newItemEvent)="addItems($event)"> </app-exemplo-sharing-data>
+
+      <ul>
+        <li *ngFor="let item of items">
+          {{ item }}
+        </li>
+      </ul>
+
+      <span> </span>
+      <!-- para setar o body e o heading do painel, é possível fazer via property binding 
+            assim <app-panel [body]="body"> </app-panel>,
+            mas essa sintaxe não é a mais adequada, para isso existe o ngContent element
+            -->
+      <app-panel>
+
+        <ng-container class="heading"> Heading+ </ng-container>
+        <div class="body">
+          <h2> Body </h2>
+          <p>some content</p>
+        </div>
+      </app-panel>
+
+
+
+      <app-like [totalCounts]="tweet.totalLikes" [isActive]="tweet.isLiked"> </app-like>
+    </div>
   </div>
-</app-panel>
 
-<div *ngIf="courses.length > 0">
-  List of courses
-</div>
-<div *ngIf="courses.length == 0">
-    No courses yet
-</div>
-
-<!-- Mesmo resultado do if anterior, utilizando ng-template e a instrução else,
-repare que a template variable #noCourses e #coursesList foram  utilizadas para chamar o ng-template 
-correspondente
--->
-
-<div *ngIf="courses.length > 0; then coursesList else noCourses"> </div>
-<ng-template #coursesList>
-  List of courses
-</ng-template>
-<ng-template #noCourses>
-    No courses yet
-</ng-template>
-
-<!-- uma solução diferente para o mesmo problema, neste caso ambas as divs aparecem no DOM -->
-
-<div [hidden]="courses.length == 0">
-  List of courses
-</div>
-<div [hidden]="courses.length > 0">
-    No courses yet
-</div>
-
-<ul class="nav nav-pills">
-  <li class="nav-item">
-    <a class="nav-link" [class.active]="viewMode == 'map'" (click)="viewMode = 'map'"  aria-current="page" >Active</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" (click)="viewMode = 'list'" [class.active]="viewMode == 'list'">Link</a>
-  </li>  
-</ul>
-<!-- ngSwitchCase directive é recomendável para quando queremos comparar uma propertie 
- ou um field contra múltiplos valores-->
-<div [ngSwitch]="viewMode">
-  <div *ngSwitchCase="'map'"> Map View Content </div>
-  <div *ngSwitchCase="'list'"> List View Content</div>
-  <div *ngSwitchDefault> Otherwise </div>
 </div>
