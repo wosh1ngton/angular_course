@@ -11,6 +11,7 @@
         <span class="navbar-toggler-icon">
         </span>
       </button>
+
       <div class="collapse navbar-collapse" id="navbarPrincipal">
         <ul class="navbar-nav">
           <li class="nav-item">
@@ -73,8 +74,9 @@
 
       <div [ngSwitch]="viewMode">
         <div *ngSwitchCase="'if'" class="m-2">
+          <h3> Como adicionar ou remover elementos da página </h3>
           <span class="fs-6 lh-base">
-            Para adicionar ou remover um elemento, utilize *ngIf em conjunto com uma expressão ou variável booleana.
+            Para adicionar ou remover um elemento, utilize *NgIf em conjunto com uma expressão ou variável booleana.
             Por padrão, ngIf evita que seja exibido um elemento com um valor nulo associado. Há diversas formas de
             adicionar ou
             remover elementos, no exemplo abaixo, a div aparecerá se a condição do if retornar verdadeiro, caso retorne
@@ -82,10 +84,10 @@
             é retirado da tela e também do DOM.
           </span>
 
-          <div class="mt-3 row g-2 m2">
+          <div class="mt-3 row g-2 bg-light p-2">
             
               <div class="col-auto">
-                <label for="totalDeCursos">Total de Cursos</label>
+                <label for="totalDeCursos" class="align-middle">Total de Cursos</label>
               </div>
               <div class="col-auto">
                 <input type="number" #totalCursos class="form-control form-control-md">
@@ -93,65 +95,172 @@
               <div class="col-auto">
                 <button class="btn btn-primary btn-md" (click)="onKeyUp(totalCursos.value)">Enviar</button>
               </div>
+              <div class="col-auto">
+                <span class="align-middle">Informe um valor e clique em enviar para testar a diretiva ngIf </span>
+              </div>
             
           </div>
 
-          <pre class="bg-light m-2">
+          <h5 class="m-2"> 1. Utilizando a diretiva *ngIf </h5>
+          <span class="fs-6 lh-base">
+            Para testar o exemplo informe um valor para Total de Cursos no formulário logo acima, se o valor for maior
+            que 0 haverá cursos e a div com a mensagem "Lista de Cursos" aparecerá, caso seja 0 a div exibida será 
+            a que possui a mensagem "Ainda não há cursos".
+          </span>
+          <pre class="bg-light">
                 {{ textoHtml }}
               </pre>
 
-          <div *ngIf="courses.length > 0" class="bg-primary">
+          <div *ngIf="courses.length > 0" class="p-3 bg-light text-primary border border-primary">
             Lista de Cursos
           </div>
 
-          <div *ngIf="courses.length == 0" class="bg-danger">
+          <div *ngIf="courses.length == 0" class="p-3 bg-light text-danger border border-danger">
             Ainda não há cursos
           </div>
-
-          <span>
+          <h5 class="m-2"> 2. Utilizando *ngIf com template variable e ng-template </h5>
+          <span class="fs-6 lh-base">
             A seguir, têm-se o mesmo resultado do if anterior, utilizando ng-template e a instrução else,
             repare que a template variable #noCourses e #coursesList foram utilizadas para chamar o ng-template
-            correspondente
+            correspondente. a template variable é a referência para a div que será exibida conforme resultado
+            do if.
           </span>
 
           <pre class="bg-light">
                 {{ textoHtmlIfNGTemplate }}
-              </pre>
+          </pre>
 
           <div *ngIf="courses.length > 0; then coursesList else noCourses"> </div>
-          <ng-template #coursesList>
-            Lista de Cursos
+          <ng-template #coursesList class="border border-primary text-primary">
+            <div class="border border-primary text-primary-3 p-3"> Lista de Cursos </div>             
           </ng-template>
 
           <ng-template #noCourses>
-            Ainda não há cursos
+            <div class="border border-danger text-danger p-3"> Ainda não há cursos </div> 
           </ng-template>
+          
+          <h5 class="m-2">3. Utilizando hidden para adicionar ou remover elementos </h5>
 
-          <!-- uma solução diferente para o mesmo problema, neste caso ambas as divs aparecem no DOM -->
-
-          <div [hidden]="courses.length == 0">
-            List of courses
+          <span class="lh-base fs-6">
+            O atributo hidden é uma alternativa para ocultar e mostrar elementos, pode ser utilizado como uma property
+            bind em conjunto com uma expressão booleana, o resultado da expressão define se o elemento aparece ou não,
+            a principal diferenção para o ngIf é que, neste caso, ambas as divs aparecem no DOM, ou seja, se inspecionarmos
+            o HTML verificaremos que as duas divs estão no código fonte, embora não apareçam na tela.
+          </span>         
+          <pre class="bg-light">
+            {{textoHtmlHidden}}
+          </pre>
+          <div [hidden]="courses.length == 0" class="text-primary border border-primary p-3">
+            Lista de cursos
           </div>
-          <div [hidden]="courses.length > 0">
-            No courses yet
+          <div [hidden]="courses.length > 0" class="text-danger border border-danger p-3">
+            Ainda não há cursos
           </div>
 
         </div>
 
-        <div *ngSwitchCase="'switch'"> List View Content</div>
-
-        <div *ngSwitchCase="'for'">
-          <ul>
-            <!-- index é um dos valores exportáveis, há vários outros como
-              first: boolean; last: boolean; even: boolean; odd: boolean  -->
-            <li *ngFor="let curso of cursos; let i = index; let isEven = even">
-              <span [style.background-color]="isEven ? '#ccc' : '#fff'"> {{ i }} - {{ curso.nome }} </span>
+        <div *ngSwitchCase="'switch'"> 
+          <h3 class="p-2"> Como utilizar a diretiva ngSwitchCase</h3>
+          <div>
+          <span class="lh-base fs-6">
+            O ngSwitchCase directive é recomendável para quando queremos comparar uma property ou um field 
+            contra múltiplos valores, um exemplo prático de uso seria a ativação de menus quando clicados. 
+            Conforme exemplificado abaixo, neste cenário, tem-se uma lista de opções, quando a opção for clicada
+            o evento (click) atribui um valor para a property testeSwitch, esse valor atribuído é utilizado 
+            para verificar se a classe 'active' utilizada para destacar a opção clicada será ou não habilitada,
+            para que ela seja habilitada é necessário que a expressão "testeSwitch == 'valor'" seja verdadeira. Em sendo 
+            verdadeira além da ativação da classe active, a div correspondente será exibida, conforme instrução
+            ngSwitchCase.
+          </span>
+          
+          
+        </div>
+          <pre class="bg-light">
+            {{ textoSwitchCase }}
+          </pre>
+       
+          <ul class="nav nav-tabs">
+            <li class="nav-item"> 
+              <a href="#" class="nav-link" [class.active]="testeSwitch == 'mapa'" (click)="testeSwitch = 'mapa'">Mapa</a>  
+            </li>
+            <li class="nav-item"> 
+              <a href="#" class="nav-link" [class.active]="testeSwitch == 'lista'" (click)="testeSwitch = 'lista'">Lista</a> 
+            </li>
+            <li class="nav-item"> 
+              <a href="#" class="nav-link" [class.active]="testeSwitch == 'outros'" (click)="testeSwitch = 'outros'">Outros</a> 
             </li>
           </ul>
+
+          <div [ngSwitch]="testeSwitch">
+            <div *ngSwitchCase="'mapa'" class="p-2"> Conteúdo de Mapa </div>
+            <div *ngSwitchCase="'lista'" class="p-2"> Conteúdo de Lista </div>
+            <div *ngSwitchCase="'outros'" class="p-2"> Conteúdo de Outros </div>
+          </div>
+       
         </div>
 
-      </div>
+        <div *ngSwitchCase="'for'">
+          <h3 class="p-2">Utilizando o NgFor</h3>
+          <span class="fs-6 lh-base">
+            Utilizado para renderizar uma lista de objetos o NgFor tem também valores exportáveis,
+            são valores que podem ser extraídos com o uso de palavras reservadas, estes valores são:
+            first: boolean; index: number; last: boolean; even: boolean; odd: boolean, o significado é
+            auto-explicativo. No exemplo abaixo o usuário informa a quantidade de cursos que quer exibir,
+            valor entre 1 e 10 e o ngFor faz a exibição do html correspondente. Também é possível incluir os
+            índices e marcar se deseja apenas as ocorrências pares ou ímpares.
+          </span>
+          <div class="row g-2 p-3 bg-light mt-2">
+            <div class="col-auto">
+              <label class="align-middle" for="totalDeCursos"> Informe a quantidade de cursos<br /> a serem exibidos</label>
+            </div>
+            <div class="col-auto">
+              <input type="number" class="form-control" id="totalDeCursos" #total>
+            </div>
+            <div class="col-auto">
+              <input type="button" class="btn btn-primary" value="Ver Cursos" (click)="onClickSendTotal(total.value)">
+            </div>
+            <div class="col-auto form-check form-switch m-3">              
+              <input type="checkbox" class="form-check-input" id="flexSwitchIndice"  [(ngModel)]="mySwitch" > 
+              <label for="flexSwitchIndice" class="form-check-label"> Mostrar índices? </label>
+            </div>
+            <div class="col-auto form-check form-switch m-3">              
+              <input type="checkbox" class="form-check-input" id="flexSwitchIndice" [(ngModel)]="switchPar"> 
+              <label for="flexSwitchIndice" class="form-check-label"> Mostrar apenas pares? </label>
+            </div>
+            <div class="col-auto form-check form-switch m-3">              
+              <input type="checkbox" class="form-check-input" id="flexSwitchIndice" [(ngModel)]="switchImpar"> 
+              <label for="flexSwitchIndice" class="form-check-label"> Mostrar apenas ímpares? </label>
+            </div>
+          </div>
+          <ul class="list-group list-group-flush">            
+            <li class="list-group-item" *ngFor="let curso of cursos; let i = index; let isEven = even; let isOdd = odd">
 
+              <div *ngIf="switchImpar == true; then impares; else null;"> </div>
+              <div *ngIf="switchPar == true; then pares; else null;"> </div>
+              <div *ngIf="switchPar == false && switchImpar == false; then todos; else null;"> </div>
+
+              <ng-template #impares>
+                  <span *ngIf="isEven"> <span [hidden]="mySwitch == false"> {{ i }} - </span> {{ curso.nome }}  </span>
+              </ng-template>
+
+              <ng-template #pares>
+                <span *ngIf="isOdd"> <span [hidden]="mySwitch == false"> {{ i }} - </span> {{ curso.nome }} </span>
+              </ng-template>
+
+              <ng-template #todos>
+                <span> <span [hidden]="mySwitch == false"> {{ i }} - </span> {{ curso.nome }}  </span>
+              </ng-template>              
+            </li>
+          </ul>
+
+
+          <pre class="bg-light">
+            {{ textoFor }}
+          </pre>
+        </div>
+        
+      </div>
+      
     </div>
     <div *ngSwitchCase="'Outros'">
       <app-directives></app-directives>
