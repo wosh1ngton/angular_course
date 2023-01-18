@@ -13,6 +13,7 @@ import { ExemploSharingDataComponent } from './exemplo-sharing-data/exemplo-shar
 import { PanelComponent } from './panel/panel.component';
 import { LikeComponent } from './like/like.component';
 import { NgifComponent } from './ngif/ngif.component';
+import { SubmenusComponent } from './submenus/submenus.component';
 
 
 //Esta classe está decorada com uma decorator funcion chamada NgModule, sinalizando que trata-se de um módulo angular
@@ -28,7 +29,8 @@ import { NgifComponent } from './ngif/ngif.component';
     ExemploSharingDataComponent,
     PanelComponent,
     LikeComponent,
-    NgifComponent    
+    NgifComponent,
+    SubmenusComponent    
   ],
   imports: [
     BrowserModule,

@@ -7,9 +7,27 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 
-  menuEscolhido = 'Diretivas';
+  menuEscolhido = 'Componente';
+  canSave = false;
+  viewMode = 'overview';
 
-  viewMode = 'for';
+  updateViewMode(valor:string) {
+    this.viewMode = valor;
+    console.log('teste ' + this.viewMode);
+  }
+  menusComponentes = [
+    {id: 1, link: 'overview', nome: 'Visão Geral'},
+    {id: 2, link: 'viewencapsualtion', nome: 'View Encapsulation'},
+    {id: 3, link: 'sharingdata', nome: 'Compartilhando Dados'}
+  ];
+  menusDiretivas = [
+    {id: 1, link: 'if'      , nome: 'NgIf'},
+    {id: 2, link: 'switch'  , nome: 'NgSwitch'},
+    {id: 3, link: 'for'     , nome: 'NgFor'},
+    {id: 4, link: 'ngclasse', nome: 'NgClasse'},
+    {id: 5, link: 'ngestilo', nome: 'NgStyle'},
+  ];
+
   title = 'angular-course';
   post = {
     title : "title",
@@ -26,7 +44,7 @@ export class AppComponent {
     console.log("favorite changed!",eventArgs);
   }
 
-  items = ['item1','item2','item3'];
+  //items = ['item1','item2','item3'];
   
   tweet = {
     post : "exemplo de tweet",
@@ -34,9 +52,9 @@ export class AppComponent {
     totalLikes : 0
   };
   totalCursos = this.courses.length;
-  addItems(value:string) {
-    this.items.push(value);
-  }
+  // addItems(value:string) {
+  //   this.items.push(value);
+  // }
 
   textoHtml = `
       <div *ngIf="courses.length > 0" class="p-3 bg-light text-primary border border-primary">
@@ -111,6 +129,65 @@ export class AppComponent {
           </li>
         </ul>
   `
+
+  textoTrackBy = `
+      <ul>
+        <li *ngFor="let items of item; trackBy: trackItem">
+          {{ item.nome }}
+        </li>
+      </ul>
+
+      trackItem(index, item) {
+        return item ? item.id : undefined;
+      }
+  `
+
+  textNgIfSemAsterisco = `
+        <div *ngIf="cursos.length > 0; else semCursos">
+          Lista de Cursos
+        </div>
+
+        <!-- Ficaria assim -->
+
+        <ng-template [ngIf]="cursos.lenght > 0">
+            <div>
+                Lista de cursos
+            </div>
+        </ng-template>
+        <ng-template [ngIf]="!(cursos.lenght > 0)">
+            Nenhum cursos
+        </ng-template>
+  `
+
+  textoClassBinding = `
+      <i (click)="onClick()" [class.bi-star-fill]="favorito" [class.bi-star]="!favorito" class="h4 mt-3"></i> 
+  `
+
+  textoNgClass = `
+      <i (click)="onClick()" 
+          [ngClass]="{
+              'bi-star-fill' : favorito,
+              'bi-star' : !favorito
+          }"
+          class="h4 mt-3">
+      </i> 
+  `
+
+  textoExpressaoClassBinding = `
+  <i (click)="onClick()" [class]="{'bi-star-fill' : favorito, 'bi-star' : !favorito}" class="h4 mt-3"></i> 
+  `
+
+  textoEncapsulation = `
+        <!-- HTML gerado automaticamente: -->
+
+        <h1 _ngcontent-lia-c47=""> teste</h1>
+
+        <!-- CSS gerado automaticamente -->
+
+        h1[_ngcontent-lia-c47] {
+            color: red;
+        }
+  `
   testeSwitch = 'mapa';
   onKeyUp(valor:string) {
     var numberValue = Number(valor)
@@ -126,6 +203,10 @@ export class AppComponent {
     for (let index = 0; index < numberValue; index++) {
       this.cursos.push({id: index, nome: 'Curso ' + index});      
     }
+  }
+
+  trackby(index: number, curso: any) {
+    return curso ? curso.id  : undefined;
   }
   mySwitch : boolean = false;
   switchPar : boolean = false;
