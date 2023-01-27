@@ -14,6 +14,8 @@ import { PanelComponent } from './panel/panel.component';
 import { LikeComponent } from './like/like.component';
 import { NgifComponent } from './ngif/ngif.component';
 import { SubmenusComponent } from './submenus/submenus.component';
+import { InputTextComponent } from './input-text/input-text.component';
+import { ContactFormComponent } from './contact-form/contact-form.component';
 
 
 //Esta classe está decorada com uma decorator funcion chamada NgModule, sinalizando que trata-se de um módulo angular
@@ -30,7 +32,9 @@ import { SubmenusComponent } from './submenus/submenus.component';
     PanelComponent,
     LikeComponent,
     NgifComponent,
-    SubmenusComponent    
+    SubmenusComponent,
+    InputTextComponent,
+    ContactFormComponent    
   ],
   imports: [
     BrowserModule,
