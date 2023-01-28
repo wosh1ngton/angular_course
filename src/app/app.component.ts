@@ -7,9 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 
-  menuEscolhido = 'Componente';
+  menuEscolhido = 'Template';
   canSave = false;
-  viewMode = 'sharingdata';
+  viewMode = 'ngValue';
 
   updateViewMode(valor:string) {
     this.viewMode = valor;
@@ -27,6 +27,12 @@ export class AppComponent {
     {id: 4, link: 'ngclasse', nome: 'NgClasse'},
     {id: 5, link: 'ngestilo', nome: 'NgStyle'},
   ];
+
+  menusTemplates = [
+    {id: 1, link: 'validacao' , nome: 'Validação e Form Control'},
+    {id: 2, link: 'ngForm'  , nome: 'ngForm'},
+    {id: 3, link: 'ngValue', nome: 'ngValue'}
+  ]
 
   title = 'angular-course';
   post = {
@@ -237,6 +243,92 @@ export class AppComponent {
   <ul>
     <li *ngFor="let item of items"> {{item}} </li>
   </ul>
+  `
+
+  textoNgModel = `
+  <!-- dentro do style.css faça -->
+  .form-control.ng-invalid.ng-touched {
+    border: 2px solid #ff0000;
+  }
+
+  <form>
+    <div class="form-group">
+    <label for="firstName"> Nome </label>
+    <input required ngModel name="firstName" #firstName="ngModel" 
+    minlength="3"
+    maxlength="10"
+    pattern="banana"
+    (change)="log(firstName)" 
+    type="text" 
+    class="form-control" 
+    id="firstName">
+
+    <div class="alert alert-danger" *ngIf="firstName.touched && firstName.invalid">
+        <div *ngIf="firstName.errors?.['required']"> Nome é obrigatório! </div>    
+        <div *ngIf="firstName.errors?.['minlength']"> O nome deve ter pelo menos {{ firstName.errors?.['minlength'].requiredLength }} letras </div> 
+        <div *ngIf="firstName.errors?.['pattern']"> O padrão é banana </div> 
+    </div>
+    </div>
+    <div class="form-group">
+        <label for="comment">
+            Comentário
+        </label><textarea ngModel name="comment"  id="comment" cols="30" rows="10" class="form-control"></textarea>
+
+    </div>
+    <button class="btn btn-primary">Enviar</button>
+  </form>
+  `
+
+  textoNgForm = `
+  <form #f="ngForm" (ngSubmit)="submit(f)"> 
+
+  ...
+  export class ContactFormComponent  {
+  ...
+  submit(f: any) {
+    console.log(f);
+  }
+  `
+
+  textoNgModelGroup = `
+  <form #f="ngForm" (ngSubmit)="submit(f)"> 
+    <div ngModelGroup="contato" #contato="ngModelGroup">
+        <div *ngIf="contato.valid">
+            ...
+        </div>
+    <div class="form-group">
+    <label for="firstName"> Nome </label>
+
+    <input required ngModel name="firstName" #firstName="ngModel">
+
+    ...
+    <button class="btn btn-primary" [disabled]="f.invalid">Enviar</button>
+  `
+
+  textoObjetoContact = `
+  contactMethods = [
+    {id: 1, name: 'Email'},
+    {id: 2, name: 'Telefone'}
+  ]
+  `
+  textoSelectBox = `
+    <div class="form-group">
+      <label for="contactMethod"> Forma de Contato </label>
+      <select multiple ngModel name="contactMethod" id="contactMethod" class="form-control">
+          <option value=""></option>
+          <option *ngFor="let contacts of contactMethods" [value]="contacts.id">
+              {{contacts.name}}
+          </option>
+      </select>
+    </div>
+  `
+
+  textoNgValue = `
+  ...
+    <option *ngFor="let contacts of contactMethods" [ngValue]="contacts">
+      {{contacts.name}}
+    </option>
+  ...
   `
   nomeInput = "nomeTeste";
   testeSwitch = 'mapa';

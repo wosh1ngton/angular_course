@@ -28,7 +28,11 @@
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link" aria-current="page" (click)="menuEscolhido = 'Template'"
-              [class.active]="menuEscolhido == 'Template'">Templates</a>
+              [class.active]="menuEscolhido == 'Template'">Template Driven</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link" aria-current="page" (click)="menuEscolhido = 'reactive'"
+              [class.active]="menuEscolhido == 'reactive'">Reactive Driven</a>
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link" aria-current="page" (click)="menuEscolhido = 'Injecao'"
@@ -513,33 +517,147 @@
           </div>
         </div>
     </div>
+    
     <div *ngSwitchCase="'Template'">
-      <h5> Template Driven </h5>
+      <app-submenus [subMenus]="menusTemplates" (menuAtivado)="updateViewMode($event)"></app-submenus>
+      <div [ngSwitch]="viewMode">
+        <div *ngSwitchCase="'validacao'" class="m-2">
+      <h5 class="mt-3"> Template Driven </h5>
       <span>
         O Angular possui uma classe chamada FormControl, para cada campo existente no formulário essa 
         classe é associada a um objeto que consegue verificar o status e valor do campo. Os estados do campo podem ser:
         <ul class="list-group small">
-          <li class="list-group-item">touched </li>
+          <li class="list-group-item">touched: campo foi clicado </li>
           <li class="list-group-item">untouched </li>
           <li class="list-group-item">dirty (value foi alterado) </li>
           <li class="list-group-item">pristine (value não foi alterado) </li>
           <li class="list-group-item">valid </li>
           <li class="list-group-item">erros </li>
-        </ul>    
-
+        </ul> 
+      </span>   
+      <span class="mt-3">
         Na mesma linha, existe a classe FormGroup, representa um grupo de controles em um form, todo form tem
         pelo menos um objeto FormGroup.
         Há duas formas de criar controles para seu formulário, uma é por meio de diretivas de forma automática
         (template driven) a outra maneira é criar explicitamente através de código (reactive forms) neste caso
         há um maior controle sobre a lógica de validação. Reactive form é mais recomendável para modelos
         complexos.
+        Quando utilizamos a diretiva ngModel, estamos dizendo ao Angular para criar
+        um FormControl para aquele input field, sempre que o fazemos devemos também preencher o atributo name 
+        do input field.
+        <br />
+        O campo Nome, codificado abaixo, é um FormControl, para ver o seu funcionamento basta exportar
+        o ngModel para uma template variable local, no código de exemplo estamos exportando o valor de ngModel 
+        para a template variable #firstName. Tecle f12 e veja o resultado do 
+        console.log do javascript, ele deverá mostrar o objeto ngModel.
+        Observe o atributo required no input field, ele sinaliza que o campo é de preenchimento obrigatório,
+        na mesma linha o atributo minlenght estabelece um número mínimo de caracteres, note que são os mesmos
+        atributos que o HTML5 utiliza para validação. o Angular utiliza diretivas para casar esses atributos com 
+        as funções de validação do framework. Sempre que o valor de um form é alterado o Angular executa 
+        a validação e gera ou uma lista de erros com o resultado INVALID para o objeto, ou nulo, que seria
+        o equivalente a VALID.
+        a div a seguir contém várias divs aninhadas, elas têm a função de aparecer quando a condição do ngIf 
+        não for satisfeita, ou seja, quando a template variable firstName passada para o FormControl 
+        for inválida.
+        Caso queira customizar a formatação do erro de validação, utilize as classes do angular que apontam para 
+        o erro, por exemplo, configure a borda vermelha para as classes .form-control.ng-invalid.ng-touched, dessa 
+        forma os elementos dentro de um form-control tocados e inválidos terão a borda vermelha.
       </span>
+        <pre class="bg-light">{{ textoNgModel }}</pre>
+      
       <app-contact-form> </app-contact-form>
+      </div>
+    
+      <div *ngSwitchCase="'ngForm'">
+        <span>
+          Por padrão a diretiva ngForm é acrescentada "under the hood" em todos os formulários html 
+          quando importamos o módulo FormsModule do Angular,
+          para termos uma referência da diretiva ngForm podemos utilizar uma template variable, setando 
+          dentro da tag form #f="ngForm", observe que é a mesma lógica para exportar o valor de ngModel 
+          para uma template variable em um input field.                    
+        </span>
+        <h4>ngSubmit</h4>
+        <span class="mt-3">
+          o NgForm tem uma output property chamada ngSubmit, sendo uma output property ela é do tipo
+          EventEmitter e portanto é uma forma de enviar dados a um parent item através do evento ngSubmit.
+          Para ver o resultado clique no botão enviar e veja o objeto que está sendo enviado através do console
+          das ferramentas do desenvolvedor. <br />
+          Repare o elemento button, utilizamos um atributte binding, onde o atributo disabled desabilita
+          o botão enquando o formulário estiver no estado inválido, o atributo recebe o valor da template 
+          variable #f a qual é atribuída o valor do ngForm.
+        </span>
+        <pre class="bg-light">{{textoNgForm}}</pre>
+        <h4>NgModelGroup</h4>
+        <span>
+          Outra maneira de separar conceitos é utilizando a diretiva ngModelGroup, quando a diretiva é adicionada 
+          a uma div os input fields dentro dela passam a ser considerados atributos de um objeto. Imagine que os
+          primeiros campos de um formulário são todos referentes a contato, você pode envolvê-los em uma div 
+          e nomear o ngModelGroup como contato, criando uma template variable com o valor #contato e passando 
+          para a template variabel o valor de ngModelGroup, conforme demonstrado no código abaixo:
+        </span>
+        <pre class="bg-light">
+          {{textoNgModelGroup}}
+        </pre>
+        <span> ao clicar no checkbox é possível ver o valor da variável ngModel a ele associada, 
+          conseguimos isso através da instrução <code> f.value | json </code>
+          <br/>
+          sendo f o valor do ngForm em formato json, por isso todo os valores são exibidos, incluindo o input field 
+          nome e comentário.
+        </span>
+
+  
+        <app-contact-form></app-contact-form>
+        
+      </div>
+      <div *ngSwitchCase="'ngValue'">
+        <span>
+          Ao trabalhar com formulários, eventualmente queremos enviar não apenas um id através de um 
+          select box, mas sim o objeto como um todo, imagine a seguinte situação, você tem um tipo de contato 
+          e gostaria que ao selecionar o o tipo de contato o objeto fosse integralmente enviado, tanto o id como
+          o nome do tipo de contato.
+          <br />
+          o objeto seria algo como:
+          <pre class="bg-light">
+            {{textoObjetoContact}}
+          </pre>
+
+          o select box seria assim:
+
+          <pre class="bg-light">
+            {{textoSelectBox}}
+          </pre>
+          <app-selectbo>
+
+          </app-selectbo>
+
+        </span>
+        <span>
+          Com essa abordagem somente o property bind de value é acionado, e somente o id do método de contato
+          é enviado, mas isso não é o que queremos, queremos o objeto todo, para enviar o objeto todo basta
+          substituir [value] por [ngValue] e contacts.id por contacts. Assim:                
+          
+        </span>
+        <pre class="bg-light">
+          {{textoNgValue}}
+        </pre>
+
+        <app-select-box2>
+
+        </app-select-box2>
+        
+      </div>
     </div>
     <div *ngSwitchCase="'Outros'">
      
        Outros
     </div>
 
+  </div>
+  <div *ngSwitchCase="'reactive'">
+    <span>
+      Reactive form transfere mais responsabilidades para o desenvolvedor, o controle dos formulários passa
+      a ser feito diretamente no componente
+    </span>
+    <app-signup-form></app-signup-form>
   </div>
 </div>

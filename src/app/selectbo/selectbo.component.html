@@ -1,0 +1,31 @@
+<form #f="ngForm" (ngSubmit)="submit(f)">
+    
+    <div class="form-group">
+        <label for="contactMethod"> Forma de Contato </label>
+        <select multiple ngModel 
+            name="contactMethod" id="contactMethod" class="form-control">
+            <option value=""></option>
+            <option *ngFor="let contacts of contactMethods" [value]="contacts.id">
+                {{ contacts.name }}
+            </option>
+        </select>
+
+        <div *ngFor="let method of contactMethods" class="radio">
+            <label for="">
+                <input ngModel type="radio" name="contactMethod" [value]="method.id">        
+                {{ method.name }}
+            </label>
+        </div>
+        
+    </div>
+    <p>
+        {{ f.value | json }}
+       
+    </p>
+    <!-- <p>
+        {{contactMethod.value | json }}
+    </p> -->
+    <div class="form-group">
+        <button class="btn btn-primary" [disabled]="f.invalid">Enviar</button>
+    </div>
+</form>

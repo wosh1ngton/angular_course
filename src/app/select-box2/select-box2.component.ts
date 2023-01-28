@@ -1,23 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-contact-form',
-  templateUrl: './contact-form.component.html',
-  styleUrls: ['./contact-form.component.css']
+  selector: 'app-select-box2',
+  templateUrl: './select-box2.component.html',
+  styleUrls: ['./select-box2.component.css']
 })
-export class ContactFormComponent implements OnInit {
+export class SelectBox2Component  {
 
   constructor() { }
+
   contactMethods = [
     {id: 1, name: 'Email'},
     {id: 2, name: 'Telefone'}
   ]
-  firstName: string = '';
-  ngOnInit(): void {
-  }
+  
   log(x:any) {console.log(x);}
 
   submit(f: any) {
     console.log(f);
   }
+
 }

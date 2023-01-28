@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
@@ -16,6 +16,9 @@ import { NgifComponent } from './ngif/ngif.component';
 import { SubmenusComponent } from './submenus/submenus.component';
 import { InputTextComponent } from './input-text/input-text.component';
 import { ContactFormComponent } from './contact-form/contact-form.component';
+import { SelectboComponent } from './selectbo/selectbo.component';
+import { SelectBox2Component } from './select-box2/select-box2.component';
+import { SignupFormComponent } from './signup-form/signup-form.component';
 
 
 //Esta classe está decorada com uma decorator funcion chamada NgModule, sinalizando que trata-se de um módulo angular
@@ -34,11 +37,15 @@ import { ContactFormComponent } from './contact-form/contact-form.component';
     NgifComponent,
     SubmenusComponent,
     InputTextComponent,
-    ContactFormComponent    
+    ContactFormComponent,
+    SelectboComponent,
+    SelectBox2Component,
+    SignupFormComponent    
   ],
   imports: [
     BrowserModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [DirectiveService],
   bootstrap: [AppComponent]
