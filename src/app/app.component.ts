@@ -7,9 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 
-  menuEscolhido = 'Template';
+  menuEscolhido = 'reactive';
   canSave = false;
-  viewMode = 'ngValue';
+  viewMode = 'validacaoAssincrona';
 
   updateViewMode(valor:string) {
     this.viewMode = valor;
@@ -19,6 +19,12 @@ export class AppComponent {
     {id: 1, link: 'overview', nome: 'Visão Geral'},
     {id: 2, link: 'viewencapsualtion', nome: 'View Encapsulation'},
     {id: 3, link: 'sharingdata', nome: 'Compartilhando Dados'}
+  ];
+
+  menusReactive = [
+    {id: 1, link: 'visaogeral', nome: 'Reactive Driven'},
+    {id: 2, link: 'validacaoCustomizada', nome: 'Validação Customizada'},
+    {id: 3, link: 'validacaoAssincrona', nome: 'Validação Assíncrona'}   
   ];
   menusDiretivas = [
     {id: 1, link: 'if'      , nome: 'NgIf'},
@@ -32,6 +38,10 @@ export class AppComponent {
     {id: 1, link: 'validacao' , nome: 'Validação e Form Control'},
     {id: 2, link: 'ngForm'  , nome: 'ngForm'},
     {id: 3, link: 'ngValue', nome: 'ngValue'}
+  ]
+
+  outrosmenus = [
+    {id: 1, link: 'ajax' , nome: 'Operações Assíncronas'},
   ]
 
   title = 'angular-course';
@@ -330,6 +340,69 @@ export class AppComponent {
     </option>
   ...
   `
+
+
+
+  pp = {
+    codigo : `  
+    import { AbstractControl, ValidationErrors } from "@angular/forms";
+  
+    export class UsernameValidators {
+        
+        static cannotContainSpace(control: AbstractControl) : ValidationErrors | null {
+            if((control.value as string).indexOf(' ') >= 0) 
+                return { cannotContainSpace : true };
+            return null;
+        }
+    }
+    `,
+    titulo : 'Código Validator Customizado',
+    pagina : 'username.validators.ts'
+  }
+
+  validadorSignUp = {
+    codigo: `
+    form = new FormGroup({
+      username: new FormControl('',[
+        Validators.required,
+        Validators.minLength(3),
+        UsernameValidators.cannotContainSpace
+      ]),
+    `,
+    titulo: 'Código 2',
+    pagina: 'signup-form.component.ts'
+  }
+  
+
+  asyncValidatorFn = {
+    codigo : `
+    interface AsyncValidatorFn {
+      (control: AbstractControl<any, any>): Promise<ValidationErrors | null> | 
+      Observable<ValidationErrors | null>
+    }    
+    `,
+    titulo : 'Código 1',
+    pagina: 'angular.io'
+  }
+
+  exemploAsyncValidatorFn = {
+    codigo: `
+    static shouldBeUnique(control: AbstractControl) : Promise<ValidationErrors | null> {
+
+      return new Promise((resolve, reject) => {
+          setTimeout(() => {
+              if(control.value === 'wos')
+                  resolve({shouldBeUnique: true });
+              else 
+                  resolve(null);
+          }, 2000);
+      });       
+    }
+    `,
+    titulo: 'Código 2',
+    pagina: 'username.validator.ts'
+  }
+
   nomeInput = "nomeTeste";
   testeSwitch = 'mapa';
   onKeyUp(valor:string) {

@@ -647,17 +647,127 @@
         
       </div>
     </div>
-    <div *ngSwitchCase="'Outros'">
-     
-       Outros
-    </div>
+    
 
   </div>
   <div *ngSwitchCase="'reactive'">
-    <span>
-      Reactive form transfere mais responsabilidades para o desenvolvedor, o controle dos formulários passa
-      a ser feito diretamente no componente
-    </span>
-    <app-signup-form></app-signup-form>
+    <app-submenus [subMenus]="menusReactive" (menuAtivado)="updateViewMode($event)">
+
+    </app-submenus>
+    <div [ngSwitch]="viewMode">
+      <div *ngSwitchCase="'visaogeral'">
+        <h5 class="mt-3">Funcionamento do Reactive Driven</h5>
+        <span>
+          Reactive form transfere mais responsabilidades para o desenvolvedor, o controle dos formulários passa
+          a ser feito diretamente no componente. O formulário de login, abaixo representado, fora criado usando 
+          a abordagem reactive driven do angular. Para tanto, criou-se um objeto FormGroup, composto de outros dois 
+          objetos FormControl, um para o username e outro para o password. No template, esses objetos são invocados 
+          utilizando o atributte binding no form <code> [formGroup]="form" </code> e atribuição de valor 
+          nos inputs utilizando o atributo formControlName para username e password.      
+        </span>
+        <h5 class="mt-3">Validação de Dados no Reactive Driven </h5>
+        <span class="mt-3">
+          No reactive form os atributos do HTML não são utilizados para validação, para criar validações é preciso 
+          fazê-lo dentro do formControl correspondente, um formControl possui alguns parâmetros, todos eles 
+          são opcionais, o primeiro trata do estado inicial do form, o segundo é um validator que é do tipo 
+          ValidatorFn[] | ValidatorFn[], ou seja é uma função do tipo Validator (classe built-in do Angular) 
+          ou uma array de funções Validator. No Código 1 é possível ver o uso de vários validators e como 
+          implementá-los.
+        </span>
+        <h5 class="mt-3"> Simplificando a chamada do formControl </h5>
+        <span>
+          as propriedades do form control podem ser obtidas por meio do método get, assim: form.get('name').valid, para simplificar
+          essa chamada convém criar uma property no componente, conforme código 2:
+        </span>
+        <app-signup-form></app-signup-form>
+      </div>
+      <div *ngSwitchCase="'validacaoCustomizada'">
+        <h5 class="mt-3">Criando uma validação customizada no Reactive Driven</h5>
+        <span>
+          Para criar uma validação customizada é preciso criar uma ValidatorFn e passá-la ao seu formControl
+          o validatorFn é uma interface e portanto possui um padrão para sua implementação. Para implementar 
+          é preciso um AbstractControl que retorne um ValidatorError ou nulo.
+        </span>
+        <app-coder [parametros]="pp" > </app-coder>
+        <h5 class="mt-3">Implementando no template </h5>
+        <span>
+          O uso no template é exatamente igual ao que seria feito com um validador comum, no componente o 
+          validator é chamado através de uma chamada ao método estático criado no username.validator, assim:
+        </span>
+        <app-coder [parametros]="validadorSignUp"> </app-coder>
+       
+      </div>
+      <div *ngSwitchCase="'validacaoAssincrona'">
+        <h5 class="mt-3">Validação Assíncrona </h5>
+        <span>
+          Para realizar uma validação assíncrona é preciso implementar a interface AsyncValidatorFn,
+          essa interface possui a seguinte assinatura:
+        </span>
+        <app-coder [parametros]="asyncValidatorFn"> </app-coder>
+        <span>
+          Repare que a interface recebe um AbstractControl como parâmetro e retorna uma promisse de validationErrors ou nulo OU
+          um Observable de ValidationErrors ou null. Isso significa que quando a operação for concluída 
+          receberemos como retorno uma promise de ValidationErrors ou um Observable de ValidationErrors ou nulo <br />
+
+          também convém compreender como funciona o conceito de operação assíncrona, conceito explicitado 
+          neste link (criar link). No nosso exemplo criaremos um método para testar se um valor informado 
+          no formulário de login é único. 
+          <br />
+          O código abaixo retorna um resolve ou um reject, o reject em caso de erro, o resolve se a operação 
+          for bem sucedida. O resolve retorna um ValidatorError ou nulo, shouldBeUnique é um ValidatorError, 
+          lembrando que o que define um validatorErrorFn é um AbstractControl como parâmetro e o retorno 
+          de um outro ValidatorError ou nulo.
+        </span>
+        <app-coder [parametros]="exemploAsyncValidatorFn"></app-coder>
+        <span class="mt-3"> Repare que há um delay entre a digitação do valor no campo e a resposta do 
+          navegador, para deixar claro que o sistema está trabalhando, convém uma mensagem ao usuário de 
+        loading, isso pode ser obtido através da propriedade <strong>pending </strong> do FormControl, essa 
+      propriedade fica ativa enquanto a operação assíncrona está funcionando, para adicioná-la basta 
+     utilizar um NgIf para que enquanto pending for verdadeiro apareça uma mensagem do tipo 
+    "Checando por valor único" ou uma imagem de loading </span>
+      </div>
+    </div>
+   
+    
+  </div>
+  <div *ngSwitchCase="'Outros'">
+    <app-submenus [subMenus]="outrosmenus" (menuAtivado)="updateViewMode($event)">    
+    </app-submenus>
+     <div [ngSwitch]="viewMode">
+        <div *ngSwitchCase="'ajax'">
+          <h4 class="mt-3"> Compreendendo Operações Assíncronas </h4>
+          <span>
+            Operação assíncrona é um processo que não bloqueia o fluxo principal de execução do programa 
+            enquanto aguarda o resultado. Em vez disso, a operação é executada em segundo plano e o resultado 
+            é retornado quando estiver disponível. Isso permite que o programa continue a executar outras 
+            tarefas enquanto aguarda o resultado da operação, aumentando a eficiência e evitando o 
+            travamento do programa.
+
+            Exemplos comuns de operações assíncronas incluem requisições de rede, leitura de arquivos ou 
+            operações de banco de dados. Em aplicações web, por exemplo, uma operação assíncrona pode ser 
+            usada para carregar dados da API sem interromper a interação do usuário com a página.
+            <br />
+            O setTimeOut do js também é uma função assíncrona, uma vez que estabelece um tempo para 
+            execução e retorno do callback lançado, nesse intervalo, os demais processos rodam em paralelo
+            <br />
+            Em Javascript, para trabalhar com operações assíncronas utilizamos Observables ou Promises. 
+          </span>
+          <h4 class="mt-3">O que é uma Promise</h4>
+          <span class="mt-3">
+            Uma promise é a representação de um valor que pode estar disponível agora, no futuro, ou nunca.
+            <strong> é uma maneira de tratar operações assíncronas de forma mais simples e organizada.</strong>
+            Uma promise pode ter três estados: pendente (pending), resolvida (resolved) ou rejeitada (rejected).
+            Quando a operação assíncrona é iniciada, a Promise é criada com o estado pendente. Quando a operação 
+            assíncrona é concluída com sucesso, a Promise é resolvida com o valor resultante. Se a operação falhar,
+            a Promise é rejeitada com um erro. <br/>
+            As Promises podem ser usadas para lidar com a resposta de uma operação assíncrona, permitindo que você
+            escreva código de forma mais clara e organizada. Em vez de lidar com callbacks aninhados, você pode 
+            usar métodos como 'then' e 'catch' para manipular a resposta da Promise de forma linear.
+
+          
+          </span>
+        </div>
+
+     </div>
   </div>
 </div>

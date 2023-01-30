@@ -19,6 +19,7 @@ import { ContactFormComponent } from './contact-form/contact-form.component';
 import { SelectboComponent } from './selectbo/selectbo.component';
 import { SelectBox2Component } from './select-box2/select-box2.component';
 import { SignupFormComponent } from './signup-form/signup-form.component';
+import { CoderComponent } from './coder/coder.component';
 
 
 //Esta classe está decorada com uma decorator funcion chamada NgModule, sinalizando que trata-se de um módulo angular
@@ -40,7 +41,8 @@ import { SignupFormComponent } from './signup-form/signup-form.component';
     ContactFormComponent,
     SelectboComponent,
     SelectBox2Component,
-    SignupFormComponent    
+    SignupFormComponent,
+    CoderComponent    
   ],
   imports: [
     BrowserModule,
