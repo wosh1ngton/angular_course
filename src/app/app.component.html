@@ -35,8 +35,8 @@
               [class.active]="menuEscolhido == 'reactive'">Reactive Driven</a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link" aria-current="page" (click)="menuEscolhido = 'Injecao'"
-              [class.active]="menuEscolhido == 'Injecao'">Injeção de Dependência</a>
+            <a href="#" class="nav-link" aria-current="page" (click)="menuEscolhido = 'services'"
+              [class.active]="menuEscolhido == 'services'">Services</a>
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link" aria-current="page" (click)="menuEscolhido = 'Outros'"
@@ -659,7 +659,15 @@
         <h5 class="mt-3">Funcionamento do Reactive Driven</h5>
         <span>
           Reactive form transfere mais responsabilidades para o desenvolvedor, o controle dos formulários passa
-          a ser feito diretamente no componente. O formulário de login, abaixo representado, fora criado usando 
+          a ser feito diretamente no componente e as associações destes formControls com os input fields 
+          no template são feitas através de diretivas próprias tais como:
+          <strong> formControlName </strong> o qual é representado como um atributo, usado
+          para linkar ao input field do FormControl.
+          O <strong>  formGroupName</strong> usado para linkar os FormGroups do componente com os grupos 
+          do template. Por último o <strong> [formGroup]</strong>, representado como uma property bind, 
+          a qual vincula o formulário do template com o form object criado no componente. <br />
+          
+          O formulário de login, abaixo representado, fora criado usando 
           a abordagem reactive driven do angular. Para tanto, criou-se um objeto FormGroup, composto de outros dois 
           objetos FormControl, um para o username e outro para o password. No template, esses objetos são invocados 
           utilizando o atributte binding no form <code> [formGroup]="form" </code> e atribuição de valor 
@@ -679,7 +687,11 @@
           as propriedades do form control podem ser obtidas por meio do método get, assim: form.get('name').valid, para simplificar
           essa chamada convém criar uma property no componente, conforme código 2:
         </span>
+        <app-coder [parametros]="t"> </app-coder>
+        <app-coder [parametros]="codigoSimplificado"> </app-coder>        
         <app-signup-form></app-signup-form>
+        
+        
       </div>
       <div *ngSwitchCase="'validacaoCustomizada'">
         <h5 class="mt-3">Criando uma validação customizada no Reactive Driven</h5>
@@ -726,9 +738,196 @@
      utilizar um NgIf para que enquanto pending for verdadeiro apareça uma mensagem do tipo 
     "Checando por valor único" ou uma imagem de loading </span>
       </div>
+      <div *ngSwitchCase="'validacaoForm'">
+        <span class="mt-3">
+          Caso deseje checar um erro que pode ser originado de qualquer parte do formulário, ou seja,
+          pode vir de mais de um campo, é possível fazer uma validação no formulário. Suponha que deseje 
+          testar se o usuário e senha do componente de login retornaram o valor correto, o form validation 
+          pode ser utilizado para isso. 
+          <br />
+          Abaixo, uma função que gera um erro para o formulário ao tentar logar.
+
+        </span>
+        <app-coder [parametros]="erroUsuarioSenha"></app-coder>
+        <span class="mt-3">
+          Para mostrar o erro, utilizamos o ngIf dentro de uma Div se o form tiver quaisquer erros,
+          eles serão mostrados. Caso precise testar vários erros, convém criar uma div, dentro da div principal 
+          para cada erro adicional.
+
+        </span>
+        
+        <app-coder [parametros]="erroUsuarioSenhaTemplate"></app-coder>
+        <h5 class="mt-3">Aninhamento de grupos no Reactive Driven</h5>
+        <span>
+          Para aninhar grupos na abordagem reactive driven, utilize a diretiva FormGroupName dentro do template 
+          dessa forma, o Angular entenderá que há formGroups aninhados no componente, por exemplo. Se você possui 
+          no seu componente um código assim:
+        </span>
+        <app-coder [parametros]="codigoFormGroupAninhado"></app-coder>
+        <span class="mt-3">
+          deverá implementar o seu template assim:
+        </span>
+        <app-coder [parametros]="codigoFormGroupTemplate"> </app-coder>
+        <span>
+
+        </span>
+
+        
+      </div>
+      <div *ngSwitchCase="'FormArray'">
+        <h5 class="mt-3">Trabalhando com um FormArray </h5>
+        <span>
+          O FormArray é mais uma classe que assina a interface AbstractControl, mesma família do FormGroup. Para 
+          utilizar um FormArray você pode criar um objeto do tipo FormGroup e colocar um FormArray dentro dele,
+          como no código de exemplo abaixo:
+        </span>
+
+        <br/>
+        <app-coder [parametros]="codigoFormArray"></app-coder>
+        <p class="mt-3">
+          Imagine que você precise criar uma lista de itens de supermercado, a medida que o usuário preencha
+          um campo de texto eles devem ser armazenados em uma lista e exibidos na tela, outra funcionalidade 
+          importante é que os itens sejam removidos quando clicados. Para fazer isso, 
+          basta criar um método de adição de itens, cada item será parte do FormArray, a implementação 
+          deste método seria assim:
+        </p>
+        <app-coder [parametros]="codigoAddTopicoFormArray"></app-coder>
+        <p class="mt-3">
+          Perceba que a função addTopic recebe como parâmetro um input text field do html, perceba também que uma property 
+          de nome topics foi criada para facilitar a referência ao FormArray, sempre que o addTopic for chamado 
+          será inserido no FormArray um novo FormControl com o valor informado no FrontEnd, o código 
+          do FrontEnd fica assim:
+        </p>
+
+        <app-coder [parametros]="codigoFrontEndFormArray"></app-coder>
+
+        <p class="mt-3">
+          Teste o Componente abaixo: digite um texto qualquer e tecler enter para chamar o método addTopic, para 
+          remover, basta clicar sobre o item da lista que o método removeTopic será chamado.
+        </p>
+        <app-gerador-objetos></app-gerador-objetos>
+      </div>
+      <div *ngSwitchCase="'FormBuilder'">
+        Antes de falarmos do FormBuilder é importante compreender o que é um Builder dentro do paradigma
+        de programação orientado a objetos, um builder é um padrão de criação de objetos, geralmente utilizado 
+        em estruturas mais complexas onde um objeto é fruto de uma composição de outros objetos.
+        Veja um exemplo da instanciação de um FormGroup padrão (código 1) e em seguida o mesmo resultado 
+        utilizando o FormBuilder.
+        <app-coder [parametros]="codigoFormBuilder"></app-coder>
+
+        <p class="mt-3">
+          Veja que o padrão builder separa a representação do objeto da sua lógica de construção,
+          ele precisa de um construtor para criar o builder, esse builder possui métodos parar criar objetos da família 
+          de formulários. Veja também que o código que o FormBuilder gera é menor do que a construção 
+          do FormGroup.
+        </p>
+      </div>
     </div>
+
+    
    
     
+  </div>
+
+  <div *ngSwitchCase="'services'">
+    <app-submenus [subMenus]="menuServices" (menuAtivado)="updateViewMode($event)"> </app-submenus>
+    <div [ngSwitch]="viewMode">
+      <div *ngSwitchCase="'servicos'">
+        <h5 class="mt-3">Separação de Conceitos </h5>
+        <p class="mt-3">
+          Paradigma em que se baseia o conceito de serviços, estatui que uma classe deve ser responsável
+          por apenas um tipo de coisa, uma classe que faz muitas coisas é difícil de manter e testar. 
+          Por exemplo, apresentação da lógica de visão e recuperação de dados não devem estar na mesma classe,
+          isso aumenta acoplamento e reduz coesão pois as rotinas de recuperação de dados, possivelmente serão repetidas
+          em várias classes. Para solucionar essa questão, precisamos separar os conceitos de lógica de apresentação 
+          e tratamento de dados, para isso vamos criar um serviço de acesso a dados para o componente. Ou seja,
+          o serviço será a camada intermediária entre o componente e o backend.
+        </p>
+        <h5 class="mt-3">
+          Exemplo de separação de conceitos
+        </h5>
+        <p class="mt-3">
+          Veja no código abaixo que a classe PostService se encarrega de acessar e manipular os dados,
+          a maneira como ela faz isso está encapsulada na classe de serviço, esses detalhes não devem 
+          ser de responsabilidade do componente, o qual deve se preocupar tão somente com a apresentação.
+          Neste modelo o componente utiliza injeção de dependência para criar uma instância dos serviços que 
+          precisa em seu construtor, como os métodos do HttpClient retornam Observables, para poder 
+          ter acesso aos dados na camada de lógica de apresentação os métodos da classe subscrevem o retorno 
+          dos services methods e manipulam os dados (map, reduce) conforme conveniência.
+        </p>
+        <app-coder [parametros]="postService"></app-coder>
+        <app-coder [parametros]="postComponent"></app-coder>
+      </div>
+      <div *ngSwitchCase="'get'">
+       
+        <h5 class="mt-3">Método get do HttpClient</h5>
+          Para simular o backend das aplicações será utilizado o serviço jsonplaceholder, encontrado no endereço 
+          jsonplaceholder.typicode.com, este site provê uma série de endpoints com dados para testes.
+          Para buscar dados via chamadas remotas você pode utilizar o HttpModule, é um módulo que contém a classe 
+          HttpClient, essa classe possui o método get, o qual faz requisições http,
+          essa classe é injetada como um serviço e pode ser usada no padrão de injeção de dependência, ou seja,
+          por meio de inserção de uma variável tipada no construtor do componente onde deverá ser utilizada.
+          <br />
+          A chamada do método get pode ser feita conforme código abaixo:
+          <app-coder [parametros]="codigoHttpClientGet"></app-coder>
+          <span class="mt-3">
+            Observe que há uma chamada encadeada na chamada do método, após o get o método subscribe() é chamado,
+            isso se deve a necessidade que o método get tem de retornar um Observable, um Observable representa uma 
+            sequência de valores ou eventos que ocorrem ao longo do tempo, é desenhada para lidar com fluxos de 
+            dados assíncronos e reativos, permitindo que você subscreva para receber atualizações a partir dos 
+            fluxos e execute ações quando as atualizações ocorrerem.
+            <br />
+            Um Observable precisa de um response, o response é passado do método get para o subscribe, o subscribe 
+            pode receber os dados e manipulá-los. Veja no exemplo que os dados recebidos do get são atribuídos
+            a variável this.posts.
+            Em outras palavras, o método subscribe()  define como obter ou gerar valores ou mensagens para serem
+            publicadas. 
+          </span>
+          <app-post></app-post>
+
+          <h5 class="mt-3">Método post do HttpClient</h5>
+
+      </div>
+      <div *ngSwitchCase="'post'">
+        <p class="mt-3">
+          O método post do HTTPClient possui 15 overloads e portanto várias implementações,
+          usualmente leva 3 parâmetros, a url, o body e as options http (opcionais). Como todo método httpclient 
+          ele retorna um Observable de alguma coisa, pode ser um ArrayBuffer, um blob, uma string um
+          evento, etc..
+        </p>
+        <app-coder [parametros]="codigoHttpClientPost"></app-coder>
+        <p class="mt-3">
+          O createPost recebe um input text field como parâmetro, faz uma chamada http post, esse método 
+          passa a url onde se deseja postar e como segundo argumento passa o valor postado no input. 
+          por último subscreve as alterações para ser notificado a medida que elas ocorrerem, a subscrição 
+          adiciona o valor postado no server a lista de posts, usa a função splice para adicionar no 
+          início da lista e não no final, como seria se fosse utilizado o push. <br />
+          Teste o código inserindo um dado qualquer.
+        </p>
+        <app-post></app-post>
+      </div>
+
+      <div *ngSwitchCase="'patch'">
+        <p class="mt-3">
+          O http patch atualiza apenas os campos que foram alterados, de maneira que ele não envia o 
+          objeto inteiro para o server, como faz o put. Abaixo um exemplo:
+        </p>
+
+        <app-coder [parametros]="codigoHttpClientPatch"> </app-coder>
+      </div>
+      <div *ngSwitchCase="'delete'">
+        <p class="mt-3">
+          O http delete cria um observable que quando subscrito exclui um registro do servidor. 
+          não possui um body, apenas uma url e opções http. Sua implementação ficaria assim:
+        </p>
+        <app-coder [parametros]="codigoHttpClientDelete"></app-coder>
+        <p class="mt-3">
+          Observe que a implementação do método é bem simples, basta passar a url indicando o 
+          item que deseja excluir, na subscrição do método você passa o que deseja fazer com o objeto 
+          manipulado, no exemplo, foi excluído do template o elemento correspondente.
+        </p>
+      </div>
+    </div>
   </div>
   <div *ngSwitchCase="'Outros'">
     <app-submenus [subMenus]="outrosmenus" (menuAtivado)="updateViewMode($event)">    
@@ -767,7 +966,184 @@
           
           </span>
         </div>
+        <div *ngSwitchCase="'observables'">
+            <h5 class="mt-3">
+              Definindo um Observable
+            </h5>
+            <span class="mt-3">
+              Um Observable é um contrato composto de algumas funcionalidades, ele deve definir um 
+              callback para manipular três tipos de notificações:
+              <table class="table table-stripped">
+                <thead>
+                  <tr>
+                    <th> Tipo </th>
+                    <th> Detalhes </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>next</td>
+                    <td>Parâmetro obrigatório, um handler para cada valor entregue. Chamado nenhuma ou mais vezes
+                      depois que a execução se inicia.
+                    </td>
+                    </tr>
+                    <tr>
+                      <td>error</td>
+                    <td>Opcional. Um handler para uma notificação de erro. Um erro para a execução da instância do 
+                      Observable
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>complete</td>
+                    <td> Opcional: Um handler para notificar a execução completa. Valores atrasados podem 
+                      continuar a serem entregues ao next handler depois que a execução é completa.
+                    </td>
+                  </tr>
+                  
+                </tbody>
+              </table>
+              <h5 class="mt-3">
+                Subscrevendo
+              </h5>
+              <p class="mt-3">
+                Uma instância de um Observable somente publica valores quando é subscrito. A subscrição é feita 
+                através do método subscribe() da instância, passando um observer object para receber as 
+                notificações.
+                Alguns métodos do RxJS podem ser usados para criar observables, são eles:               
+                
+              </p>
+              <table class="table table-stripped table-bordered">
+                <thead>
+                  <tr>
+                    <th>Método RxJS</th>
+                    <th>Detalhes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>of(...items)</td>
+                    <td>Retorna uma instância de Observable que entrega os valores fornecidos como argumentos 
+                      de forma síncrona
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>from(iterable)</td>
+                    <td>Converte seus argumentos para uma instância de Observable. Usualmente utilizado para 
+                      converter uma array em um Observable.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <p class="mt-3">
+                Uma função next() pode receber uma string message, event objects, valores numéricos,
+                ou estruturas, dependendo do contexto, em geral, os dados publicados por um observable 
+                são referenciados como um stream. Qualquer tipo de valor pode ser representado
+                com um observable, e os valores são publicados como um stream.
+              </p>
+         
+            </span>
+        </div>
+        <div *ngSwitchCase="'lifecycle'">
+          <h5 class="mt-3">Conceitos Gerais</h5>
+          <p class="mt-3">
+            Uma instância de componente tem um ciclo de vida, que inicia quando o Angular cria a 
+            instância do componente e renderiza o componente junto com seus childs items. O ciclo de vida 
+            continua com a detecção de alterações, a medida que o Angular verifica por alterações nos dados 
+            do componente, em ambos, componente e template. O ciclo de vida finaliza quando o Angular 
+            destrói a instância do componente e remove o template do DOM. As diretivas tem um ciclo 
+            de vida similar, a medida que o Angular cria, atualiza e destrói instâncias no curso da execução.
+            A aplicação pode utilizar métodos para manipular o ciclo de vida dos componentes e seus eventos.
+          </p>
+          <p class="mt-3">
+            Um exemplo de um life cycle event seria: Quando o Angular (criar ou renderizar, ou criar e renderizar 
+            seus filhos, destruir um componente) faça algo definido. Um destes eventos é o ngOnInit() o qual 
+            é criado automaticamente pelo CLI, observe que os componentes padrões levam a interface OnInit(),
+            a criação do componente por padrão implementa a interface OnInit() a qual possui a função 
+            ngOnInit(): void. Este método será invocado quando o componente for inicializado, ou seja, está 
+            associado ao life cycle hook de inicialização do componente.
+          </p>
 
+          <h5 class="mt-3">Os hook methods podem ser descritos conforme tabela abaixo </h5>
+          <table class="table table-stripped table-bordered">
+            <thead>
+              <tr>
+                <th>Hook Method</th>
+                <th>Propósito</th>
+                <th>Timing</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>ngOnChanges()</td>
+                <td>Acionado quando o Angular seta ou reseta data-bound input properties. O método recebe 
+                  um objeto SimpleChanges dos valores atuais e anteriores de uma property. (Observação:
+                  Isso acontece frequentemente, logo, qualquer operação aqui impacta significativamente a performance)
+                </td>
+                <td>
+                  Chamado antes do ngOnInit() (se o componente tiver bound-inputs) e sempre que um ou mais data-bound 
+                  input properties sejam alteradas. (Observação: Se o seu componente não possui inputs ou uso do componente
+                  sem acionamento dos inputs, o framework não invocará o ngOnChanges().
+                </td>
+              </tr>
+              <tr>
+                <td>ngOnInit()</td>
+                <td> Inicializa a diretiva ou componente depois do primeiro display dos data-bound properties 
+                  e atribuições das diretivas ou properties dos componentes.
+                </td>
+                <td>Chamado uma vez, depois do primeiro ngOnChanges(). é chamado inclusive quando o ngOnChanges() não é,
+                  caso onde não há template-bound inputs. </td>
+              </tr>
+              <tr>
+                <td>ngDoCheck()</td>
+                <td>Detecta e atua sob mudanças que o Angular não pode ou não vai detectar por si só.</td>
+                <td>Chamado imediatamente depois do ngOnChanges() em cada change detection, e imediamente depois 
+                  do ngOnInit() durante a execução inicial do componente.
+                </td>
+              </tr>
+              <tr>
+                <td>ngAfterContentInit()</td>
+                <td> Atual quando o Angular projeta conteúdo externo dentro dos component views, ou dentro da view 
+                  em que a diretiva está.
+                </td>
+                <td>Chamado uma única vez, depois do primeiro ngDoCheck()</td>
+              </tr>
+              <tr>
+                <td>ngAfterContentChecked()</td>
+                <td> Atua quando o Angular checa o conteúdo projetado dentro da diretiva ou componente.</td>
+                <td>Chamado depois do ngAfterContentInit() e para cada ngDoCheck()</td>
+              </tr>
+              <tr>
+                <td>ngAfterViewInit()	</td>
+                <td> Atua depois que o Angular inicializa os component views e chidls views, ou as views 
+                  que contém a diretiva
+                </td>
+                <td>Chamado uma vez, depois do ngAfterContentChecked()</td>
+              </tr>
+              <tr>
+                <td>ngAfterViewChecked()</td>
+                <td>Atua depois do Angular checar as comoponent views e child views, ou as views que contém as diretivas</td>
+                <td>Chamado depois do ngAfterViewInit() e em cada ngAfterContentChecked()</td>
+              </tr>
+              <tr>
+                <td>ngOnDestroy()	</td>
+                <td>Limpa tudo antes do Angular destruir a diretiva ou o componente. Unsubscribe Observables e 
+                  event handlers associados para evitar memory leaks.
+                </td>
+                <td>Chamado imediamente antes do Angular destruir a diretiva ou componente</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h5 class="mt-3">Uso do ngOnInit()</h5>
+          <p class="mt-3">
+            Um exemplo clássico do uso de ngOnInit() é para fazer uma chamada remota de valores a serem 
+            exibidos na página, é comum o uso de chamadas https em sistemas de informação. Fazer essa chamada 
+            no construtor da aplicação não é aconselhável pois a criação do componente pelo construtor 
+            deve ser segura, consumir poucos recursos e ser simples. O método ngOnInit() pode ser utilizado 
+            para isso. Não é recomendável que construtores sejam complexos, eles devem se ater a iniciar variáveis 
+            locais para valores simples.
+          </p>
+        </div>
      </div>
   </div>
 </div>

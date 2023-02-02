@@ -7,9 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 
-  menuEscolhido = 'reactive';
+  menuEscolhido = 'services';
   canSave = false;
-  viewMode = 'validacaoAssincrona';
+  viewMode = 'servicos';
 
   updateViewMode(valor:string) {
     this.viewMode = valor;
@@ -24,7 +24,10 @@ export class AppComponent {
   menusReactive = [
     {id: 1, link: 'visaogeral', nome: 'Reactive Driven'},
     {id: 2, link: 'validacaoCustomizada', nome: 'Validação Customizada'},
-    {id: 3, link: 'validacaoAssincrona', nome: 'Validação Assíncrona'}   
+    {id: 3, link: 'validacaoAssincrona', nome: 'Validação Assíncrona'},
+    {id: 4, link: 'validacaoForm', nome: 'Validação de Formulário'},
+    {id: 5, link: 'FormArray', nome: 'FormArray'},
+    {id: 6, link: 'FormBuilder', nome: 'FormBuilder'},
   ];
   menusDiretivas = [
     {id: 1, link: 'if'      , nome: 'NgIf'},
@@ -40,8 +43,19 @@ export class AppComponent {
     {id: 3, link: 'ngValue', nome: 'ngValue'}
   ]
 
+  menuServices = [
+    {id: 1, link: 'servicos' , nome: 'Serviços'},
+    {id: 2, link: 'get' , nome: 'HTTPClient.Get'},
+    {id: 3, link: 'post' , nome: 'HTTPClient.Post'},
+    {id: 4, link: 'patch' , nome: 'HTTPClient.Patch'},
+    {id: 5, link: 'delete' , nome: 'HTTPClient.Delete'},
+  ]
+
   outrosmenus = [
     {id: 1, link: 'ajax' , nome: 'Operações Assíncronas'},
+    {id: 2, link: 'injecao' , nome: 'Injeção de Dependência'},
+    {id: 3, link: 'observables' , nome: 'Observables'},
+    {id: 3, link: 'lifecycle' , nome: 'Lyfecycle hooks'},
   ]
 
   title = 'angular-course';
@@ -401,7 +415,345 @@ export class AppComponent {
     `,
     titulo: 'Código 2',
     pagina: 'username.validator.ts'
-  }
+  };
+
+  erroUsuarioSenha = {
+    codigo: `
+      login() {
+        this.form.setErrors({
+          invalidLogin: true
+        });  
+      }
+    `,
+    titulo: 'Código 1',
+    pagina: 'signup-form.component.ts'
+  };
+
+  erroUsuarioSenhaTemplate = {
+    codigo: `
+    <form [formGroup]="form" (ngSubmit)="login()">
+      <div *ngIf="form.errors" class="alert alert-danger">
+          Usuário ou senha inválidos!
+      </div>
+
+    ...
+    `,
+    titulo: 'Código 2',
+    pagina: 'signup-form.component.html'
+  };
+
+
+  t = {
+    codigo: `
+    signup-form.component.ts
+  
+      form = new FormGroup({
+        username: new FormControl('',[
+          Validators.required,
+          Validators.minLength(3)
+        ]),
+        password : new FormControl('',Validators.required)
+      });
+  
+      ....
+  
+    signup-form.component.html
+  
+    <form [formGroup]="form">
+      <div class="form-group">
+          <label for="username">  Usuário </label>
+          <input formControlName="username" type="text" id="username" class="form-control">
+          <div *ngIf="username!.invalid && username!.touched" class="alert alert-danger">
+            <div *ngIf="username!.errors?.['required']">Username é obrigatório</div>
+            <div *ngIf="username!.errors?.['minlenght']">Pelo menos {{username!.errors?.['minlenght'].requiredLength}} caracteres devem ser informados</div>
+          </div>
+      </div>
+      <div class="form-group">
+          <label for="password"> Senha </label>
+          <input formControlName="password" type="text" id="password" class="form-control">
+      </div>
+      <div class="form-group pt-3">
+      <button class="btn btn-primary"> Logar </button>
+    </div>
+    </form>
+  
+    `,
+    titulo: 'Código 1',
+    pagina: 'p1'
+
+  };
+
+  codigoSimplificado = {
+    codigo : `
+    get username() {
+      return this.form.get('username');
+    }
+
+    get password() {
+      return this.form.get('password');
+    }
+  `,
+    titulo: 'Código 2',
+    pagina: 'p2'
+  };
+
+  codigoFormGroupAninhado = {
+    codigo: `
+    form = new FormGroup({
+      account: new FormGroup({
+        username: new FormControl('',[
+          Validators.required,
+          Validators.minLength(3),
+          UsernameValidators.cannotContainSpace
+        ], 
+        UsernameValidators.shouldBeUnique),
+        password : new FormControl('',Validators.required)
+      }) 
+    });
+    `,
+    titulo: 'Código 3 - Form Group Aninhado Componente',
+    pagina: 'signup-form.component.ts'
+  };
+
+  codigoFormGroupTemplate = {
+    codigo: `
+    <div formGroupName="account">    
+    <div class="form-group">
+        <label for="username">  Usuário </label>
+        <input formControlName="username" type="text" id="username" class="form-control">
+        <div *ngIf="username!.pending"> Checando por valor único </div>        
+    </div>
+    <div class="form-group">
+        <label for="password"> Senha </label>
+        <input formControlName="password" type="text" id="password" class="form-control">
+    </div>
+    </div>
+    `,
+    titulo: 'Código 4 - Form Group Aninhado Template',
+    pagina: 'signup-form.component.html'
+  };
+
+  codigoFormArray = {
+    codigo: `
+      form = new FormGroup({
+        topics: new FormArray([])
+      });
+    `,
+    titulo: 'Código 1 - Criando o FormArray',
+    pagina: 'gerador-objetos.component.ts'
+  };
+
+
+  codigoAddTopicoFormArray = {
+    codigo: `
+      get topics() {
+        return this.form.get('topics') as FormArray;
+      }
+
+      addTopic(topic: HTMLInputElement) {
+        this.topics.push(new FormControl(topic.value));
+        topic.value='';
+      }
+
+      removeTopic(topic: AbstractControl) {
+        let index = this.topics.controls.indexOf(topic);
+        this.topics.removeAt(index);
+      }
+    `,
+    titulo: 'Código 2 - Criando os métodos de adição no FormArray',
+    pagina: 'gerador-objetos-component.ts'
+  };
+
+  codigoFrontEndFormArray = {
+    codigo: `
+    <form>
+      <input type="text" class="form-control" (keyup.enter)="addTopic(topic)" #topic>
+      <ul class="list-group">
+          <li 
+              *ngFor="let topic of topics.controls" 
+              class="list-group-item" 
+              (click)="removeTopic(topic)">     
+                    
+              {{ topic.value }}
+          </li>
+      </ul>
+    </form>
+    `,
+    titulo: 'Código 3 - Template do FormArray',
+    pagina: 'gerador-objetos.component.html'
+  };
+
+  codigoFormBuilder = {
+    codigo: `
+    form = new FormGroup({
+      name: new FormGroup('', Validators.required),
+      contact: new FormGroup({
+        email: new FormControl(),
+        phone: new FormControl()
+      }),
+      topics: new FormArray([])
+    });
+
+    constructor(fb: FormBuilder){
+      this.form = fb.group({
+        name: ['', Validators.required],
+        contact: fb.group({
+          email: [],
+          phone: []
+        })
+      })
+    }
+    `,
+    titulo: 'Código 1 - Utilizando o FormBuilder',
+    pagina: 'exemplo.component.ts'
+  };
+
+  codigoHttpClientGet = {
+    codigo: `
+    export class PostComponent implements OnInit {
+      posts: any[] = [];
+      constructor(http: HttpClient) {
+          http.get('https://jsonplaceholder.typicode.com/posts')
+            .subscribe(response => {
+              this.posts = response as any;
+            });
+       }   
+      
+    }    
+    `,
+    titulo: 'Código 1 - Chamada ao método get()',
+    pagina: 'post.component.ts'
+
+  };
+
+
+  codigoHttpClientPost = {
+    codigo: `
+    createPost(input: HTMLInputElement) {
+      let post: any = {
+        title: input.value,
+       
+      };
+      input.value = '';
+      //post também retorna um observable, assim como todos os métodos HTTPClient
+      this.http.post(this.url, JSON.stringify(post))
+        .subscribe((response: any) => {        
+          post.id = response.id;
+          //para adicionar no início use splice, para o fim utilize push
+          this.posts.splice(0, 0, post);
+        })
+    }
+    `,
+    titulo: 'Código 1 - post()',
+    pagina: 'post.component.ts'
+
+  };
+
+
+  codigoHttpClientPatch = {
+    codigo: `
+    updatePost(post: HTMLInputElement) {
+      this.http.patch(this.url + '/' + post.id, JSON.stringify({isRead: true}))
+        .subscribe(response => {
+          console.log(response);
+        })
+    }
+    `,
+    titulo: 'Código 1 - HttpClient patch',
+    pagina: 'post.component.ts'
+  };
+
+  codigoHttpClientDelete = {
+    codigo: `
+    deletePost(post: HTMLInputElement) {
+      this.http.delete(this.url + '/' + post.id)
+        .subscribe(response => {
+          let index = this.posts.indexOf(post);
+          this.posts.splice(index, 1);        
+        })
+    }
+    `,
+    titulo: 'Código 1 - HttpDelete',
+    pagina: 'post.component.ts'
+  };
+
+  postService = {
+    codigo: `
+    export class PostService {
+      private url = 'https://jsonplaceholder.typicode.com/posts';
+      constructor(private http: HttpClient) { }
+    
+      getPosts() {
+        return this.http.get(this.url);
+      }
+    
+      deletePost(id: string) {
+        return this.http.delete(this.url + '/' + id);
+      }
+    
+      updatePost(post:any) {
+        return this.http.patch(this.url + '/' + post.id, JSON.stringify({isRead: true}));
+      }
+    
+      createPost(post:any) {
+        return this.http.post(this.url, JSON.stringify(post));
+      }
+    }
+    
+    `,
+    titulo: 'Código 1 - Serviço de acesso a dados',
+    pagina: 'post.service.ts'
+  };
+
+  postComponent = {
+    codigo: `
+    export class PostComponent implements OnInit {
+      posts: any[] = []; 
+      
+      constructor(private service: PostService) { }
+    
+      createPost(input: HTMLInputElement) {
+        let post: any = {
+          title: input.value,
+         
+        };
+        input.value = '';
+        //post também retorna um observable, assim como todos os métodos HTTPClient
+        this.service.createPost(post)
+          .subscribe((response: any) => {        
+            post.id = response.id;
+            //para adicionar no início use splice, para o fim utilize push
+            this.posts.splice(0, 0, post);
+          })
+      }
+    
+      updatePost(post: HTMLInputElement) {
+        this.service.updatePost(post)
+          .subscribe(response => {
+            console.log(response);
+          })
+      }
+    
+      deletePost(post: HTMLInputElement) {
+        this.service.deletePost(post.id)
+          .subscribe(response => {
+            let index = this.posts.indexOf(post);
+            this.posts.splice(index, 1);        
+          })
+      }
+      ngOnInit(): void {    
+        this.service.getPosts()
+          .subscribe(response => {
+          this.posts = response as any;
+        });
+      }
+    
+    }
+    `,
+    titulo: 'Código 2 - Lógica de apresentação',
+    pagina: 'post.component.ts'
+  };
+
 
   nomeInput = "nomeTeste";
   testeSwitch = 'mapa';

@@ -1,25 +1,27 @@
-<form [formGroup]="form" >
-    <!-- (ngSubmit)="login()" -->
-    <div class="form-group">
-        <label for="username">  Usuário </label>
-        <input formControlName="username" type="text" id="username" class="form-control">
-        <div *ngIf="username!.pending"> Checando por valor único </div>
-        <div *ngIf="username!.invalid && username!.touched" class="alert alert-danger">
-          <div *ngIf="username!.errors?.['required']">Username é obrigatório</div>
-          <div *ngIf="username!.errors?.['minlenght']">Pelo menos {{username!.errors?.['minlenght'].requiredLength}} caracteres devem ser informados</div>
-          <div *ngIf="username!.errors?.['cannotContainSpace']"> Não pode conter espaços </div>
-          <div *ngIf="username!.errors?.['shouldBeUnique']"> Nome de usuário já escolhido </div>
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="password"> Senha </label>
-        <input formControlName="password" type="text" id="password" class="form-control">
-    </div>
+<form [formGroup]="form" (ngSubmit)="login()">
+   <div *ngIf="form.errors" class="alert alert-danger">
+        Usuário ou senha inválidos!
+   </div>
+   <div formGroupName="account">    
+       <div class="form-group">
+           <label for="username">  Usuário </label>
+           <input formControlName="username" type="text" id="username" class="form-control">
+           <div *ngIf="username!.pending"> Checando por valor único </div>
+           <div *ngIf="username!.invalid && username!.touched" class="alert alert-danger">
+             <div *ngIf="username!.errors?.['required']">Username é obrigatório</div>
+             <div *ngIf="username!.errors?.['minlenght']">Pelo menos {{username!.errors?.['minlenght'].requiredLength}} caracteres devem ser informados</div>
+             <div *ngIf="username!.errors?.['cannotContainSpace']"> Não pode conter espaços </div>
+             <div *ngIf="username!.errors?.['shouldBeUnique']"> Nome de usuário já escolhido </div>
+           </div>
+       </div>
+       <div class="form-group">
+           <label for="password"> Senha </label>
+           <input formControlName="password" type="text" id="password" class="form-control">
+       </div>
+   </div>
     <div class="form-group pt-3">
     <button class="btn btn-primary"> Logar </button>
 </div>
 </form>
 
 
-<app-coder [parametros]="t"> </app-coder>
-<app-coder [parametros]="t2"> </app-coder>

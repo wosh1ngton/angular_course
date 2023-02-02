@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { CoursesComponent } from './courses.component';
 import { DirectiveService } from './directives/directive.service';
@@ -20,6 +20,8 @@ import { SelectboComponent } from './selectbo/selectbo.component';
 import { SelectBox2Component } from './select-box2/select-box2.component';
 import { SignupFormComponent } from './signup-form/signup-form.component';
 import { CoderComponent } from './coder/coder.component';
+import { GeradorObjetosComponent } from './gerador-objetos/gerador-objetos.component';
+import { PostComponent } from './post/post.component';
 
 
 //Esta classe está decorada com uma decorator funcion chamada NgModule, sinalizando que trata-se de um módulo angular
@@ -42,12 +44,15 @@ import { CoderComponent } from './coder/coder.component';
     SelectboComponent,
     SelectBox2Component,
     SignupFormComponent,
-    CoderComponent    
+    CoderComponent,
+    GeradorObjetosComponent,
+    PostComponent    
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [DirectiveService],
   bootstrap: [AppComponent]
