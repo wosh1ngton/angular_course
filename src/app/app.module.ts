@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
@@ -22,6 +22,10 @@ import { SignupFormComponent } from './signup-form/signup-form.component';
 import { CoderComponent } from './coder/coder.component';
 import { GeradorObjetosComponent } from './gerador-objetos/gerador-objetos.component';
 import { PostComponent } from './post/post.component';
+import { AppErrorHandler } from './common/app-error-handler';
+import { FollowersComponent } from './followers/followers.component';
+import { RouterModule } from '@angular/router';
+import { HomeComponent } from './home/home.component';
 
 
 //Esta classe está decorada com uma decorator funcion chamada NgModule, sinalizando que trata-se de um módulo angular
@@ -46,15 +50,23 @@ import { PostComponent } from './post/post.component';
     SignupFormComponent,
     CoderComponent,
     GeradorObjetosComponent,
-    PostComponent    
+    PostComponent,
+    FollowersComponent    
   ],
   imports: [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    RouterModule.forRoot([
+      {path: '', component: HomeComponent },
+      {path: 'followers', component: FollowersComponent },
+    ])
   ],
-  providers: [DirectiveService],
+  providers: [
+    DirectiveService,
+    {provide: ErrorHandler, useClass: AppErrorHandler}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

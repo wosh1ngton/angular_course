@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AppError } from '../common/app-error';
+import { BadInput } from '../common/bad-input';
+import { NotFoundError } from '../common/not-found.error';
 import { PostService } from '../post.service';
 
 @Component({
@@ -7,45 +10,58 @@ import { PostService } from '../post.service';
   styleUrls: ['./post.component.css']
 })
 export class PostComponent implements OnInit {
-  posts: any[] = [];
-  
-  
+  posts: any = [];
+
   constructor(private service: PostService) { }
 
   createPost(input: HTMLInputElement) {
     let post: any = {
       title: input.value,
-     
+
     };
     input.value = '';
     //post também retorna um observable, assim como todos os métodos HTTPClient
-    this.service.createPost(post)
-      .subscribe((response: any) => {        
-        post.id = response.id;
-        //para adicionar no início use splice, para o fim utilize push
-        this.posts.splice(0, 0, post);
+    this.service.create(post)
+      .subscribe({
+        next: (newPost: any) => {
+          post.id = newPost.id;
+          //para adicionar no início use splice, para o fim utilize push
+          this.posts.splice(0, 0, post);
+        },
+        error: (e: AppError) => {
+          if (e instanceof BadInput) {
+            // this.form.setErrors(e) 
+            // this.form.setErrors(e.originalError) 
+          }
+          else throw e;
+        }
       })
   }
 
   updatePost(post: HTMLInputElement) {
-    this.service.updatePost(post)
-      .subscribe(response => {
-        console.log(response);
-      })
+    this.service.update(post)
+      .subscribe(updatedPost => console.log(updatedPost));
   }
 
   deletePost(post: HTMLInputElement) {
-    this.service.deletePost(post.id)
-      .subscribe(response => {
-        let index = this.posts.indexOf(post);
-        this.posts.splice(index, 1);        
+    this.service.delete(post.id)
+      .subscribe({
+        next: () => {
+          let index = this.posts.indexOf(post);
+          this.posts.splice(index, 1);
+        },
+        error: (e: AppError) => {
+          if (e instanceof NotFoundError) {
+            alert('Este post já foi deletado');
+          }
+          else throw e;
+        }
       })
   }
-  ngOnInit(): void {    
-    this.service.getPosts()
-      .subscribe(response => {
-      this.posts = response as any;
-    });
-  }
 
-}
+
+  ngOnInit(): void {
+    this.service.getAll()
+      .subscribe(response => this.posts = response);
+      }
+    }

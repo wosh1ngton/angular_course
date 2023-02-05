@@ -7,9 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 
-  menuEscolhido = 'services';
+  menuEscolhido = 'routers';
   canSave = false;
-  viewMode = 'servicos';
+  viewMode = 'dataservice';
 
   updateViewMode(valor:string) {
     this.viewMode = valor;
@@ -49,15 +49,25 @@ export class AppComponent {
     {id: 3, link: 'post' , nome: 'HTTPClient.Post'},
     {id: 4, link: 'patch' , nome: 'HTTPClient.Patch'},
     {id: 5, link: 'delete' , nome: 'HTTPClient.Delete'},
+    {id: 6, link: 'dataservice' , nome: 'Data Service'},
   ]
 
   outrosmenus = [
     {id: 1, link: 'ajax' , nome: 'Operações Assíncronas'},
     {id: 2, link: 'injecao' , nome: 'Injeção de Dependência'},
     {id: 3, link: 'observables' , nome: 'Observables'},
-    {id: 3, link: 'lifecycle' , nome: 'Lyfecycle hooks'},
+    {id: 4, link: 'promisse' , nome: 'Promisse'},
+    {id: 5, link: 'lifecycle' , nome: 'Lyfecycle hooks'},
+    {id: 6, link: 'erros' , nome: 'Tratamento de Erros'},
+  ]
+  menusRouters = [
+    {id: 1, link: 'geral' , nome: 'Visão Geral'},
   ]
 
+  menusFollowers = [
+    {id: 1, link: 'followers' , nome: 'Followers'},
+    {id: 1, link: 'posts' , nome: 'Posts'},
+  ]
   title = 'angular-course';
   post = {
     title : "title",
@@ -754,7 +764,230 @@ export class AppComponent {
     pagina: 'post.component.ts'
   };
 
+  chamadaSubscribe = {
+    codigo: `
+    ngOnInit(): void {    
+      this.service.getPosts()
+        .subscribe({
+          next: (response) => {
+            this.posts = response as any;        
+          }, 
+          error: (e) => {
+            alert('erro');
+            console.log(e);
+          }
+        });     
+    }
+    `,
+    titulo: 'Código 1 - chamada subscribe',
+    pagina: 'exemplo.component.ts'
+  };
 
+  subscribeComErros = {
+    codigo: `
+    CreatePost(input: HTMLInputElement) {
+      let post: any = {
+        title: input.value,
+       
+      };
+      input.value = '';
+      //post também retorna um observable, assim como todos os métodos HTTPClient
+      this.service.createPost(post)
+        .subscribe({
+            next : (response: any) => {        
+            post.id = response.id;
+            //para adicionar no início use splice, para o fim utilize push
+            this.posts.splice(0, 0, post);
+          },
+          error : (e: Response) => {
+            if(e.status === 400) {
+              // this.form.setErrors(e) 
+            } 
+            else {
+              console.log("um erro inesperado ocorreu " + e);
+            }
+          }    
+      })
+    }
+    `,
+    titulo : 'Código 1 - Subscribe com erros',
+    pagina: 'post.component.ts'
+  };
+
+  codigoPipeCatchError = {
+    codigo  : `
+    deletePost(id: string) {
+      return this.http.get(this.url + '/' + id)
+        .pipe(
+          map((n:any) => {
+              return n
+            }),
+          catchError((err: Response) => { 
+            if(err.status === 404) {            
+              throw (new NotFoundError());
+            }                      
+            throw (new AppError(err));
+          })
+        )   
+    }
+    `,
+    titulo: 'Código 2 - Erros no service',
+    pagina: 'post.service.ts'
+  };
+
+  codigoErroPostComponent = {
+    codigo: `
+    deletePost(post: HTMLInputElement) {
+      this.service.deletePost("8000")
+        .subscribe({
+          next : (response) => {
+            let index = this.posts.indexOf(post);
+            this.posts.splice(index, 1);        
+          },
+          error: (e: AppError) => { 
+            if(e instanceof NotFoundError) {
+              alert('Este post já foi deletado');            
+            }
+            else {
+              console.log("Um erro inesperado ocorreu" + e);
+            }
+          }    
+      })
+    }
+    `,
+    titulo: 'Código 3 - tratamento do erro no componente',
+    pagina: 'post.component.ts'
+  };
+
+
+  codigoAppErrorHandler = {
+    codigo: `
+    import { ErrorHandler } from "@angular/core";
+
+    export class AppErrorHandler implements ErrorHandler {
+        
+        handleError(error: any): void {
+            alert("Um erro inesperado ocorreu");
+            console.log(error);
+        }
+    
+    }
+    `,
+    titulo: 'Código 4 - Error Handler global',
+    pagina: 'app-error.ts'
+  };
+
+  codigoProviderErrorHandler = {
+    codigo: `
+    [...]
+    providers: [
+      DirectiveService,
+      {provide: ErrorHandler, useClass: AppErrorHandler}
+    ]
+    ...
+    ,
+    `,
+    titulo: 'Código 5 - Provider Error Handler',
+    pagina: 'app.module.ts'
+  };
+
+  codigoThrowErrorHandler = {
+    codigo: `
+    deletePost(post: HTMLInputElement) {
+      this.service.deletePost("8000")
+        .subscribe({
+          next: (response) => {
+            let index = this.posts.indexOf(post);
+            this.posts.splice(index, 1);
+          },
+          error: (e: AppError) => {
+            if (e instanceof NotFoundError) {
+              alert('Este post já foi deletado');
+            }
+            else throw e;
+          }
+        })
+    }
+
+
+    ngOnInit(): void {
+      this.service.getPosts()
+        .subscribe((response) => {
+            this.posts = response as any;
+          })
+        }
+      }
+    `,
+    titulo: 'Código 6 - Error Handler throw',
+    pagina: 'post.component.ts'
+  };
+
+  codigoDataService = {
+    codigo: `
+    import { HttpClient } from '@angular/common/http';
+    import { Injectable, InjectionToken, Input } from '@angular/core';
+    import { throwError } from 'rxjs';
+    import { catchError, map } from 'rxjs/operators';
+    import { AppError } from './common/app-error';
+    import { BadInput } from './common/bad-input';
+    import { NotFoundError } from './common/not-found.error';
+
+    export const MY_TOKEN = new InjectionToken<string>('MyToken');
+
+    @Injectable({
+      providedIn: 'root',
+      useValue: MY_TOKEN
+    })
+    export class DataService {
+      //@Input() private url: string = '';
+      
+      constructor(private url: string, private http: HttpClient) { }
+      
+
+      getAll() {
+        return this.http.get(this.url)
+          .pipe(         
+              catchError(this.handleError)
+          );
+      }
+
+      delete(id: string) {
+        return this.http.get(this.url + '/' + id)
+          .pipe(      
+            catchError(this.handleError)
+          )   
+      }
+
+      update(resource:any) {
+        return this.http.patch(this.url + '/' + resource.id, JSON.stringify({isRead: true}))
+          .pipe(       
+            catchError(this.handleError)
+          );
+      }
+
+      create(resource:any) {
+        return this.http.post(this.url, JSON.stringify(resource))
+          .pipe(        
+            catchError(this.handleError)
+          );
+      }
+
+      //Response é uma interface que busca dados via um request http
+      private handleError(err: Response) {
+        if(err.status === 400) 
+          return throwError(() => new BadInput(err));
+
+        if(err.status === 404)             
+          return throwError(() => new NotFoundError());                          
+        return throwError(() => new AppError(err));
+      }
+
+    }
+  
+    `,
+    titulo: 'Código 1 - Data Service',
+    pagina: 'data.service.ts'
+  }
   nomeInput = "nomeTeste";
   testeSwitch = 'mapa';
   onKeyUp(valor:string) {
