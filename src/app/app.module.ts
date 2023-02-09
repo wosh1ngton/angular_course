@@ -24,10 +24,27 @@ import { GeradorObjetosComponent } from './gerador-objetos/gerador-objetos.compo
 import { PostComponent } from './post/post.component';
 import { AppErrorHandler } from './common/app-error-handler';
 import { FollowersComponent } from './followers/followers.component';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
+import { PerfilComponent } from './perfil/perfil.component';
+import { NotFoundComponent } from './not-found/not-found.component';
+import { ArchiveComponent } from './archive/archive.component';
+import { LoginComponent } from './login/login.component';
+import { AdminComponent } from './admin/admin.component';
+import { NoAccessComponent } from './no-access/no-access.component';
 
-
+const routes : Routes = [
+  {path: '', component: HomeComponent },
+  {path: 'followers/:id/:username', component: PerfilComponent },
+  {path: 'followers', component: FollowersComponent },      
+  {path: 'posts', component: PostComponent },  
+  {path: 'archive/:year/:month', component: ArchiveComponent },
+  {path: 'archive', component: ArchiveComponent},
+  {path: 'login', component: LoginComponent },
+  {path: 'admin', component: AdminComponent},
+  {path: 'no-access', component: NoAccessComponent},
+  {path: '**', component: NotFoundComponent },
+]
 //Esta classe está decorada com uma decorator funcion chamada NgModule, sinalizando que trata-se de um módulo angular
 @NgModule({
   //Na propriedade declarations, colocamos os componentes que fazem parte do módulo
@@ -51,17 +68,19 @@ import { HomeComponent } from './home/home.component';
     CoderComponent,
     GeradorObjetosComponent,
     PostComponent,
-    FollowersComponent    
+    FollowersComponent,
+    PerfilComponent,
+    ArchiveComponent,
+    LoginComponent,
+    AdminComponent,
+    NoAccessComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RouterModule.forRoot([
-      {path: '', component: HomeComponent },
-      {path: 'followers', component: FollowersComponent },
-    ])
+    RouterModule.forRoot(routes)
   ],
   providers: [
     DirectiveService,

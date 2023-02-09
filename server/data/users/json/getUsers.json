@@ -1,0 +1,18 @@
+{
+    "data": {
+        "users": [
+            {
+                "id": 1,
+                "name": "wos",
+                "email":"wos@gmail.com",
+                "age":34
+            },
+            {
+                "id":2,
+                "name":"Charline",
+                "email":"charli@gmail.com",
+                "age":33
+            }
+        ]
+    }
+}

@@ -7,10 +7,14 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 
-  menuEscolhido = 'routers';
+  menuEscolhido = '';
   canSave = false;
-  viewMode = 'dataservice';
-
+  viewMode = '';
+  archives = [
+    {'year': 2020, 'month': 1},
+    {'year': 2020, 'month': 2},
+    {'year': 2020, 'month': 3},
+  ]
   updateViewMode(valor:string) {
     this.viewMode = valor;
     console.log('teste ' + this.viewMode);
@@ -62,11 +66,13 @@ export class AppComponent {
   ]
   menusRouters = [
     {id: 1, link: 'geral' , nome: 'Visão Geral'},
+    {id: 2, link: 'ordem' , nome: 'Informações de rota'},
+    {id: 3, link: 'querystring' , nome: 'Parâmetros Opcionais'},
   ]
 
   menusFollowers = [
-    {id: 1, link: 'followers' , nome: 'Followers'},
-    {id: 1, link: 'posts' , nome: 'Posts'},
+    {id: 1, link: '/followers' , nome: 'Followers'},
+    {id: 1, link: '/posts' , nome: 'Posts'},
   ]
   title = 'angular-course';
   post = {
@@ -987,7 +993,75 @@ export class AppComponent {
     `,
     titulo: 'Código 1 - Data Service',
     pagina: 'data.service.ts'
+  };
+
+  codigoRotas = {
+    codigo: `
+    const routes : Routes = [
+      {path: '', component: HomeComponent },
+      {path: 'profile/:username', component: PerfilComponent },
+      {path: 'followers', component: FollowersComponent },      
+      {path: 'posts', component: PostComponent },
+      {path: '**', component: NotFoundComponent },
+    ]
+    `,
+    titulo: 'Código 1 - constante de rotas',
+    pagina: 'app.module.ts'
+  };
+
+  codigoRouterLink = {
+    codigo: `
+    <!-- chamada comum de um elemento estático -->
+      <a class="nav-link" routerLink="/followers">
+
+    <!-- chamada de um elemento dinâmico de uma lista de links gerados dinamicamente - property binding em ação -->
+    <ul class="navbar-nav">        
+      <li class="nav-item" *ngFor="let menu of subMenus">           
+        <a class="nav-link" 
+        [routerLink]="menu.link">
+            {{ menu.nome }}
+        </a>
+      </li>         
+    </ul>
+
+    <!-- chamada a uma rota dinâmica, são dois parâmetros: a rota e depois os parâmetros da rota -->
+    <a [routerLink]="['/followers', follower.id]">
+    `,
+    titulo: 'Código 2 - roteamento',
+    pagina: 'diversas'
+  };
+
+  codigoAcessoParamRoute = {
+    codigo: `
+    export class PerfilComponent implements OnInit {
+
+      constructor(private route: ActivatedRoute) { }
+    
+      ngOnInit(): void {
+        this.route.paramMap
+          .subscribe(params => {
+            let id = params.get('id');
+            console.log(id);
+          });
+      }    
+    }    
+    `,
+    titulo: 'Parâmetros de rotas',
+    pagina: 'perfil.component.ts'
+  };
+
+  codigoMultipleRoutes = {
+    codigo: `
+    //app.module.ts
+    {path: 'followers/:id/:username', component: PerfilComponent },
+
+    //followers.component.html
+    <a [routerLink]="['/followers', follower.id, follower.login]" > {{ follower.login }} </a>
+    `,
+    titulo: 'Código 2 - Múltiplas rotas',
+    pagina: 'diversas'
   }
+
   nomeInput = "nomeTeste";
   testeSwitch = 'mapa';
   onKeyUp(valor:string) {

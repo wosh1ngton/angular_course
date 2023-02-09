@@ -47,13 +47,14 @@
               [class.active]="menuEscolhido == 'Outros'">Outros</a>
           </li>
         </ul>
-
+      
       </div>
     </div>
   </nav>
-
+  
+  <router-outlet></router-outlet>
   <div [ngSwitch]="menuEscolhido">
-
+    
     <div *ngSwitchCase="'Diretivas'">
       <app-submenus [subMenus]="menusDiretivas" (menuAtivado)="updateViewMode($event)"> 
       </app-submenus>    
@@ -944,23 +945,124 @@
     </div>
    
   </div>
+  
   <div *ngSwitchCase="'routers'">
     <app-submenus [subMenus]="menusRouters" (menuAtivado)="updateViewMode($event)"> </app-submenus>
-    <h5 class="mt-3">Visão Geral</h5>
-    <p class="mt-3">
-      Um Router é um serviço que provê navegação entre views e manipulação de URLs
-    </p>
-    <h5 class="mt-3">3 passos para configurar a navegação </h5>
-    <p class="mt-3">
-      1º Configurar as rotas - é o mapeamento de um caminho para um componente;
-      2º Adicionar um router outlet, é onde é mostrado o componente correspondente quando uma dada rota 
-      se torna ativa;
-      3º Adicionar links.
-    </p>
-    <app-submenus [subMenus]="menusFollowers"> </app-submenus>
-    <app-followers> </app-followers>
     
-  </div>
+    <div [ngSwitch]="viewMode">
+        <div *ngSwitchCase="'geral'"> 
+          <h5 class="mt-3">Visão Geral</h5>
+          <p class="mt-3">
+            Um Router é um serviço que provê navegação entre views e manipulação de URLs
+          </p>
+          <h5 class="mt-3">3 passos para configurar a navegação </h5>
+          <p class="mt-3">
+            1º Configurar as rotas - é o mapeamento de um caminho para um componente;
+            2º Adicionar um router outlet, é onde é mostrado o componente correspondente quando uma dada rota 
+            se torna ativa;
+            3º Adicionar links.
+          </p>
+          <h5 class="mt-3">Configurando uma rota</h5>
+          <p class="mt-3">
+            1. Para configurar uma rota são necessários os seguintes passos: importar o AppRoutingModule para o seu AppModule,
+            adicioná-lo ao seu imports array. 
+            <br />
+            2. Defina suas rotas no seu array de rotas. Cada rota neste array é um objeto JS que contém duas 
+            propriedades. A primeira propriedade, path, define a URL para a rota. A segunda propriedade,
+            component, define o componente que o Angular deve utilizar para o caminho. Veja o exemplo abaixo:
+          </p>
+          <app-coder [parametros]="codigoRotas"></app-coder>
+          <p class="mt-3">
+            Dentro da seção de imports do AppModule, informe <code>RouterModule.forRoot(routes)</code> indicando 
+            ao módulo de rotas, as rotas disponíveis da sua aplicação.
+          </p>
+          <p class="mt-3">
+            3. Agora adicione suas rotas na sua aplicação, primeiro adicione links para os componentes, atribua 
+            a uma âncora o que você quer adicionar como rota para o routerLink attribute. Configure o valor do 
+            atributo ao componente para mostrar quando um usuário clica em cada link.<br />
+      
+          </p>
+          <app-coder [parametros]="codigoRouterLink"></app-coder>
+          <p class="mt-3">
+            Em seguida, atualize o template do componente para incluir o router-outlet. Este elemento informa 
+            ao angular para atualizar a view da aplicação com o componente da rota selecionada. o router-outlet é 
+            uma tag, você deve colocá-la onde quer que os componentes apareçam, veja o exemplo abaixo em funcionamento.
+          </p>
+          <router-outlet></router-outlet>
+          <app-submenus [subMenus]="menusFollowers"> </app-submenus>
+          
+          
+        </div>
+        
+        <div *ngSwitchCase="'ordem'"> 
+            <h5 class="mt-3">Ordem das rotas</h5>
+            <p class="mt-3">
+              A ordem das rotas é importante o Router utiliza a estratégia first-match, logo,
+              rotas mais específicas devem ser colocadas acima de rotas menos específicas. 
+              Lista de rotas com caminhos estáticos devem vir primeiro, a rota com wildcard deve 
+              vir por último, pois ela casa com qualquer URL
+            </p>
+            <h5 class="mt-3">Pegando informação de rotas</h5>
+            <p class="mt-3">
+              Comumente é preciso passar informações de um componente para outro. Por exemplo, considere 
+              uma aplicação que mostre uma lista de compras, cada item da lista tem um id único. Para editar um item 
+              o usuário clica no botão de edição, o qual abre o componente de editar item de compras, você precisa 
+              que o componente carregue os dados daquele item clicado, para isso um router pode ser usado para 
+              passar a informação, podemos utilizar ActivatedRoute interface.              
+
+            </p>
+            <p class="mt-3">Para obter informações de uma rota, importamos o 
+              ActivatedRoute e o ParamMap para o componente onde queremos utilizar., em seguida injetamos 
+              no construtor a instância do ActivatedRoute, sem seguida atualizamos o método ngOnInit() para
+              acessar o ActivatedRoute e rastrear o parâmetro desejado.
+            </p>
+            <h5 class="mt-3">ParamMap</h5>
+            <p class="mt-3">
+              ParamMap é uma interface localizada no módulo router do Angular, é um mapeamento que provê acesso 
+              aos parâmetros requeridos e opcionals específicos para uma rota. Ele possui os seguintes membros:
+              property keys:string[] -> somente para leitura, guarda o nome dos parâmetros no mapa. <br />
+              método <code>  has(name: string):boolean </code>-> Diz se o mapa contém um dado parâmetro <br />
+              método <code>  get(name: string) : string | null </code>-> retorna um valor para o parâmetro dado <br/>
+              método <code> getlAll(name: string): string[]</code> -> retorna um array contendo um ou mais valores ou um array vazio.
+              <br />
+              Veja no exemplo abaixo:
+            </p>
+            <app-coder [parametros]="codigoAcessoParamRoute"></app-coder>
+
+            <p class="mt-3">Repare que o param é um observable que subscreve o resultado para poder 
+              fazer a manipulação de dados, o uso do Observable é para manter os dados do componente, para 
+              não destruí-lo e recriá-lo em seguida, é utilizado em contextos onde o usuário não irá chamar 
+              outro componente, irá apenas informar novos parâmetros.
+            </p>
+            <h5 class="mt-3">Rotas com múltiplos parâmetros</h5>
+            <p class="mt-3">
+              Simplesmente adicione o parâmetro adicional na rota no app.module, adicione também no template corresopndente 
+              na property routerLink, conforme exemplo abaixo:
+            </p>
+
+            <app-coder [parametros]="codigoMultipleRoutes"></app-coder>
+        </div>
+        <div *ngSwitchCase="'querystring'">
+          <h5 class="mt-3">Criando parâmetros opcionais</h5>
+          <p class="mt-3">
+            Para criar parâmetros opcionais utilizamos o queryParamMap
+          </p>
+          <ul class="list-group">
+            <li class="list-group-item" *ngFor="let archive of archives">
+                <a [routerLink]="['archive', archive.year, archive.month]"> {{archive.year}}/{{archive.month}}</a>
+            </li>
+          </ul>
+          
+          <p class="mt-3">
+            Clique em um link para ativar a rota com dois parâmetros, conforme é possível visualizar na 
+            barra de endereços. Ao clicar no link o router-outlet é ativado e exibido o componente associado 
+            ao router-link que foi clicado. lembrando que essa associação é definida no app.module.ts, associação 
+            path -> component, onde definimos as rotas da nossa aplicação.
+          </p>
+        
+        </div>
+    </div>
+   
   <div *ngSwitchCase="'Outros'">
     <app-submenus [subMenus]="outrosmenus" (menuAtivado)="updateViewMode($event)">    
     </app-submenus>
