@@ -46,6 +46,18 @@
             <a href="#" class="nav-link" aria-current="page" (click)="menuEscolhido = 'Outros'"
               [class.active]="menuEscolhido == 'Outros'">Outros</a>
           </li>
+         
+          <li *ngIf="!authService.isLoggedIn()">
+            <a routerLink="/login"> Login </a>
+          </li>
+          <li *ngIf="authService.isLoggedIn()">
+            Olá {{authService.currentUser.username}}
+            <a (click)="authService.logout()"> Sair </a>
+            
+          </li>
+          <li  *ngIf="authService.isLoggedIn() && authService.currentUser.admin=='true'">
+            <a routerLink="/admin"> Adm </a>
+          </li>
         </ul>
       
       </div>

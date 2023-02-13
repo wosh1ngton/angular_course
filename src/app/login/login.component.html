@@ -16,4 +16,11 @@
     
     <button class="btn btn-primary"> Logar </button>
     
+    
 </form>
+<button class="btn btn-warning" (click)="exibir()">Exibir usuários</button>
+<ul class="list-group">
+    <li class="list-group-item" *ngFor="let user of users">
+        {{ user.name }}
+    </li>
+</ul>

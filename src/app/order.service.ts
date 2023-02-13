@@ -1,3 +1,4 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -5,5 +6,16 @@ import { Injectable } from '@angular/core';
 })
 export class OrderService {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
+
+  getOrders() {
+    // let headers = new HttpHeaders;
+    // let token = localStorage.getItem('access_token');
+
+
+    // headers.append('Authorization', 'Bearer ' + token);
+
+    
+    return this.http.get('http://localhost:3000/api/orders');
+  }
 }

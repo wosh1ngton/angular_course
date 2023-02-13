@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-root',
@@ -6,6 +7,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  /**
+   *
+   */
+  constructor(protected authService: AuthService) {}  
 
   menuEscolhido = '';
   canSave = false;
@@ -19,6 +24,7 @@ export class AppComponent {
     this.viewMode = valor;
     console.log('teste ' + this.viewMode);
   }
+  
   menusComponentes = [
     {id: 1, link: 'overview', nome: 'Visão Geral'},
     {id: 2, link: 'viewencapsualtion', nome: 'View Encapsulation'},

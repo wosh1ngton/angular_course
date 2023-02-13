@@ -32,6 +32,8 @@ import { ArchiveComponent } from './archive/archive.component';
 import { LoginComponent } from './login/login.component';
 import { AdminComponent } from './admin/admin.component';
 import { NoAccessComponent } from './no-access/no-access.component';
+import { AuthGuard } from './auth-guard.service';
+import { AdminAuthGuard } from './admin-auth-guard.service';
 
 const routes : Routes = [
   {path: '', component: HomeComponent },
@@ -41,7 +43,11 @@ const routes : Routes = [
   {path: 'archive/:year/:month', component: ArchiveComponent },
   {path: 'archive', component: ArchiveComponent},
   {path: 'login', component: LoginComponent },
-  {path: 'admin', component: AdminComponent},
+  {
+    path: 'admin', 
+    component: AdminComponent, 
+    canActivate: [AuthGuard, AdminAuthGuard]
+  },
   {path: 'no-access', component: NoAccessComponent},
   {path: '**', component: NotFoundComponent },
 ]
@@ -83,7 +89,7 @@ const routes : Routes = [
     RouterModule.forRoot(routes)
   ],
   providers: [
-    DirectiveService,
+    DirectiveService,    
     {provide: ErrorHandler, useClass: AppErrorHandler}
   ],
   bootstrap: [AppComponent]
