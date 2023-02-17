@@ -5,10 +5,10 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarDiretivas">
         <ul class="navbar-nav">        
-          <li class="nav-item" routerLinkActive="active current" *ngFor="let menu of subMenus">           
+          <li class="nav-item" 
+          routerLinkActive="active current" *ngFor="let menu of subMenus">           
             <a class="nav-link"             
-            [routerLink]="menu.link"
-            [queryParams]="{ login: 'greglamb'}"
+            [routerLink]="menu.link"           
             (click)="ativarSubMenu(menu.link)"             
             aria-current="page">
                 {{ menu.nome }}

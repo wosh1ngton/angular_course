@@ -10,98 +10,103 @@ export class AppComponent {
   /**
    *
    */
-  constructor(protected authService: AuthService) {}  
+  constructor(protected authService: AuthService) { }
 
-  menuEscolhido = '';
+  menuEscolhido = 'services';
   canSave = false;
-  viewMode = '';
+  viewMode = 'get';
+
   archives = [
-    {'year': 2020, 'month': 1},
-    {'year': 2020, 'month': 2},
-    {'year': 2020, 'month': 3},
+    { 'year': 2020, 'month': 1 },
+    { 'year': 2020, 'month': 2 },
+    { 'year': 2020, 'month': 3 },
   ]
-  updateViewMode(valor:string) {
+  updateViewMode(valor: string) {
     this.viewMode = valor;
     console.log('teste ' + this.viewMode);
   }
-  
+
   menusComponentes = [
-    {id: 1, link: 'overview', nome: 'Visão Geral'},
-    {id: 2, link: 'viewencapsualtion', nome: 'View Encapsulation'},
-    {id: 3, link: 'sharingdata', nome: 'Compartilhando Dados'}
+    { id: 1, link: 'overview', nome: 'Visão Geral' },
+    { id: 2, link: 'viewencapsualtion', nome: 'View Encapsulation' },
+    { id: 3, link: 'sharingdata', nome: 'Compartilhando Dados' }
   ];
 
   menusReactive = [
-    {id: 1, link: 'visaogeral', nome: 'Reactive Driven'},
-    {id: 2, link: 'validacaoCustomizada', nome: 'Validação Customizada'},
-    {id: 3, link: 'validacaoAssincrona', nome: 'Validação Assíncrona'},
-    {id: 4, link: 'validacaoForm', nome: 'Validação de Formulário'},
-    {id: 5, link: 'FormArray', nome: 'FormArray'},
-    {id: 6, link: 'FormBuilder', nome: 'FormBuilder'},
+    { id: 1, link: 'visaogeral', nome: 'Reactive Driven' },
+    { id: 2, link: 'validacaoCustomizada', nome: 'Validação Customizada' },
+    { id: 3, link: 'validacaoAssincrona', nome: 'Validação Assíncrona' },
+    { id: 4, link: 'validacaoForm', nome: 'Validação de Formulário' },
+    { id: 5, link: 'FormArray', nome: 'FormArray' },
+    { id: 6, link: 'FormBuilder', nome: 'FormBuilder' },
   ];
   menusDiretivas = [
-    {id: 1, link: 'if'      , nome: 'NgIf'},
-    {id: 2, link: 'switch'  , nome: 'NgSwitch'},
-    {id: 3, link: 'for'     , nome: 'NgFor'},
-    {id: 4, link: 'ngclasse', nome: 'NgClasse'},
-    {id: 5, link: 'ngestilo', nome: 'NgStyle'},
+    { id: 1, link: 'if', nome: 'NgIf' },
+    { id: 2, link: 'switch', nome: 'NgSwitch' },
+    { id: 3, link: 'for', nome: 'NgFor' },
+    { id: 4, link: 'ngclasse', nome: 'NgClasse' },
+    { id: 5, link: 'ngestilo', nome: 'NgStyle' },
   ];
 
   menusTemplates = [
-    {id: 1, link: 'validacao' , nome: 'Validação e Form Control'},
-    {id: 2, link: 'ngForm'  , nome: 'ngForm'},
-    {id: 3, link: 'ngValue', nome: 'ngValue'}
+    { id: 1, link: 'validacao', nome: 'Validação e Form Control' },
+    { id: 2, link: 'ngForm', nome: 'ngForm' },
+    { id: 3, link: 'ngValue', nome: 'ngValue' }
   ]
-
+  menusAutenticacao = [
+    { id: 1, link: 'visaogeral', nome: 'Visão Geral' },
+    { id: 1, link: 'cliente', nome: 'Cliente' },
+    { id: 1, link: 'servidor', nome: 'Servidor' },
+  ];
   menuServices = [
-    {id: 1, link: 'servicos' , nome: 'Serviços'},
-    {id: 2, link: 'get' , nome: 'HTTPClient.Get'},
-    {id: 3, link: 'post' , nome: 'HTTPClient.Post'},
-    {id: 4, link: 'patch' , nome: 'HTTPClient.Patch'},
-    {id: 5, link: 'delete' , nome: 'HTTPClient.Delete'},
-    {id: 6, link: 'dataservice' , nome: 'Data Service'},
+    { id: 1, link: 'servicos', nome: 'Serviços' },
+    { id: 2, link: 'get', nome: 'HTTPClient.Get' },
+    { id: 3, link: 'post', nome: 'HTTPClient.Post' },
+    { id: 4, link: 'patch', nome: 'HTTPClient.Patch' },
+    { id: 5, link: 'delete', nome: 'HTTPClient.Delete' },
+    { id: 6, link: 'dataservice', nome: 'Data Service' },
   ]
 
   outrosmenus = [
-    {id: 1, link: 'ajax' , nome: 'Operações Assíncronas'},
-    {id: 2, link: 'injecao' , nome: 'Injeção de Dependência'},
-    {id: 3, link: 'observables' , nome: 'Observables'},
-    {id: 4, link: 'promisse' , nome: 'Promisse'},
-    {id: 5, link: 'lifecycle' , nome: 'Lyfecycle hooks'},
-    {id: 6, link: 'erros' , nome: 'Tratamento de Erros'},
+    { id: 1, link: 'ajax', nome: 'Operações Assíncronas' },
+    { id: 2, link: 'injecao', nome: 'Injeção de Dependência' },
+    { id: 3, link: 'observables', nome: 'Observables' },
+    { id: 4, link: 'promisse', nome: 'Promisse' },
+    { id: 5, link: 'lifecycle', nome: 'Lyfecycle hooks' },
+    { id: 6, link: 'erros', nome: 'Tratamento de Erros' },
   ]
   menusRouters = [
-    {id: 1, link: 'geral' , nome: 'Visão Geral'},
-    {id: 2, link: 'ordem' , nome: 'Informações de rota'},
-    {id: 3, link: 'querystring' , nome: 'Parâmetros Opcionais'},
+    { id: 1, link: 'geral', nome: 'Visão Geral' },
+    { id: 2, link: 'ordem', nome: 'Informações de rota' },
+    { id: 3, link: 'querystring', nome: 'Parâmetros Opcionais' },
   ]
 
   menusFollowers = [
-    {id: 1, link: '/followers' , nome: 'Followers'},
-    {id: 1, link: '/posts' , nome: 'Posts'},
+    { id: 1, link: '/followers', nome: 'Followers' },
+    { id: 1, link: '/posts', nome: 'Posts' },
   ]
   title = 'angular-course';
   post = {
-    title : "title",
-    isFavorite : false
+    title: "title",
+    isFavorite: false
   }
-  courses : number[] = [];
+  courses: number[] = [];
   cursos = [
-    {id: 1, nome: 'curso 1'},
-    {id: 2, nome: 'curso 2'},
-    {id: 3, nome: 'curso 3'},
-    {id: 4, nome: 'curso 4'},
+    { id: 1, nome: 'curso 1' },
+    { id: 2, nome: 'curso 2' },
+    { id: 3, nome: 'curso 3' },
+    { id: 4, nome: 'curso 4' },
   ]
-  onFavoriteChanged(eventArgs:{}) {
-    console.log("favorite changed!",eventArgs);
+  onFavoriteChanged(eventArgs: {}) {
+    console.log("favorite changed!", eventArgs);
   }
 
   //items = ['item1','item2','item3'];
-  
+
   tweet = {
-    post : "exemplo de tweet",
-    isLiked : true,
-    totalLikes : 0
+    post: "exemplo de tweet",
+    isLiked: true,
+    totalLikes: 0
   };
   totalCursos = this.courses.length;
   // addItems(value:string) {
@@ -380,7 +385,7 @@ export class AppComponent {
 
 
   pp = {
-    codigo : `  
+    codigo: `  
     import { AbstractControl, ValidationErrors } from "@angular/forms";
   
     export class UsernameValidators {
@@ -392,8 +397,8 @@ export class AppComponent {
         }
     }
     `,
-    titulo : 'Código Validator Customizado',
-    pagina : 'username.validators.ts'
+    titulo: 'Código Validator Customizado',
+    pagina: 'username.validators.ts'
   }
 
   validadorSignUp = {
@@ -408,16 +413,16 @@ export class AppComponent {
     titulo: 'Código 2',
     pagina: 'signup-form.component.ts'
   }
-  
+
 
   asyncValidatorFn = {
-    codigo : `
+    codigo: `
     interface AsyncValidatorFn {
       (control: AbstractControl<any, any>): Promise<ValidationErrors | null> | 
       Observable<ValidationErrors | null>
     }    
     `,
-    titulo : 'Código 1',
+    titulo: 'Código 1',
     pagina: 'angular.io'
   }
 
@@ -506,7 +511,7 @@ export class AppComponent {
   };
 
   codigoSimplificado = {
-    codigo : `
+    codigo: `
     get username() {
       return this.form.get('username');
     }
@@ -822,12 +827,12 @@ export class AppComponent {
       })
     }
     `,
-    titulo : 'Código 1 - Subscribe com erros',
+    titulo: 'Código 1 - Subscribe com erros',
     pagina: 'post.component.ts'
   };
 
   codigoPipeCatchError = {
-    codigo  : `
+    codigo: `
     deletePost(id: string) {
       return this.http.get(this.url + '/' + id)
         .pipe(
@@ -1068,29 +1073,127 @@ export class AppComponent {
     pagina: 'diversas'
   }
 
+  codigoDbJson = {
+    codigo: `
+    {
+      "users": [
+          {
+          "id": 1,   
+          "username": "wos",
+          "password": "1234",
+          "admin": false
+          },
+          {
+           "id": 2,  
+           "username": "Charline",
+           "password": "1111",
+           "admin": true  
+          }
+      ],
+      "orders" : [
+          {
+              "id": 1,
+              "item": "soap",
+              "quantidade": 8
+          }
+          
+      ]
+  }
+    `,
+    titulo: 'Código 1 - Criando a base de dados',
+    pagina: 'db.json'
+  };
+
+  codigoTemplateLogin = {
+    codigo: `
+    <form class="form-signin" #f="ngForm" (ngSubmit)="signIn(f.value)">
+      <h2 class="form-signin-heading">
+          Por favor, informe seu usuário e senha
+      </h2>
+      <div *ngIf="invalidLogin" class="alert alert-danger">
+          Usuário e/ou senha inválidos
+      </div>
+
+      <label for="username"> Usuário </label>
+      <input ngModel type="text" name="username" class="form-control">
+
+      <label for="password"> Senha </label>
+      <input ngModel type="text" name="password" class="form-control">
+      
+      <button class="btn btn-primary"> Logar </button>
+    </form>
+    `,
+    titulo: 'Código 1 - Template Login',
+    pagina: 'login.component.html'
+  };
+
+  codigoTypeLogin = {
+    codigo: `
+    import { Component, Input, OnInit } from '@angular/core';
+    import { ActivatedRoute, Router } from '@angular/router';
+    import { AuthService } from '../auth.service';
+
+
+    @Component({
+      selector: 'app-login',
+      templateUrl: './login.component.html',
+      styleUrls: ['./login.component.css']
+    })
+    export class LoginComponent implements OnInit {     
+
+      invalidLogin : boolean = false;
+      constructor(
+        private router: Router,
+        private authService: AuthService,
+        private route: ActivatedRoute
+      ) { }
+
+      ngOnInit(): void {
+      }
+
+      signIn(credentials:any) {
+        this.authService.login(credentials)
+          .subscribe(result => {
+            if(result) {          
+              let returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+              this.router.navigate([returnUrl || '/']);
+            }
+            else
+              this.invalidLogin = true;          
+          })
+      }
+
+    }
+  }
+
+    `,
+  titulo: 'Código 2 - Login Typescript',
+  pagina: 'login.component.ts'
+  }
+
   nomeInput = "nomeTeste";
   testeSwitch = 'mapa';
-  onKeyUp(valor:string) {
+  onKeyUp(valor: string) {
     var numberValue = Number(valor)
     this.courses = [];
-    if (numberValue > 0) 
+    if (numberValue > 0)
       this.courses.push(numberValue);
 
   }
 
-  onClickSendTotal(valor:string) {
+  onClickSendTotal(valor: string) {
     var numberValue = Number(valor);
     this.cursos = [];
     for (let index = 0; index < numberValue; index++) {
-      this.cursos.push({id: index, nome: 'Curso ' + index});      
+      this.cursos.push({ id: index, nome: 'Curso ' + index });
     }
   }
 
   trackby(index: number, curso: any) {
-    return curso ? curso.id  : undefined;
+    return curso ? curso.id : undefined;
   }
-  mySwitch : boolean = false;
-  switchPar : boolean = false;
-  switchImpar : boolean = false;
-  
+  mySwitch: boolean = false;
+  switchPar: boolean = false;
+  switchImpar: boolean = false;
+
 }

@@ -1,8 +1,10 @@
-export class AppError {
+export class AppError extends Error {
     /**
      *
      */
-    constructor(public originalError?: any) {       }
+    constructor(public originalError?: any) {
+        super();
+    }
 
 
 }

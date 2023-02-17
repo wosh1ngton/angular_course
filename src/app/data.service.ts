@@ -1,10 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, InjectionToken, Input } from '@angular/core';
-import { throwError } from 'rxjs';
-import { catchError, map, retry } from 'rxjs/operators';
+import { response } from 'express';
+import { catchError, throwError } from 'rxjs';
 import { AppError } from './common/app-error';
+import { BadAuthorization } from './common/bad-authorization';
 import { BadInput } from './common/bad-input';
 import { NotFoundError } from './common/not-found.error';
+
 
 export const MY_TOKEN = new InjectionToken<string>('MyToken');
 
@@ -15,21 +17,21 @@ export const MY_TOKEN = new InjectionToken<string>('MyToken');
 export class DataService {
   //@Input() private url: string = '';
   
-  constructor(private url: string, private http: HttpClient) { }
+  constructor(
+    private url: string, 
+    private http: HttpClient   
+    ) { }
   
 
   getAll() {
     return this.http.get(this.url)
-      .pipe(         
-          catchError(this.handleError)
-      );
+      // .pipe(         
+      //     catchError(this._handleError?.handleError!)
+      // );
   }
 
   delete(id: string) {
-    return this.http.get(this.url + '/' + id)
-      .pipe(           
-        catchError(this.handleError)        
-      )   
+    return this.http.get(this.url + '/' + id).pipe(catchError(this.handleError));
   }
 
   update(resource:any) {
@@ -52,7 +54,11 @@ export class DataService {
       return throwError(() => new BadInput(err));
 
     if(err.status === 404)             
-      return throwError(() => new NotFoundError());                          
+      return throwError(() => new NotFoundError());  
+      
+    if(err.status === 401)
+      return throwError(() => new BadAuthorization());
+
     return throwError(() => new AppError(err));
   }
 

@@ -22,17 +22,6 @@ server.use((req, res, next) => {
 });
 
 
-// server.post('/auth/login', (req, res) => {
-//     if (req.body.username === 'wos' && req.body.password === '123') {
-//         const status = 401;
-//         const message = 'email e/ou senha incorretos';
-//         res.status(status).json({ status, message });
-//         return
-//     } else {
-//         res.status(200);
-//     }
-// })
-
 function isAuthenticated({ username, password }) {
     return userdb.users.findIndex(user => user.username === username && user.password === password) !== -1;
 }
@@ -53,19 +42,16 @@ server.post('/auth/login', (req, res, next) => {
         const message = 'email e/ou senha incorretos';
         res.status(status).json({status,message});
         return
-    };
-    
-    const admin = JSON.stringify(userdb.users.find(obj => obj.username === req.body.username).admin);
-    
+    };    
+    const admin = JSON.stringify(userdb.users.find(obj => obj.username === req.body.username).admin);    
 
     const access_token = createToken({username,password,admin});
-    res.status(200).json({access_token});
-    //console.log(req.body); 
-    console.log({username,password,admin});
+    res.status(200).json({access_token});   
     
 })
 
-server.use(/^(?!\/api).*$/,  (req, res, next) => {
+server.use(/^(?!\/[auth | api]).*$/,  (req, res, next) => {
+    console.log(req.headers.authorization);
     if (req.headers.authorization === undefined || req.headers.authorization.split(' ')[0] !== 'Bearer') {
       const status = 401
       const message = 'Não autorizado!'

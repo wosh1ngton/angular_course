@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { map } from 'rxjs';
+import { catchError, map } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
@@ -20,22 +21,22 @@ export class AuthService {
   //     )
   // }
 
+// O erro interrompe o fluxo do processo
   login(credentials: any) {
-    const headers = { 'content-type': 'application/json'} ;
-    const body=JSON.stringify(credentials);
+    const headers = { 'content-type': 'application/json'} ;    
     return this.http.post('http://localhost:3000/auth/login',
       JSON.stringify(credentials), {'headers':headers}).pipe(
         map((response:any) => {
-          console.log(response);
+          console.log('passou antes aqui');
           if(response && response.access_token) {
-            localStorage.setItem("access_token", response.access_token);
-            return true;
+            localStorage.setItem("access_token", response.access_token);  
+            console.log('passou');
+            return true;            
           }
+          console.log('passou errado');
           return false;
-        })       
+        })        
       );  
-      
-      //return result;
   }
 
   exibir() {    
@@ -50,26 +51,20 @@ export class AuthService {
 
     
     let jwtHelper = new JwtHelperService();
-    
     let token = localStorage.getItem('access_token');
-    console.log("token com problema" + token);
+    
     if(!token)
       return false;
-
-    let expirationDate = jwtHelper.getTokenExpirationDate(token!);
-    let isExpired = jwtHelper.isTokenExpired(token);
-    console.log("Expiration Date", expirationDate)
-    console.log("Expiration?", isExpired);
+    
+    let isExpired = jwtHelper.isTokenExpired(token);    
     return !isExpired;
   }
 
   get currentUser() {
     let token = localStorage.getItem('access_token');
     if(!token) return null;
+    let jwtHelper = new JwtHelperService();   
 
-    let jwtHelper = new JwtHelperService();
-    let result= jwtHelper.decodeToken(token);
-    console.log(result);
     return jwtHelper.decodeToken(token);
   }
 

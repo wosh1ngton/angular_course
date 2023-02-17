@@ -3,6 +3,7 @@ import { AppError } from '../common/app-error';
 import { BadInput } from '../common/bad-input';
 import { NotFoundError } from '../common/not-found.error';
 import { PostService } from '../post.service';
+import { catchError, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-post',
@@ -44,17 +45,20 @@ export class PostComponent implements OnInit {
   }
 
   deletePost(post: HTMLInputElement) {
-    this.service.delete(post.id)
+    this.service.delete("88888")    
       .subscribe({
         next: () => {
+          console.log('passou')
           let index = this.posts.indexOf(post);
           this.posts.splice(index, 1);
         },
         error: (e: AppError) => {
+          console.log("error -> " + typeof(e));
           if (e instanceof NotFoundError) {
-            alert('Este post já foi deletado');
+            console.log('NotFOund founded!')
+            
           }
-          else throw e;
+          else {throw e;}
         }
       })
   }

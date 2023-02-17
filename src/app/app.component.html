@@ -4,7 +4,7 @@
     <div class="container-fluid">
       <a href="#" class="navbar-brand">
         <img src="../assets/AngularJS-Shield.svg" width="50px" height="55px" alt="">
-        <strong> Curso de Angular </strong>
+        <strong style="font-size: 15px"> Curso de Angular </strong>
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarPrincipal"
         aria-expanded="false" aria-label="Toggle navigation" aria-controls="navbarPrincipal">
@@ -12,8 +12,8 @@
         </span>
       </button>
 
-      <div class="collapse navbar-collapse" id="navbarPrincipal">
-        <ul class="navbar-nav">
+      <div class="collapse navbar-collapse flex-row d-flex " id="navbarPrincipal">
+        <ul class="navbar-nav lh-base" small>
           <li class="nav-item">
             <a href="#" class="nav-link" aria-current="page" (click)="menuEscolhido = 'Home'"
               [class.active]="menuEscolhido == 'Home'">Home</a>
@@ -28,11 +28,11 @@
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link" aria-current="page" (click)="menuEscolhido = 'Template'"
-              [class.active]="menuEscolhido == 'Template'">Template Driven</a>
+              [class.active]="menuEscolhido == 'Template'">TDD</a>
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link" aria-current="page" (click)="menuEscolhido = 'reactive'"
-              [class.active]="menuEscolhido == 'reactive'">Reactive Driven</a>
+              [class.active]="menuEscolhido == 'reactive'">RDD</a>
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link" aria-current="page" (click)="menuEscolhido = 'services'"
@@ -43,22 +43,28 @@
               [class.active]="menuEscolhido == 'routers'">Rotas</a>
           </li>
           <li class="nav-item">
+            <a href="#" class="nav-link" aria-current="page" (click)="menuEscolhido = 'autenticacao'"
+              [class.active]="menuEscolhido == 'autenticacao'">Autenticação</a>
+          </li>
+          <li class="nav-item">
             <a href="#" class="nav-link" aria-current="page" (click)="menuEscolhido = 'Outros'"
               [class.active]="menuEscolhido == 'Outros'">Outros</a>
-          </li>
+          </li>        
          
-          <li *ngIf="!authService.isLoggedIn()">
-            <a routerLink="/login"> Login </a>
-          </li>
-          <li *ngIf="authService.isLoggedIn()">
-            Olá {{authService.currentUser.username}}
-            <a (click)="authService.logout()"> Sair </a>
-            
-          </li>
-          <li  *ngIf="authService.isLoggedIn() && authService.currentUser.admin=='true'">
-            <a routerLink="/admin"> Adm </a>
-          </li>
         </ul>
+        <div class="p-1">
+          <span *ngIf="!authService.isLoggedIn()">
+            <a routerLink="/login"  > Login </a>
+          </span>
+          <span   *ngIf="authService.isLoggedIn()">
+            Olá {{authService.currentUser.username}}
+            <a (click)="authService.logout()" > [ Sair ] </a>
+            
+          </span>
+          <span  *ngIf="authService.isLoggedIn() && authService.currentUser.admin=='true'">
+            <a routerLink="/admin"> Adm </a>
+          </span>
+        </div>
       
       </div>
     </div>
@@ -1074,322 +1080,399 @@
         
         </div>
     </div>
+</div>
+<div *ngSwitchCase="'autenticacao'">
+  <app-submenus [subMenus]="menusAutenticacao" (menuAtivado)="updateViewMode($event)">    
+  </app-submenus>
+
    
-  <div *ngSwitchCase="'Outros'">
-    <app-submenus [subMenus]="outrosmenus" (menuAtivado)="updateViewMode($event)">    
-    </app-submenus>
-     <div [ngSwitch]="viewMode">
-        <div *ngSwitchCase="'ajax'">
-          <h4 class="mt-3"> Compreendendo Operações Assíncronas </h4>
-          <span>
-            Operação assíncrona é um processo que não bloqueia o fluxo principal de execução do programa 
-            enquanto aguarda o resultado. Em vez disso, a operação é executada em segundo plano e o resultado 
-            é retornado quando estiver disponível. Isso permite que o programa continue a executar outras 
-            tarefas enquanto aguarda o resultado da operação, aumentando a eficiência e evitando o 
-            travamento do programa.
+  <div [ngSwitch]="viewMode">
+    <div *ngSwitchCase="'visaogeral'">
+      <h5 class="mt-3">
+        Arquitetura proposta
+      </h5>
+      <p class="mt-3">
+        O esquema de autenticação proposto utiliza um json-server para simular o backend,
+        a implementação da regra de login será feita no json-server. a base de dados com as informações 
+        de usuário, senha e perfil será armazenada em um arquivo json.
+        O primeiro passo é instalar o json-server através do comando:
+      </p>
+      <code>npm install json-server --save-dev </code>
+      <p class="mt-3">
+        Também se faz necessário instalar o jwt-token pois será utilizado para autenticar o 
+        usuário no cliente, de maneira simples o usuário entra com usuário e senha o server 
+        verifica se os dados informados constam na base json e retorna para o cliente um token,
+        o token é salvo no navegador e passa a ser utilizado como meio para verificar se o 
+        usuário está ou não autenticado. Para instalar o jwt utilize o comando abaixo:
+      </p>
+      <code>npm install jsonwebtoken --save</code>
 
-            Exemplos comuns de operações assíncronas incluem requisições de rede, leitura de arquivos ou 
-            operações de banco de dados. Em aplicações web, por exemplo, uma operação assíncrona pode ser 
-            usada para carregar dados da API sem interromper a interação do usuário com a página.
-            <br />
-            O setTimeOut do js também é uma função assíncrona, uma vez que estabelece um tempo para 
-            execução e retorno do callback lançado, nesse intervalo, os demais processos rodam em paralelo
-            <br />
-            Em Javascript, para trabalhar com operações assíncronas utilizamos Observables ou Promises. 
-          </span>
-          <h4 class="mt-3">O que é uma Promise</h4>
-          <span class="mt-3">
-            Uma promise é a representação de um valor que pode estar disponível agora, no futuro, ou nunca.
-            <strong> é uma maneira de tratar operações assíncronas de forma mais simples e organizada.</strong>
-            Uma promise pode ter três estados: pendente (pending), resolvida (resolved) ou rejeitada (rejected).
-            Quando a operação assíncrona é iniciada, a Promise é criada com o estado pendente. Quando a operação 
-            assíncrona é concluída com sucesso, a Promise é resolvida com o valor resultante. Se a operação falhar,
-            a Promise é rejeitada com um erro. <br/>
-            As Promises podem ser usadas para lidar com a resposta de uma operação assíncrona, permitindo que você
-            escreva código de forma mais clara e organizada. Em vez de lidar com callbacks aninhados, você pode 
-            usar métodos como 'then' e 'catch' para manipular a resposta da Promise de forma linear.
-
-          
-          </span>
-        </div>
-        <div *ngSwitchCase="'observables'">
-            <h5 class="mt-3">
-              Definindo um Observable
-            </h5>
-            <span class="mt-3">
-              Um Observable é um contrato composto de algumas funcionalidades, ele deve definir um 
-              callback para manipular três tipos de notificações:
-              <table class="table table-stripped">
-                <thead>
-                  <tr>
-                    <th> Tipo </th>
-                    <th> Detalhes </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>next</td>
-                    <td>Parâmetro obrigatório, um handler para cada valor entregue. Chamado nenhuma ou mais vezes
-                      depois que a execução se inicia.
-                    </td>
-                    </tr>
-                    <tr>
-                      <td>error</td>
-                    <td>Opcional. Um handler para uma notificação de erro. Um erro para a execução da instância do 
-                      Observable
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>complete</td>
-                    <td> Opcional: Um handler para notificar a execução completa. Valores atrasados podem 
-                      continuar a serem entregues ao next handler depois que a execução é completa.
-                    </td>
-                  </tr>
-                  
-                </tbody>
-              </table>
-              <h5 class="mt-3">
-                Subscrevendo
-              </h5>
-              <p class="mt-3">
-                Uma instância de um Observable somente publica valores quando é subscrito. A subscrição é feita 
-                através do método subscribe() da instância, passando um observer object para receber as 
-                notificações.
-                Alguns métodos do RxJS podem ser usados para criar observables, são eles:               
-                
-              </p>
-              <table class="table table-stripped table-bordered">
-                <thead>
-                  <tr>
-                    <th>Método RxJS</th>
-                    <th>Detalhes</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>of(...items)</td>
-                    <td>Retorna uma instância de Observable que entrega os valores fornecidos como argumentos 
-                      de forma síncrona
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>from(iterable)</td>
-                    <td>Converte seus argumentos para uma instância de Observable. Usualmente utilizado para 
-                      converter uma array em um Observable.
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <p class="mt-3">
-                Uma função next() pode receber uma string message, event objects, valores numéricos,
-                ou estruturas, dependendo do contexto, em geral, os dados publicados por um observable 
-                são referenciados como um stream. Qualquer tipo de valor pode ser representado
-                com um observable, e os valores são publicados como um stream.
-              </p>
-         
-            </span>
-            <h5 class="mt-3">
-              Chamando um subscribe
-            </h5>
-            <p class="mt-3"> Uma maneira de chamar um subscribe é passando um objeto com 3 
-              valores nomeados, sendo que os dois último são opcionais, um next, um error e um complete.
-              Veja no exemplo abaixo:
-            </p>
-            <app-coder [parametros]="chamadaSubscribe"></app-coder>
-        </div>
-        <div *ngSwitchCase="'promise'">
-          <p class="mt-3">
-            Uma promise é uma promessa de que algo irá ou não irá ocorrer, utilizada na programação 
-            assíncrona para respresentar um valor futuro, se difencia do Observable pelo fato de que 
-            seu valor é tido por antecipação (Eager Load), enquanto que o Observable é lazy load,
-            é preciso subscrever o resultado para obtê-lo. 
-            Há muitos operators que só existem nos Observables, não sendo possível utilizá-los com 
-            promises, por isso é preferível utilizar os Observables.
-          </p>
-
-        </div>
-        <div *ngSwitchCase="'lifecycle'">
-          <h5 class="mt-3">Conceitos Gerais</h5>
-          <p class="mt-3">
-            Uma instância de componente tem um ciclo de vida, que inicia quando o Angular cria a 
-            instância do componente e renderiza o componente junto com seus childs items. O ciclo de vida 
-            continua com a detecção de alterações, a medida que o Angular verifica por alterações nos dados 
-            do componente, em ambos, componente e template. O ciclo de vida finaliza quando o Angular 
-            destrói a instância do componente e remove o template do DOM. As diretivas tem um ciclo 
-            de vida similar, a medida que o Angular cria, atualiza e destrói instâncias no curso da execução.
-            A aplicação pode utilizar métodos para manipular o ciclo de vida dos componentes e seus eventos.
-          </p>
-          <p class="mt-3">
-            Um exemplo de um life cycle event seria: Quando o Angular (criar ou renderizar, ou criar e renderizar 
-            seus filhos, destruir um componente) faça algo definido. Um destes eventos é o ngOnInit() o qual 
-            é criado automaticamente pelo CLI, observe que os componentes padrões levam a interface OnInit(),
-            a criação do componente por padrão implementa a interface OnInit() a qual possui a função 
-            ngOnInit(): void. Este método será invocado quando o componente for inicializado, ou seja, está 
-            associado ao life cycle hook de inicialização do componente.
-          </p>
-
-          <h5 class="mt-3">Os hook methods podem ser descritos conforme tabela abaixo </h5>
-          <table class="table table-stripped table-bordered">
-            <thead>
-              <tr>
-                <th>Hook Method</th>
-                <th>Propósito</th>
-                <th>Timing</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>ngOnChanges()</td>
-                <td>Acionado quando o Angular seta ou reseta data-bound input properties. O método recebe 
-                  um objeto SimpleChanges dos valores atuais e anteriores de uma property. (Observação:
-                  Isso acontece frequentemente, logo, qualquer operação aqui impacta significativamente a performance)
-                </td>
-                <td>
-                  Chamado antes do ngOnInit() (se o componente tiver bound-inputs) e sempre que um ou mais data-bound 
-                  input properties sejam alteradas. (Observação: Se o seu componente não possui inputs ou uso do componente
-                  sem acionamento dos inputs, o framework não invocará o ngOnChanges().
-                </td>
-              </tr>
-              <tr>
-                <td>ngOnInit()</td>
-                <td> Inicializa a diretiva ou componente depois do primeiro display dos data-bound properties 
-                  e atribuições das diretivas ou properties dos componentes.
-                </td>
-                <td>Chamado uma vez, depois do primeiro ngOnChanges(). é chamado inclusive quando o ngOnChanges() não é,
-                  caso onde não há template-bound inputs. </td>
-              </tr>
-              <tr>
-                <td>ngDoCheck()</td>
-                <td>Detecta e atua sob mudanças que o Angular não pode ou não vai detectar por si só.</td>
-                <td>Chamado imediatamente depois do ngOnChanges() em cada change detection, e imediamente depois 
-                  do ngOnInit() durante a execução inicial do componente.
-                </td>
-              </tr>
-              <tr>
-                <td>ngAfterContentInit()</td>
-                <td> Atual quando o Angular projeta conteúdo externo dentro dos component views, ou dentro da view 
-                  em que a diretiva está.
-                </td>
-                <td>Chamado uma única vez, depois do primeiro ngDoCheck()</td>
-              </tr>
-              <tr>
-                <td>ngAfterContentChecked()</td>
-                <td> Atua quando o Angular checa o conteúdo projetado dentro da diretiva ou componente.</td>
-                <td>Chamado depois do ngAfterContentInit() e para cada ngDoCheck()</td>
-              </tr>
-              <tr>
-                <td>ngAfterViewInit()	</td>
-                <td> Atua depois que o Angular inicializa os component views e chidls views, ou as views 
-                  que contém a diretiva
-                </td>
-                <td>Chamado uma vez, depois do ngAfterContentChecked()</td>
-              </tr>
-              <tr>
-                <td>ngAfterViewChecked()</td>
-                <td>Atua depois do Angular checar as comoponent views e child views, ou as views que contém as diretivas</td>
-                <td>Chamado depois do ngAfterViewInit() e em cada ngAfterContentChecked()</td>
-              </tr>
-              <tr>
-                <td>ngOnDestroy()	</td>
-                <td>Limpa tudo antes do Angular destruir a diretiva ou o componente. Unsubscribe Observables e 
-                  event handlers associados para evitar memory leaks.
-                </td>
-                <td>Chamado imediamente antes do Angular destruir a diretiva ou componente</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <h5 class="mt-3">Uso do ngOnInit()</h5>
-          <p class="mt-3">
-            Um exemplo clássico do uso de ngOnInit() é para fazer uma chamada remota de valores a serem 
-            exibidos na página, é comum o uso de chamadas https em sistemas de informação. Fazer essa chamada 
-            no construtor da aplicação não é aconselhável pois a criação do componente pelo construtor 
-            deve ser segura, consumir poucos recursos e ser simples. O método ngOnInit() pode ser utilizado 
-            para isso. Não é recomendável que construtores sejam complexos, eles devem se ater a iniciar variáveis 
-            locais para valores simples.
-          </p>
-        </div>
+      <p class="mt-3">
+        aproveite para instalar o nodemon para que o json-server fique sempre no estado watch,
+        atualizando automaticamente.
+        <code>npm install nodemon --save-dev </code>
+        Finalizadas estas instalações crie uma entrada em scripts no package.json para simplificar 
+        o start do seu servidor json. 
+        
+      </p>
+      <code> 
+        "start-auth": "nodemon server/server.js"
+      </code> 
+      <h5 class="mt-3">Criando a base de dados </h5>
+      <p class="mt-3">
+        Convém inicialmente criar uma estrutura de diretórios para armazenar o servidor json,
+        como será utilizado apenas para testes locais podemos criar dentro da pasta do projeto,
+        ficaria assim: 
        
-        <div *ngSwitchCase="'erros'">
-          <h5 class="mt-3">Tipos de Erros</h5>
-          <p class="mt-3">
-            Há pelo menos dois tipos de erros, os experados e os inesperados. sobre os erros inesperados 
-            podemos ainda subdividi-los em três tipos: <br />
-         
-             Servidor está offline; <br/>
-             Rede está off; (Server está on, mas o cliente não consegue alcançar, erro no endereço informado, por exemplo) <br/>
-             Exceções não tratadas. (Pode ser por conta de um bug) <br />
-          
-          </p>
-          <p class="mt-3"> Há pelos menos dois tipos gerais de erros esperados: <br />
-          Not Found errors (404); <br />
-          Bad Request errors (400) <br />
-          </p>
-          <h5 class="mt-3">Exemplos práticos</h5>
-          <p class="mt-3">
-            Um observable pode ser utilizado para retornar do servidor os erros de validação de um determinado 
-            formulário, esses erros podem ser subscritos e manipulados na property error do subscribe, veja o exemplo 
-            abaixo:
-          </p>
-          <app-coder [parametros]="subscribeComErros"></app-coder>
-          <p class="mt-3">
-            Observe que a segunda property do observable passado ao subscribe leva um parâmetro do tipo 
-            Response, esse parâmetro guarda uma array de erros e várias propriedades como o status do erro,
-            podendo ser um erro esperado, como o erro 400, para erros inesperados utilizamos o else.
-            Está comentado no código o this.form.setErrors(e), esse código passaria para um objeto form 
-            os erros retornados do servidor.
-          </p>
-          <h5 class="mt-3"> Separando as responsabilidades </h5>
-          <p class="mt-3">
-            O tratamento de erros deveria ser separado do componente, poderia estar na camada de serviços.
-            Para separar os conceitos vamos criar classes para o tratamento dos erros esperados,
-            NotFound e BadInput, ambas extendendo AppError. Assim, passamos a tratar os erros da nossa aplicação.
-            Na camada de serviços, utilizamos o método pipe para empilhar o mapeamento do response e capturarmos 
-            o erro, veja no código abaixo:                     
-            
-          </p>
-          <app-coder [parametros]="codigoPipeCatchError"></app-coder>
-          <p class="mt-3">
-            No exemplo, foi transferido pro serviço a responsabilidade de lidar com o erro na camada http.
-            ele verifica o status do erro e lança o erro para quem chamou o serviço. Na sequência o componente 
-            verifica o tipo de erro da aplicação pelo tipo da instância do erro. Veja o código 3:
-            
-          </p>
-          <app-coder [parametros]="codigoErroPostComponent"></app-coder>
-          <p class="mt-3">
-            o método é subscrito e em caso de erro ele verifica o tipo e exibe uma mensagem para o usuário.
-            O tipo do erro é uma implementação que não cabe ao componente e por isso foi delegado a camada 
-            de serviço essa verificação. Aqui no componente ele apenas verifica qual a classe do erro para que 
-            exiba a mensagem adequada.
-
-          </p>
-          <h5 class="mt-3">Criando um ErrorHandler global</h5>
-          <p class="mt-3">
-            Imagine que você tenha um erro comum a vários componentes, um erro inesperado por exemplo. É um erro que 
-            pode ser reutilizado e portanto não precisa repetir a mensagem em todos os componentes. Para 
-            criar um manipulador global de um erro, utilize a classe nativa do Angular, ErrorHandler, extenda a classe 
-            e implemente o erro. Veja o exemplo no código 4.
-          </p>
-          <app-coder [parametros]="codigoAppErrorHandler"></app-coder>
-          <p class="mt-3">Agora você precisa dizer ao Angular que toda vez que o ErrorHandler for 
-            chamado, ou seja, sempre que um erro acontecer, o Angular deve chamar o seu ErrorHandler 
-            e não o dele. Para isso é preciso ir no app.module.ts e dizer para substituir o provider 
-            ErrorHandler pelo AppErrorHandler, assim:
-
-
-          </p>
-          <app-coder [parametros]="codigoProviderErrorHandler"></app-coder>
-          <p class="mt-3">
-            Agora sempre que um erro inesperado ocorrer, utilize a instrução throw para lançar para o 
-            ErrorHandler. Caso o tipo de erro possível seja apenas um erro inesperado, sequer é preciso 
-            chamar o callback de error do subscribe, pois o ErrorHandler é chamado automaticamente.
-            Em casos em que há na pilha de erros do callback possíveis erros esperados, é preciso utilizar 
-            o callback para poder tratar os erros esperados, como no código abaixo, em que o método delete 
-            precisa da chamada do callback de error e o método ngOnInit não, pois só trata de erros 
-            inesperados.
-          </p>
-          <app-coder [parametros]="codigoThrowErrorHandler"></app-coder>
-        </div>
-     </div>
+      </p>
+      <pre>
+        /server
+          server.js
+        /data
+          db.json
+      </pre>
+      <p class="mt-3">
+        Abaixo o nosso db.json:
+      </p>
+     <app-coder [parametros]="codigoDbJson">
+     </app-coder>
+     <p class="mt-3">
+      Criado o banco de dados precisamos construir as telas de login, 
+      e implementar os detalhes no server. Os detalhes disso estão explicitados nas abas 
+      Cliente e Servidor do menu acima.
+     </p>
+    </div>
+    <div *ngSwitchCase="'cliente'">
+      <h5 class="mt-3">Componente de Login</h5>
+      <p class="mt-3">
+        O template de login tem um campo para usuário e outro para senha mais um botão para submeter
+        os dados informados.
+      </p>
+      <app-coder [parametros]="codigoTemplateLogin">
+      </app-coder>
+     <p class="mt-3">O TypeScript do login fica assim:</p>
+     <app-coder [parametros]="codigoTypeLogin"></app-coder>
+    </div>
+    <div *ngSwitchCase="'servidor'">
+  
+    </div>
   </div>
+</div>
+
+<div *ngSwitchCase="'Outros'">
+  <app-submenus [subMenus]="outrosmenus" (menuAtivado)="updateViewMode($event)">    
+  </app-submenus>
+   <div [ngSwitch]="viewMode">
+      <div *ngSwitchCase="'ajax'">
+        <h4 class="mt-3"> Compreendendo Operações Assíncronas </h4>
+        <span>
+          Operação assíncrona é um processo que não bloqueia o fluxo principal de execução do programa 
+          enquanto aguarda o resultado. Em vez disso, a operação é executada em segundo plano e o resultado 
+          é retornado quando estiver disponível. Isso permite que o programa continue a executar outras 
+          tarefas enquanto aguarda o resultado da operação, aumentando a eficiência e evitando o 
+          travamento do programa.
+
+          Exemplos comuns de operações assíncronas incluem requisições de rede, leitura de arquivos ou 
+          operações de banco de dados. Em aplicações web, por exemplo, uma operação assíncrona pode ser 
+          usada para carregar dados da API sem interromper a interação do usuário com a página.
+          <br />
+          O setTimeOut do js também é uma função assíncrona, uma vez que estabelece um tempo para 
+          execução e retorno do callback lançado, nesse intervalo, os demais processos rodam em paralelo
+          <br />
+          Em Javascript, para trabalhar com operações assíncronas utilizamos Observables ou Promises. 
+        </span>
+        <h4 class="mt-3">O que é uma Promise</h4>
+        <span class="mt-3">
+          Uma promise é a representação de um valor que pode estar disponível agora, no futuro, ou nunca.
+          <strong> é uma maneira de tratar operações assíncronas de forma mais simples e organizada.</strong>
+          Uma promise pode ter três estados: pendente (pending), resolvida (resolved) ou rejeitada (rejected).
+          Quando a operação assíncrona é iniciada, a Promise é criada com o estado pendente. Quando a operação 
+          assíncrona é concluída com sucesso, a Promise é resolvida com o valor resultante. Se a operação falhar,
+          a Promise é rejeitada com um erro. <br/>
+          As Promises podem ser usadas para lidar com a resposta de uma operação assíncrona, permitindo que você
+          escreva código de forma mais clara e organizada. Em vez de lidar com callbacks aninhados, você pode 
+          usar métodos como 'then' e 'catch' para manipular a resposta da Promise de forma linear.
+
+        
+        </span>
+      </div>
+      <div *ngSwitchCase="'observables'">
+          <h5 class="mt-3">
+            Definindo um Observable
+          </h5>
+          <span class="mt-3">
+            Um Observable é um contrato composto de algumas funcionalidades, ele deve definir um 
+            callback para manipular três tipos de notificações:
+            <table class="table table-stripped">
+              <thead>
+                <tr>
+                  <th> Tipo </th>
+                  <th> Detalhes </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>next</td>
+                  <td>Parâmetro obrigatório, um handler para cada valor entregue. Chamado nenhuma ou mais vezes
+                    depois que a execução se inicia.
+                  </td>
+                  </tr>
+                  <tr>
+                    <td>error</td>
+                  <td>Opcional. Um handler para uma notificação de erro. Um erro para a execução da instância do 
+                    Observable
+                  </td>
+                </tr>
+                <tr>
+                  <td>complete</td>
+                  <td> Opcional: Um handler para notificar a execução completa. Valores atrasados podem 
+                    continuar a serem entregues ao next handler depois que a execução é completa.
+                  </td>
+                </tr>
+                
+              </tbody>
+            </table>
+            <h5 class="mt-3">
+              Subscrevendo
+            </h5>
+            <p class="mt-3">
+              Uma instância de um Observable somente publica valores quando é subscrito. A subscrição é feita 
+              através do método subscribe() da instância, passando um observer object para receber as 
+              notificações.
+              Alguns métodos do RxJS podem ser usados para criar observables, são eles:               
+              
+            </p>
+            <table class="table table-stripped table-bordered">
+              <thead>
+                <tr>
+                  <th>Método RxJS</th>
+                  <th>Detalhes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>of(...items)</td>
+                  <td>Retorna uma instância de Observable que entrega os valores fornecidos como argumentos 
+                    de forma síncrona
+                  </td>
+                </tr>
+                <tr>
+                  <td>from(iterable)</td>
+                  <td>Converte seus argumentos para uma instância de Observable. Usualmente utilizado para 
+                    converter uma array em um Observable.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="mt-3">
+              Uma função next() pode receber uma string message, event objects, valores numéricos,
+              ou estruturas, dependendo do contexto, em geral, os dados publicados por um observable 
+              são referenciados como um stream. Qualquer tipo de valor pode ser representado
+              com um observable, e os valores são publicados como um stream.
+            </p>
+       
+          </span>
+          <h5 class="mt-3">
+            Chamando um subscribe
+          </h5>
+          <p class="mt-3"> Uma maneira de chamar um subscribe é passando um objeto com 3 
+            valores nomeados, sendo que os dois último são opcionais, um next, um error e um complete.
+            Veja no exemplo abaixo:
+          </p>
+          <app-coder [parametros]="chamadaSubscribe"></app-coder>
+      </div>
+      <div *ngSwitchCase="'promise'">
+        <p class="mt-3">
+          Uma promise é uma promessa de que algo irá ou não irá ocorrer, utilizada na programação 
+          assíncrona para respresentar um valor futuro, se difencia do Observable pelo fato de que 
+          seu valor é tido por antecipação (Eager Load), enquanto que o Observable é lazy load,
+          é preciso subscrever o resultado para obtê-lo. 
+          Há muitos operators que só existem nos Observables, não sendo possível utilizá-los com 
+          promises, por isso é preferível utilizar os Observables.
+        </p>
+
+      </div>
+      <div *ngSwitchCase="'lifecycle'">
+        <h5 class="mt-3">Conceitos Gerais</h5>
+        <p class="mt-3">
+          Uma instância de componente tem um ciclo de vida, que inicia quando o Angular cria a 
+          instância do componente e renderiza o componente junto com seus childs items. O ciclo de vida 
+          continua com a detecção de alterações, a medida que o Angular verifica por alterações nos dados 
+          do componente, em ambos, componente e template. O ciclo de vida finaliza quando o Angular 
+          destrói a instância do componente e remove o template do DOM. As diretivas tem um ciclo 
+          de vida similar, a medida que o Angular cria, atualiza e destrói instâncias no curso da execução.
+          A aplicação pode utilizar métodos para manipular o ciclo de vida dos componentes e seus eventos.
+        </p>
+        <p class="mt-3">
+          Um exemplo de um life cycle event seria: Quando o Angular (criar ou renderizar, ou criar e renderizar 
+          seus filhos, destruir um componente) faça algo definido. Um destes eventos é o ngOnInit() o qual 
+          é criado automaticamente pelo CLI, observe que os componentes padrões levam a interface OnInit(),
+          a criação do componente por padrão implementa a interface OnInit() a qual possui a função 
+          ngOnInit(): void. Este método será invocado quando o componente for inicializado, ou seja, está 
+          associado ao life cycle hook de inicialização do componente.
+        </p>
+
+        <h5 class="mt-3">Os hook methods podem ser descritos conforme tabela abaixo </h5>
+        <table class="table table-stripped table-bordered">
+          <thead>
+            <tr>
+              <th>Hook Method</th>
+              <th>Propósito</th>
+              <th>Timing</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>ngOnChanges()</td>
+              <td>Acionado quando o Angular seta ou reseta data-bound input properties. O método recebe 
+                um objeto SimpleChanges dos valores atuais e anteriores de uma property. (Observação:
+                Isso acontece frequentemente, logo, qualquer operação aqui impacta significativamente a performance)
+              </td>
+              <td>
+                Chamado antes do ngOnInit() (se o componente tiver bound-inputs) e sempre que um ou mais data-bound 
+                input properties sejam alteradas. (Observação: Se o seu componente não possui inputs ou uso do componente
+                sem acionamento dos inputs, o framework não invocará o ngOnChanges().
+              </td>
+            </tr>
+            <tr>
+              <td>ngOnInit()</td>
+              <td> Inicializa a diretiva ou componente depois do primeiro display dos data-bound properties 
+                e atribuições das diretivas ou properties dos componentes.
+              </td>
+              <td>Chamado uma vez, depois do primeiro ngOnChanges(). é chamado inclusive quando o ngOnChanges() não é,
+                caso onde não há template-bound inputs. </td>
+            </tr>
+            <tr>
+              <td>ngDoCheck()</td>
+              <td>Detecta e atua sob mudanças que o Angular não pode ou não vai detectar por si só.</td>
+              <td>Chamado imediatamente depois do ngOnChanges() em cada change detection, e imediamente depois 
+                do ngOnInit() durante a execução inicial do componente.
+              </td>
+            </tr>
+            <tr>
+              <td>ngAfterContentInit()</td>
+              <td> Atual quando o Angular projeta conteúdo externo dentro dos component views, ou dentro da view 
+                em que a diretiva está.
+              </td>
+              <td>Chamado uma única vez, depois do primeiro ngDoCheck()</td>
+            </tr>
+            <tr>
+              <td>ngAfterContentChecked()</td>
+              <td> Atua quando o Angular checa o conteúdo projetado dentro da diretiva ou componente.</td>
+              <td>Chamado depois do ngAfterContentInit() e para cada ngDoCheck()</td>
+            </tr>
+            <tr>
+              <td>ngAfterViewInit()	</td>
+              <td> Atua depois que o Angular inicializa os component views e chidls views, ou as views 
+                que contém a diretiva
+              </td>
+              <td>Chamado uma vez, depois do ngAfterContentChecked()</td>
+            </tr>
+            <tr>
+              <td>ngAfterViewChecked()</td>
+              <td>Atua depois do Angular checar as comoponent views e child views, ou as views que contém as diretivas</td>
+              <td>Chamado depois do ngAfterViewInit() e em cada ngAfterContentChecked()</td>
+            </tr>
+            <tr>
+              <td>ngOnDestroy()	</td>
+              <td>Limpa tudo antes do Angular destruir a diretiva ou o componente. Unsubscribe Observables e 
+                event handlers associados para evitar memory leaks.
+              </td>
+              <td>Chamado imediamente antes do Angular destruir a diretiva ou componente</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h5 class="mt-3">Uso do ngOnInit()</h5>
+        <p class="mt-3">
+          Um exemplo clássico do uso de ngOnInit() é para fazer uma chamada remota de valores a serem 
+          exibidos na página, é comum o uso de chamadas https em sistemas de informação. Fazer essa chamada 
+          no construtor da aplicação não é aconselhável pois a criação do componente pelo construtor 
+          deve ser segura, consumir poucos recursos e ser simples. O método ngOnInit() pode ser utilizado 
+          para isso. Não é recomendável que construtores sejam complexos, eles devem se ater a iniciar variáveis 
+          locais para valores simples.
+        </p>
+      </div>
+     
+      <div *ngSwitchCase="'erros'">
+        <h5 class="mt-3">Tipos de Erros</h5>
+        <p class="mt-3">
+          Há pelo menos dois tipos de erros, os experados e os inesperados. sobre os erros inesperados 
+          podemos ainda subdividi-los em três tipos: <br />
+       
+           Servidor está offline; <br/>
+           Rede está off; (Server está on, mas o cliente não consegue alcançar, erro no endereço informado, por exemplo) <br/>
+           Exceções não tratadas. (Pode ser por conta de um bug) <br />
+        
+        </p>
+        <p class="mt-3"> Há pelos menos dois tipos gerais de erros esperados: <br />
+        Not Found errors (404); <br />
+        Bad Request errors (400) <br />
+        </p>
+        <h5 class="mt-3">Exemplos práticos</h5>
+        <p class="mt-3">
+          Um observable pode ser utilizado para retornar do servidor os erros de validação de um determinado 
+          formulário, esses erros podem ser subscritos e manipulados na property error do subscribe, veja o exemplo 
+          abaixo:
+        </p>
+        <app-coder [parametros]="subscribeComErros"></app-coder>
+        <p class="mt-3">
+          Observe que a segunda property do observable passado ao subscribe leva um parâmetro do tipo 
+          Response, esse parâmetro guarda uma array de erros e várias propriedades como o status do erro,
+          podendo ser um erro esperado, como o erro 400, para erros inesperados utilizamos o else.
+          Está comentado no código o this.form.setErrors(e), esse código passaria para um objeto form 
+          os erros retornados do servidor.
+        </p>
+        <h5 class="mt-3"> Separando as responsabilidades </h5>
+        <p class="mt-3">
+          O tratamento de erros deveria ser separado do componente, poderia estar na camada de serviços.
+          Para separar os conceitos vamos criar classes para o tratamento dos erros esperados,
+          NotFound e BadInput, ambas extendendo AppError. Assim, passamos a tratar os erros da nossa aplicação.
+          Na camada de serviços, utilizamos o método pipe para empilhar o mapeamento do response e capturarmos 
+          o erro, veja no código abaixo:                     
+          
+        </p>
+        <app-coder [parametros]="codigoPipeCatchError"></app-coder>
+        <p class="mt-3">
+          No exemplo, foi transferido pro serviço a responsabilidade de lidar com o erro na camada http.
+          ele verifica o status do erro e lança o erro para quem chamou o serviço. Na sequência o componente 
+          verifica o tipo de erro da aplicação pelo tipo da instância do erro. Veja o código 3:
+          
+        </p>
+        <app-coder [parametros]="codigoErroPostComponent"></app-coder>
+        <p class="mt-3">
+          o método é subscrito e em caso de erro ele verifica o tipo e exibe uma mensagem para o usuário.
+          O tipo do erro é uma implementação que não cabe ao componente e por isso foi delegado a camada 
+          de serviço essa verificação. Aqui no componente ele apenas verifica qual a classe do erro para que 
+          exiba a mensagem adequada.
+
+        </p>
+        <h5 class="mt-3">Criando um ErrorHandler global</h5>
+        <p class="mt-3">
+          Imagine que você tenha um erro comum a vários componentes, um erro inesperado por exemplo. É um erro que 
+          pode ser reutilizado e portanto não precisa repetir a mensagem em todos os componentes. Para 
+          criar um manipulador global de um erro, utilize a classe nativa do Angular, ErrorHandler, extenda a classe 
+          e implemente o erro. Veja o exemplo no código 4.
+        </p>
+        <app-coder [parametros]="codigoAppErrorHandler"></app-coder>
+        <p class="mt-3">Agora você precisa dizer ao Angular que toda vez que o ErrorHandler for 
+          chamado, ou seja, sempre que um erro acontecer, o Angular deve chamar o seu ErrorHandler 
+          e não o dele. Para isso é preciso ir no app.module.ts e dizer para substituir o provider 
+          ErrorHandler pelo AppErrorHandler, assim:
+
+
+        </p>
+        <app-coder [parametros]="codigoProviderErrorHandler"></app-coder>
+        <p class="mt-3">
+          Agora sempre que um erro inesperado ocorrer, utilize a instrução throw para lançar para o 
+          ErrorHandler. Caso o tipo de erro possível seja apenas um erro inesperado, sequer é preciso 
+          chamar o callback de error do subscribe, pois o ErrorHandler é chamado automaticamente.
+          Em casos em que há na pilha de erros do callback possíveis erros esperados, é preciso utilizar 
+          o callback para poder tratar os erros esperados, como no código abaixo, em que o método delete 
+          precisa da chamada do callback de error e o método ngOnInit não, pois só trata de erros 
+          inesperados.
+        </p>
+        <app-coder [parametros]="codigoThrowErrorHandler"></app-coder>
+      </div>
+   </div>
 </div>
