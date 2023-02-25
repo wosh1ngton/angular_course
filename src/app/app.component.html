@@ -1,6 +1,6 @@
 <div class="container">
 
-  <nav class="navbar navbar-expand-md navbar-light bg-light">
+  <nav *ngIf="isNotLogin" class="navbar navbar-expand-md navbar-light bg-light">
     <div class="container-fluid">
       <a href="#" class="navbar-brand">
         <img src="../assets/AngularJS-Shield.svg" width="50px" height="55px" alt="">
@@ -69,9 +69,9 @@
       </div>
     </div>
   </nav>
-  
-  <router-outlet></router-outlet>
-  <div [ngSwitch]="menuEscolhido">
+  <router-outlet> </router-outlet>
+ 
+  <div *ngIf="isNotLogin" [ngSwitch]="menuEscolhido">
     
     <div *ngSwitchCase="'Diretivas'">
       <app-submenus [subMenus]="menusDiretivas" (menuAtivado)="updateViewMode($event)"> 
@@ -1091,6 +1091,14 @@
       <h5 class="mt-3">
         Arquitetura proposta
       </h5>
+
+      <p class="mt-3">
+        Abaixo uma abstração da arquitetura utilizada neste exemplo:
+      </p>
+
+      <img src="../assets/login.component.ts.png" width="1272px" />
+
+
       <p class="mt-3">
         O esquema de autenticação proposto utiliza um json-server para simular o backend,
         a implementação da regra de login será feita no json-server. a base de dados com as informações 
@@ -1152,10 +1160,66 @@
       </app-coder>
      <p class="mt-3">O TypeScript do login fica assim:</p>
      <app-coder [parametros]="codigoTypeLogin"></app-coder>
+      <p class="mt-3">
+        é uma classe que contém uma propriedade do tipo boolean chamada invalidLogin, essa propriedade 
+        armazena se a tentativa de login foi ou não bem sucedida, no construtor da classe temos injetado o 
+        authservice, que irá ser utilizado na chamada do método de login. Além deste serviço, o componente
+        também se utiliza do router service e do activatedRouteService, são usados para fazer o correto
+        redirecionamento quando da tentativa de login do usuário.
+        Repare também que o método signIn captura eventuais erros da aplicação e seta a propriedade invalidLogin
+        como verdadeira quando algum erro é capturado.
+      </p>
+      <h5 class="mt-3">Serviço de Login</h5>
+      <p class="mt-3">
+        O código de serviço de login fica assim:
+      </p>
+      <app-coder [parametros]="codigoAuthService"></app-coder>
+
+      <p class="mt-3">
+        esse serviço é responsável por chamar a API que faz a verificação de usuário e senha, além de outras
+        funcionalidades como o logout, verifica se o usuário está logado e também qual é o usuário logado.
+        O mais relevante para o nosso exemplo é o método login, que recebe as credenciais e utilizando do
+        método post do serviço httpClient do Angular faz uma chamada ao servidor (Json-Server), passa também
+        um cabeçalho informado que o content-type é do tipo json. A partir da resposta ele mapeia o response
+        e verifica se há uma resposta e um token, retornando verdadeiro criasse um token no cliente com os 
+        mesmos dados do token criados no servidor, exceto o secret, pois somente o server possui o secret.
+        Caso haja algum erro, o erro é lançado na pilha de execução.
+      </p>
     </div>
     <div *ngSwitchCase="'servidor'">
-  
+      <p class="mt-3">
+        Neste exemplo utilizamos o json-server para simular um servidor, mas provavelmente em uma aplicação real
+        o uso seria em uma plataforma asp.net ou Java. abaixo o código:        
+      </p>
+        <app-coder [parametros]="codigoServerJson"> </app-coder>
+      <p class="mt-3"> 
+        O uso do json-server não está no escopo deste tutorial, o importante aqui é compreender que o servidor
+        encapsula a responsabilidade pela regra de negócio de criação do token e pela autenticação.
+        A função isAuthenticated recebe o usuário e senha e verifica na nossa base de dados json se o par de chave 
+        valor estão na base, o server.post do endpoint /auth/login é o entry point do server devido a chamado do nosso
+       serviço de autenticação, que chama exatamente esse endpoint, passa um request que contém um body,
+       esse argumento é transmitido ao método isAuthenticated, caso o retorno seja falso um status 401 é retornado 
+       juntamente com a mensagem de 'email e /ou senha incorretos.', mas caso seja verdadeiro um token é criado a partir 
+       do usuário, senha, perfil e um retorno 200 é enviado.
+
+      </p>
     </div>
+    <div *ngSwitchCase="'autorizacao'">
+      <h5 class="mt-3">Autorização vs Autenticação</h5>
+        <p class="mt-3"> 
+          Agora que cuidamos da autenticação, partiremos para a autorização, com o que temos até agora não como impedir,
+          por exemplo, que alguém acesse diretamente a página localhost:4200/admin, ou seja, de nada adianta autenticarmos alguém 
+          se não pudermos avaliar se essa identidade possui autorização para acessar determinadas páginas, é o que faremos 
+          agora. Para utilizarmos a autorização, podemos lançar mão do serviço authservice, como no código abaixo:
+        </p>
+        <app-coder [parametros]="codigoAuthServiceCliente"> </app-coder>
+
+        <p class="mt-3">
+          Essa classe utiliza o serviço de autorização para redirecionar qualquer usuário que não seja administrador para
+          a página no-access, para isso, ela implementa a interface CanActivate, que possui um método de mesmo nome, basicamente 
+          este método retorna um booleano que decide se determinada rota será ou não ativada, no caso, a rota não será ativada se o retorno for false.
+        </p>
+      </div>
   </div>
 </div>
 

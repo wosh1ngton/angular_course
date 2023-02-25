@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { catchError, map } from 'rxjs';
+import { catchError, map, throwError } from 'rxjs';
 
 
 @Injectable({
@@ -11,15 +11,6 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  // login(credentials: any) {
-  //   return this.http.post('http://localhost:3000/auth/login',
-  //     JSON.stringify(credentials)).pipe(
-  //       map((response: any) => {
-  //         console.log(response);
-  //         return response;
-  //       })
-  //     )
-  // }
 
 // O erro interrompe o fluxo do processo
   login(credentials: any) {
@@ -35,7 +26,12 @@ export class AuthService {
           }
           console.log('passou errado');
           return false;
-        })        
+        }),
+        catchError(error => {
+          console.log('1 - oi');
+          var erro = throwError(() => error);          
+          return erro;
+        })       
       );  
   }
 

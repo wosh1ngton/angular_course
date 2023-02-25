@@ -1,20 +1,39 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { map, Subscription } from 'rxjs';
 import { AuthService } from './auth.service';
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  /**
-   *
-   */
-  constructor(protected authService: AuthService) { }
+export class AppComponent implements OnInit {
 
-  menuEscolhido = 'services';
+  isNotLogin = true;
+  routerSubscription: Subscription = new Subscription;
+
+  constructor(protected authService: AuthService, private route: ActivatedRoute, private router: Router) { }
+  ngOnInit(): void {
+
+    this.routerSubscription = this.router.events.subscribe(event => {
+      
+
+      if (event instanceof NavigationEnd) {
+        console.log(event.url)
+        this.isNotLogin = event.url != '/login'
+      }
+     
+    });
+  }
+
+  ngOnDestroy() {
+    this.routerSubscription.unsubscribe();
+  }
+  menuEscolhido = 'autenticacao';
   canSave = false;
-  viewMode = 'get';
+  viewMode = 'autorizacao';
 
   archives = [
     { 'year': 2020, 'month': 1 },
@@ -55,8 +74,9 @@ export class AppComponent {
   ]
   menusAutenticacao = [
     { id: 1, link: 'visaogeral', nome: 'Visão Geral' },
-    { id: 1, link: 'cliente', nome: 'Cliente' },
-    { id: 1, link: 'servidor', nome: 'Servidor' },
+    { id: 2, link: 'cliente', nome: 'Cliente' },
+    { id: 3, link: 'servidor', nome: 'Servidor' },
+    { id: 4, link: 'autorizacao', nome: 'Autorização' }
   ];
   menuServices = [
     { id: 1, link: 'servicos', nome: 'Serviços' },
@@ -1153,23 +1173,203 @@ export class AppComponent {
 
       signIn(credentials:any) {
         this.authService.login(credentials)
-          .subscribe(result => {
+          .subscribe({
+          next: result => {
+            console.log(result);
             if(result) {          
               let returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
               this.router.navigate([returnUrl || '/']);
             }
-            else
+          },
+          error: (e: AppError) => {                                      
               this.invalidLogin = true;          
-          })
-      }
-
+          }
+        }
+      )}
     }
   }
 
     `,
-  titulo: 'Código 2 - Login Typescript',
-  pagina: 'login.component.ts'
+    titulo: 'Código 2 - Login Typescript',
+    pagina: 'login.component.ts'
+  };
+
+
+  codigoAuthService = {
+    codigo: `
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { catchError, map, throwError } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+
+export class AuthService {
+
+  constructor(private http: HttpClient) { }
+
+  // O erro interrompe o fluxo do processo
+    login(credentials: any) {
+      const headers = { 'content-type': 'application/json'} ;    
+      return this.http.post('http://localhost:3000/auth/login',
+        JSON.stringify(credentials), {'headers':headers}).pipe(
+          map((response:any) => {            
+            if(response && response.access_token) {
+              localStorage.setItem("access_token", response.access_token);                
+              return true;            
+            }            
+            return false;
+          }),
+          catchError(error => {            
+            var erro = throwError(() => error);          
+            return erro;
+          })       
+        );  
+    }  
+
+    logout() {
+      localStorage.removeItem('access_token');
+    }
+
+    isLoggedIn() {
+      
+      let jwtHelper = new JwtHelperService();
+      let token = localStorage.getItem('access_token');
+      
+      if(!token)
+        return false;
+      
+      let isExpired = jwtHelper.isTokenExpired(token);    
+      return !isExpired;
+    }
+
+    get currentUser() {
+      let token = localStorage.getItem('access_token');
+      if(!token) return null;
+      let jwtHelper = new JwtHelperService();   
+
+      return jwtHelper.decodeToken(token);
+    }
+
   }
+`,
+titulo: 'Código 3 - serviço de login',
+pagina: `auth.service.ts`,
+}
+
+
+codigoServerJson = {
+  codigo: `
+  const jsonServer = require('json-server');
+  const server = jsonServer.create();
+  const router = jsonServer.router('./server/data/db.json');
+  const fs = require('fs');
+  const jwt = require('jsonwebtoken')
+  const middlewares = jsonServer.defaults();
+  const userdb = JSON.parse(fs.readFileSync('./server/data/db.json', 'UTF-8'));
+  
+  server.use(jsonServer.bodyParser);
+  //SECRET is only in the server.
+  const SECRET_KEY = '123456789'
+  const expiresIn = '1h'
+  
+  server.use((req, res, next) => {
+      res.header('Access-Control-Allow-Origin', 'http://localhost:4200')
+      res.header('Access-Control-Allow-Headers', '*')
+      next()
+  });
+  
+  
+  function isAuthenticated({ username, password }) {
+      return userdb.users.findIndex(user => user.username === username && user.password === password) !== -1;
+  }
+  //create token from a payload
+  function createToken(payload) {
+      console.log(payload);
+      return jwt.sign(payload, SECRET_KEY, {expiresIn});
+  }
+  
+  function verifyToken(token) {
+      return jwt.verify(token, SECRET_KEY, (err, decode) => decode !== undefined ? decode : err);
+  }
+  
+  server.post('/auth/login', (req, res, next) => {
+      const {username,password} = req.body;
+      if(isAuthenticated({username, password}) === false) {
+          const status = 401;
+          const message = 'email e/ou senha incorretos';
+          res.status(status).json({status,message});
+          return
+      };    
+      const admin = JSON.stringify(userdb.users.find(obj => obj.username === req.body.username).admin);    
+  
+      const access_token = createToken({username,password,admin});
+      res.status(200).json({access_token});   
+      
+  })
+  
+  server.use(/^(?!\/[auth | api]).*$/,  (req, res, next) => {
+      console.log(req.headers.authorization);
+      if (req.headers.authorization === undefined || req.headers.authorization.split(' ')[0] !== 'Bearer') {
+        const status = 401
+        const message = 'Não autorizado!'
+        res.status(status).json({status, message})
+        return
+      }
+      try {
+         verifyToken(req.headers.authorization.split(' ')[1])
+         next()
+      } catch (err) {
+        const status = 401
+        const message = 'Error: token de acesso inválido'
+        res.status(status).json({status, message})
+      }
+    })
+  
+  
+  server.use('/api', router);
+  server.use(middlewares);
+  server.use(router);
+  server.listen(3000, () => {
+      console.log('JSON Server está funcionando');
+  })
+  
+    
+  `,
+titulo: 'Código 1 - server',
+pagina: 'server.js'
+}
+
+codigoAuthServiceCliente = {
+  codigo: `
+import { Injectable } from '@angular/core';
+import { CanActivate, Router } from '@angular/router';
+import { AuthService } from './auth.service';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AdminAuthGuard implements CanActivate {
+
+  constructor(
+    private router: Router,
+    private authService: AuthService
+
+  ) { }
+
+  canActivate() {
+    if(this.authService.currentUser && this.authService.currentUser.admin === 'true') return true;
+
+    this.router.navigate(['no-access']);
+    return false;
+  }
+}
+`,
+titulo: 'Código 1 - Serviço de autorização para a página admin',
+pagina: 'admin-auth-guard-service.ts'
+}
 
   nomeInput = "nomeTeste";
   testeSwitch = 'mapa';

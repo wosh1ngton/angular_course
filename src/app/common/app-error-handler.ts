@@ -18,8 +18,10 @@ export class AppErrorHandler implements ErrorHandler {
             throw throwError (() => new NotFoundError());
         }
 
-        if (err.status === 401)
+        if (err.status === 401) {
+            console.log('bad autorização')
             throw new BadAuthorization();
+        }
 
         // alert("Um erro inesperado ocorreu");
         // console.log(err);

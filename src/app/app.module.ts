@@ -33,7 +33,7 @@ import { LoginComponent } from './login/login.component';
 import { AdminComponent } from './admin/admin.component';
 import { NoAccessComponent } from './no-access/no-access.component';
 import { AuthGuard } from './auth-guard.service';
-import { AdminAuthGuard } from './admin-auth-guard.service';
+import { AdminAuthGuardService } from './admin-auth-guard.service';
 
 const routes : Routes = [
   {path: '', component: HomeComponent },
@@ -46,7 +46,7 @@ const routes : Routes = [
   {
     path: 'admin', 
     component: AdminComponent, 
-    canActivate: [AuthGuard, AdminAuthGuard]
+    canActivate: [AuthGuard, AdminAuthGuardService]
   },
   {path: 'no-access', component: NoAccessComponent},
   {path: '**', component: NotFoundComponent },

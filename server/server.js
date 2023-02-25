@@ -3,13 +3,9 @@ const server = jsonServer.create();
 const router = jsonServer.router('./server/data/db.json');
 const fs = require('fs');
 const jwt = require('jsonwebtoken')
-
-//const bodyParser = require('body-parser');
 const middlewares = jsonServer.defaults();
 const userdb = JSON.parse(fs.readFileSync('./server/data/db.json', 'UTF-8'));
-//server.use(jsonServer.defaults());
 
-// server.use(bodyParser.urlencoded({extended: true}))
 server.use(jsonServer.bodyParser);
 //SECRET is only in the server.
 const SECRET_KEY = '123456789'
