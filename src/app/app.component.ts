@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { map, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { AuthService } from './auth.service';
 
 
@@ -10,7 +11,7 @@ import { AuthService } from './auth.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-
+  backgroundColor = environment.backgroundNavColor;
   isNotLogin = true;
   routerSubscription: Subscription = new Subscription;
 
@@ -31,9 +32,9 @@ export class AppComponent implements OnInit {
   ngOnDestroy() {
     this.routerSubscription.unsubscribe();
   }
-  menuEscolhido = 'autenticacao';
+  menuEscolhido = 'Outros';
   canSave = false;
-  viewMode = 'autorizacao';
+  viewMode = 'deploy';
 
   archives = [
     { 'year': 2020, 'month': 1 },
@@ -94,6 +95,7 @@ export class AppComponent implements OnInit {
     { id: 4, link: 'promisse', nome: 'Promisse' },
     { id: 5, link: 'lifecycle', nome: 'Lyfecycle hooks' },
     { id: 6, link: 'erros', nome: 'Tratamento de Erros' },
+    { id: 7, link: 'deploy', nome: 'Deploy' },
   ]
   menusRouters = [
     { id: 1, link: 'geral', nome: 'Visão Geral' },
@@ -1371,6 +1373,27 @@ titulo: 'Código 1 - Serviço de autorização para a página admin',
 pagina: 'admin-auth-guard-service.ts'
 }
 
+
+codigoRotaGuardCondicao = {
+  codigo: `
+  const routes : Routes = [
+    {path: '', component: HomeComponent, canActivate: [UnindentifiedGuardService] },
+    {path: 'followers/:id/:username', component: PerfilComponent },
+    {path: 'followers', component: FollowersComponent },      
+    {path: 'posts', component: PostComponent },  
+    {path: 'archive/:year/:month', component: ArchiveComponent },
+    {path: 'archive', component: ArchiveComponent},
+    {path: 'login', component: LoginComponent },
+    {
+      path: 'admin', 
+      component: AdminComponent, 
+      canActivate: [AuthGuard, AdminAuthGuardService]
+    },
+  
+  `,
+  titulo: 'Código 2 - array de rotas',
+  pagina: 'app.module.ts'
+}
   nomeInput = "nomeTeste";
   testeSwitch = 'mapa';
   onKeyUp(valor: string) {

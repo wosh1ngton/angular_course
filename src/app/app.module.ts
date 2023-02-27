@@ -34,9 +34,10 @@ import { AdminComponent } from './admin/admin.component';
 import { NoAccessComponent } from './no-access/no-access.component';
 import { AuthGuard } from './auth-guard.service';
 import { AdminAuthGuardService } from './admin-auth-guard.service';
+import { UnindentifiedGuardService } from './unindentified-guard.service';
 
 const routes : Routes = [
-  {path: '', component: HomeComponent },
+  {path: '', component: HomeComponent, canActivate: [UnindentifiedGuardService] },
   {path: 'followers/:id/:username', component: PerfilComponent },
   {path: 'followers', component: FollowersComponent },      
   {path: 'posts', component: PostComponent },  

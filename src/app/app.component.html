@@ -1,6 +1,6 @@
 <div class="container">
 
-  <nav *ngIf="isNotLogin" class="navbar navbar-expand-md navbar-light bg-light">
+  <nav [style.backgroundColor]="backgroundColor" *ngIf="isNotLogin" class="navbar navbar-expand-md navbar-light bg-light">
     <div class="container-fluid">
       <a href="#" class="navbar-brand">
         <img src="../assets/AngularJS-Shield.svg" width="50px" height="55px" alt="">
@@ -1218,7 +1218,11 @@
           Essa classe utiliza o serviço de autorização para redirecionar qualquer usuário que não seja administrador para
           a página no-access, para isso, ela implementa a interface CanActivate, que possui um método de mesmo nome, basicamente 
           este método retorna um booleano que decide se determinada rota será ou não ativada, no caso, a rota não será ativada se o retorno for false.
+          Um detalhe final é que é preciso dizer, na constate que guarda as rotas da aplicação, a condição de ativação para as rotas,
+          informando o authguard como sendo a condição, assim:
         </p>
+        <app-coder [parametros]="codigoRotaGuardCondicao"></app-coder>
+        
       </div>
   </div>
 </div>
@@ -1459,6 +1463,18 @@
       </div>
      
       <div *ngSwitchCase="'erros'">
+        <h5> Princípios gerais de exceções</h5>
+        <p class="mt-3">
+          As exceções são propagadas quando erros ou eventos inesperados ocorrem durante a execução de um
+          programa. Quando uma exceção é lançada, o fluxo regular do programa é interrompido, um erro é lançado
+          na pilha de chamadas, um catch poderá capturar o erro e tratá-lo, caso não exista um catch o error handler
+          padrão da linguagem irá ser acionado.
+          O bloco catch é utilizado para capturar/tratar o erro lançado, recuperando do erro ou finalizando 
+          o programa de uma maneira organizada, manipulando o erro e dando feedback ao usuário.
+          Para compreender o funcionamento do tratamento de exceções, é também importante compreender a pilha
+          de chamadas (callstack) de uma exceção. Quando uma exceção é lançada uma estrutura de dados armazena
+          a ordem em que os objetos e funções foram chamados.
+        </p>
         <h5 class="mt-3">Tipos de Erros</h5>
         <p class="mt-3">
           Há pelo menos dois tipos de erros, os experados e os inesperados. sobre os erros inesperados 
@@ -1538,5 +1554,71 @@
         </p>
         <app-coder [parametros]="codigoThrowErrorHandler"></app-coder>
       </div>
+      <div *ngSwitchCase="'deploy'">
+        <h5 class="mt-3">
+          Implantando a sua aplicação
+        </h5>
+        <p class="mt-3">
+          A implantação de uma aplicação precisa levar em conta que ambiente de desenvolvimento e produção,
+          usualmente, possui alguma diferenças e portanto, você não vai querer copiar exatamente o que você
+          tem no ambiente de desenvolvimento para o ambiente de testes. a pasta node_modules, por exemplo,
+          é muito grande e não precisa ser copiada por inteiro, podemos, ao invés disso, utilizar o package.json
+          para baixar os pacotes necessários no servidor de produção.
+          Outra questão que chama atenção são os arquivos bundles, que são amontoados de arquivos js em um
+          único arquivo, para economizar chamadas de procedimento, ao invés do server chamar vários arquivos 
+          js, ele chama um único que contém todas as funções necessárias.
+        </p>
+        <h5 class="mt-3"> Técnicas de otimização </h5>
+        <h6> Minification</h6>
+        <p class="mt-3">Consiste em tirar os espaços em brancos, normalmente arquivos minificados são
+          nomeados da seguinte forma arquivo.min.js  </p>
+
+          <h6> Uglification </h6>
+          <p class="mt-3">Consiste em reduzir o nome das classes e métodos a duas letras, por exemplo:
+            HomeComponent se transforma em hC, onClick()vira oc().
+          </p>
+
+          <h6>Bundling</h6>
+          <p class="mt-3">
+            É a combinação de múltiplos  arquivos javascript em um só, dessa forma a aplicação executa o download 
+            apenas uma vez, ao invés de fazer várias requisições.
+          </p>
+          <h6 class="mt-3">Eliminação de código morto</h6>
+          <p class="mt-3"> Elimina códigos que não são utilizado em parte alguma da aplicação, libraries ou código</p>
+          <h6 class="mt-3">Ahead-of-time (AOT) compilation </h6>
+          <p class="mt-3">
+            Angular compiler transforma código javascript em outro código javascript, e o compilador atua
+            Just in Time, a desvantagem dessa abordagem é que para cada usuário o compilador terá 
+            que executar a compilação de toda a aplicação, quanto mais componentes, mais lenta fica, é ineficiente
+            para produção. Uma outra abordagem é utilizar a o modelo AOT (ahead of time),
+            nesse modelo a compilação é feita antes do deploy e não é preciso fazê-la para cada usuário,
+            o usuário irá baixar o arquivo final pré-compilado, assim a aplicação iniciará mais rápido,
+            os bundles possuem tamanho menor, os erros do template podem ser capturados em tempo de compilação,
+            já que nesse modelo a compilação não é em tempo de execução. Este modelo também é mais seguro.
+          </p>
+          <h5 class="mt-3">Building</h5>
+          <p class="mt-3">
+            As configurações de build de produção estão dentro do arquivo angular.json, dentro da chave "build" -> "configuration" 
+            onde há pelo menos três configurações, production, development e test. a pasta dist, na raiz da aplicação
+            corresponde a aplicação compilada com os arquivos necessários para a aplicação funcionar. Esta pasta é a versão
+            otimizada, minificada e com os assets necessários para levar a pasta para produção.
+          </p>
+          <h5 class="mt-3">Ambientes</h5>
+          <p class="mt-3">
+            usualmente os arquivos de definição de ambiente, "environment", são encontrados na pasta
+            app/environments, dentro dessa pasta, por padrão, existem dois arquivos typescript, um para o
+            ambiente de produção "environment.prod.ts e outro para desenvolvimento: environment.ts.
+            basicamente eles contêm um objeto de mesmo nome com a propertie production setada para true 
+            e false, respectivamente, por motivos óbvios.
+          </p>
+          <h5 class="mt-3">Linter</h5>
+          <p class="mt-3">
+            É um tipo de programa que verifica se seu código obedece as melhores práticas de
+            programação e organização do código, um linter conhecido é o tslint. 
+          </p>
+     </div>
    </div>
+
+  
+
 </div>
