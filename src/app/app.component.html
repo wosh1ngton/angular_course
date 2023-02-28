@@ -1614,7 +1614,15 @@
           <h5 class="mt-3">Linter</h5>
           <p class="mt-3">
             É um tipo de programa que verifica se seu código obedece as melhores práticas de
-            programação e organização do código, um linter conhecido é o tslint. 
+            programação e organização do código, um linter conhecido é utilizado pelo Angular é o
+            EsLint. para ativá-lo é preciso instalar o pacote @angular-eslint/schematics e suas dependências,
+            para configuração utilize o comando ng add @angular-eslint/schematics, ele irá criar o arquivo de configuração do eslint, nesta versão
+            o arquivo se chama .eslintrc.json.
+            para ver as recomendações de melhoria no código e possíveis erros tecle ng lint. Com o comando 
+            ng lint --fix é possível consertar os erros e warnings passíveis de reparo.
+            O EsLint também pode ser utilizado através do VsCode, para isso, bastar baixar a extensão correspondente.
+            Fazendo isso, as mudanças sugeridas ficam visíveis já nos arquivos e podem ser vistas também na 
+            árvore de arquivos, com um número mostrando a quantidade de issues encontradas.
           </p>
      </div>
    </div>
