@@ -29,26 +29,14 @@ import { HomeComponent } from './home/home.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ArchiveComponent } from './archive/archive.component';
-import { LoginComponent } from './login/login.component';
-import { AdminComponent } from './admin/admin.component';
 import { NoAccessComponent } from './no-access/no-access.component';
-import { AuthGuard } from './auth-guard.service';
-import { AdminAuthGuardService } from './admin-auth-guard.service';
-import { UnindentifiedGuardService } from './unindentified-guard.service';
 
-const routes : Routes = [
-  {path: '', component: HomeComponent, canActivate: [UnindentifiedGuardService] },
+const routes : Routes = [  
   {path: 'followers/:id/:username', component: PerfilComponent },
   {path: 'followers', component: FollowersComponent },      
   {path: 'posts', component: PostComponent },  
   {path: 'archive/:year/:month', component: ArchiveComponent },
-  {path: 'archive', component: ArchiveComponent},
-  {path: 'login', component: LoginComponent },
-  {
-    path: 'admin', 
-    component: AdminComponent, 
-    canActivate: [AuthGuard, AdminAuthGuardService]
-  },
+  {path: 'archive', component: ArchiveComponent},  
   {path: 'no-access', component: NoAccessComponent},
   {path: '**', component: NotFoundComponent },
 ]
@@ -78,8 +66,6 @@ const routes : Routes = [
     FollowersComponent,
     PerfilComponent,
     ArchiveComponent,
-    LoginComponent,
-    AdminComponent,
     NoAccessComponent
   ],
   imports: [

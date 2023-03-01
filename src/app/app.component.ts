@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { AuthService } from './auth.service';
-
 
 @Component({
   selector: 'app-root',
@@ -15,7 +13,7 @@ export class AppComponent implements OnInit {
   isNotLogin = true;
   routerSubscription: Subscription = new Subscription;
 
-  constructor(protected authService: AuthService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private route: ActivatedRoute, private router: Router) { }
   ngOnInit(): void {
 
     this.routerSubscription = this.router.events.subscribe(event => {
