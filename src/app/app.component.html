@@ -52,19 +52,7 @@
           </li>        
          
         </ul>
-        <div class="p-1">
-          <span *ngIf="!authService.isLoggedIn()">
-            <a routerLink="/login"  > Login </a>
-          </span>
-          <span   *ngIf="authService.isLoggedIn()">
-            Olá {{authService.currentUser.username}}
-            <a (click)="authService.logout()" > [ Sair ] </a>
-            
-          </span>
-          <span  *ngIf="authService.isLoggedIn() && authService.currentUser.admin=='true'">
-            <a routerLink="/admin"> Adm </a>
-          </span>
-        </div>
+        
       
       </div>
     </div>
@@ -1666,7 +1654,7 @@
 
           <h6 class="mt-3"> Heroku </h6>
           <p class="mt-3">
-            Plataforma em nuvem que permite que você crie, monitore e faça deploy de suas aplicação.
+            É um PASS (Plataform as a service) Plataforma em nuvem que permite que você crie, monitore e faça deploy de suas aplicação.
             Possui suporte para várias linguagens e plataformas é clean e possui vasta documentação.
           </p>
      </div>
