@@ -10,6 +10,7 @@ server.use(jsonServer.bodyParser);
 //SECRET is only in the server.
 const SECRET_KEY = '123456789'
 const expiresIn = '1h'
+const server_origin = window.location.origin;
 
 server.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', 'http://localhost:4200')

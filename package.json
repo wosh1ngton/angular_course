@@ -8,7 +8,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "mock:server": "nodemon server/server.js --ext js,ts,json,html",
-    "start-auth": "nodemon server/server.js"
+    "start-auth": "nodemon server/server.js",
+    "deploy:firebase": "ng build && firebase deploy"
   },
   "private": true,
   "dependencies": {

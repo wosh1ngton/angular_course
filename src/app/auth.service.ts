@@ -7,15 +7,17 @@ import { catchError, map, throwError } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
+
 export class AuthService {
 
+  private server_path = window.location.hostname
   constructor(private http: HttpClient) { }
-
+  
 
 // O erro interrompe o fluxo do processo
   login(credentials: any) {
     const headers = { 'content-type': 'application/json'} ;    
-    return this.http.post('http://localhost:3000/auth/login',
+    return this.http.post('https://'+this.server_path+':3000/auth/login',
       JSON.stringify(credentials), {'headers':headers}).pipe(
         map((response:any) => {
           console.log('passou antes aqui');
@@ -23,12 +25,10 @@ export class AuthService {
             localStorage.setItem("access_token", response.access_token);  
             console.log('passou');
             return true;            
-          }
-          console.log('passou errado');
+          }          
           return false;
         }),
-        catchError(error => {
-          console.log('1 - oi');
+        catchError(error => {          
           var erro = throwError(() => error);          
           return erro;
         })       
@@ -36,7 +36,7 @@ export class AuthService {
   }
 
   exibir() {    
-    return this.http.get('http://localhost:3000/api/users')    
+    return this.http.get(this.server_path+':3000/api/users')    
   }
 
   logout() {
