@@ -1,0 +1,34 @@
+<h5 class="mt-3">Componente de Login</h5>
+<p class="mt-3">
+  O template de login tem um campo para usuário e outro para senha mais um botão para submeter
+  os dados informados.
+</p>
+<app-coder [parametros]="codigoTemplateLogin">
+</app-coder>
+<p class="mt-3">O TypeScript do login fica assim:</p>
+<app-coder [parametros]="codigoTypeLogin"></app-coder>
+<p class="mt-3">
+  é uma classe que contém uma propriedade do tipo boolean chamada invalidLogin, essa propriedade 
+  armazena se a tentativa de login foi ou não bem sucedida, no construtor da classe temos injetado o 
+  authservice, que irá ser utilizado na chamada do método de login. Além deste serviço, o componente
+  também se utiliza do router service e do activatedRouteService, são usados para fazer o correto
+  redirecionamento quando da tentativa de login do usuário.
+  Repare também que o método signIn captura eventuais erros da aplicação e seta a propriedade invalidLogin
+  como verdadeira quando algum erro é capturado.
+</p>
+<h5 class="mt-3">Serviço de Login</h5>
+<p class="mt-3">
+  O código de serviço de login fica assim:
+</p>
+<app-coder [parametros]="codigoAuthService"></app-coder>
+
+<p class="mt-3">
+  esse serviço é responsável por chamar a API que faz a verificação de usuário e senha, além de outras
+  funcionalidades como o logout, verifica se o usuário está logado e também qual é o usuário logado.
+  O mais relevante para o nosso exemplo é o método login, que recebe as credenciais e utilizando do
+  método post do serviço httpClient do Angular faz uma chamada ao servidor (Json-Server), passa também
+  um cabeçalho informado que o content-type é do tipo json. A partir da resposta ele mapeia o response
+  e verifica se há uma resposta e um token, retornando verdadeiro criasse um token no cliente com os 
+  mesmos dados do token criados no servidor, exceto o secret, pois somente o server possui o secret.
+  Caso haja algum erro, o erro é lançado na pilha de execução.
+</p>

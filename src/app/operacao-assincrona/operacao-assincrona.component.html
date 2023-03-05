@@ -1,0 +1,31 @@
+<h4 class="mt-3"> Compreendendo Operações Assíncronas </h4>
+<span>
+  Operação assíncrona é um processo que não bloqueia o fluxo principal de execução do programa 
+  enquanto aguarda o resultado. Em vez disso, a operação é executada em segundo plano e o resultado 
+  é retornado quando estiver disponível. Isso permite que o programa continue a executar outras 
+  tarefas enquanto aguarda o resultado da operação, aumentando a eficiência e evitando o 
+  travamento do programa.
+
+  Exemplos comuns de operações assíncronas incluem requisições de rede, leitura de arquivos ou 
+  operações de banco de dados. Em aplicações web, por exemplo, uma operação assíncrona pode ser 
+  usada para carregar dados da API sem interromper a interação do usuário com a página.
+  <br />
+  O setTimeOut do js também é uma função assíncrona, uma vez que estabelece um tempo para 
+  execução e retorno do callback lançado, nesse intervalo, os demais processos rodam em paralelo
+  <br />
+  Em Javascript, para trabalhar com operações assíncronas utilizamos Observables ou Promises. 
+</span>
+<h4 class="mt-3">O que é uma Promise</h4>
+<span class="mt-3">
+  Uma promise é a representação de um valor que pode estar disponível agora, no futuro, ou nunca.
+  <strong> é uma maneira de tratar operações assíncronas de forma mais simples e organizada.</strong>
+  Uma promise pode ter três estados: pendente (pending), resolvida (resolved) ou rejeitada (rejected).
+  Quando a operação assíncrona é iniciada, a Promise é criada com o estado pendente. Quando a operação 
+  assíncrona é concluída com sucesso, a Promise é resolvida com o valor resultante. Se a operação falhar,
+  a Promise é rejeitada com um erro. <br/>
+  As Promises podem ser usadas para lidar com a resposta de uma operação assíncrona, permitindo que você
+  escreva código de forma mais clara e organizada. Em vez de lidar com callbacks aninhados, você pode 
+  usar métodos como 'then' e 'catch' para manipular a resposta da Promise de forma linear.
+
+
+</span>

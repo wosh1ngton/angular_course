@@ -8,8 +8,7 @@
           <li class="nav-item" 
           routerLinkActive="active current" *ngFor="let menu of subMenus">           
             <a class="nav-link"             
-            [routerLink]="menu.link"           
-            (click)="ativarSubMenu(menu.link)"             
+            [routerLink]="menu.link"                              
             aria-current="page">
                 {{ menu.nome }}
             </a>
@@ -18,3 +17,4 @@
       </div>
     </div>
   </nav>
+  

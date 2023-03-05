@@ -1,0 +1,13 @@
+Antes de falarmos do FormBuilder é importante compreender o que é um Builder dentro do paradigma
+de programação orientado a objetos, um builder é um padrão de criação de objetos, geralmente utilizado 
+em estruturas mais complexas onde um objeto é fruto de uma composição de outros objetos.
+Veja um exemplo da instanciação de um FormGroup padrão (código 1) e em seguida o mesmo resultado 
+utilizando o FormBuilder.
+<app-coder [parametros]="codigoFormBuilder"></app-coder>
+
+<p class="mt-3">
+  Veja que o padrão builder separa a representação do objeto da sua lógica de construção,
+  ele precisa de um construtor para criar o builder, esse builder possui métodos parar criar objetos da família 
+  de formulários. Veja também que o código que o FormBuilder gera é menor do que a construção 
+  do FormGroup.
+</p>

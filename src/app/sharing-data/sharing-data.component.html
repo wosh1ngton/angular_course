@@ -1,0 +1,114 @@
+<h3> Compartilhamento de Dados </h3>
+<div>
+    <h5> Input e Outputs properties </h5>
+    <span>
+        Quando trabalhamos com componentes, eventualmente necessitamos utilizar suas propriedades e
+        seus métodos para passar o estado do componente e reagir a eventos disparados, para isso,
+        utilizamos Input e Output properties, a isso dá-se o nome de "public API". Sem as anotações
+        de Input e Output não é possível utilizar property binding e event binding no componente.
+    </span> <br />
+
+    <span>
+        Os decorators @Input() e @Output() permitem o compartilhamento de dados entre child e parent
+        directives e components, o @Input() permite que o componente pai atualize dados no componente
+        filho, já o @Output() permite que o elemento filho envie dados para o elemento pai.
+    </span>
+
+    <h4 class="mt-3"> Enviando dados para um elemento filho </h4>
+
+
+    O @Input() decorator em um elemento filho ou diretiva significa que a propriedade pode
+    receber seu valor de um componente pai, ele passa a ser uma entrada de dados.
+    <br />
+    <code>
+              @Input => Parent => Child.
+            </code>
+    <br>
+    Para utilizar o @Input é preciso configurar parent e child elements. o @Input é declarado
+    onde se pretende receber o valor <br />
+    <code>
+            @Input() item = '';
+            </code>
+    <br />
+    item pode ser de qualquer tipo, inclusive um objeto, o valor de item vem do componente pai.
+    No template do componente filho, tem-se:
+    <br />
+    <code>
+              {{textoInputP}}
+            </code>
+    <br>
+    <span>
+        No componente pai, fazemos o property binding propriamente dito, neste caso estamos
+        trabalhando no app-component como sendo o componente pai, pois ele engloba o componente
+        app-item-detail.
+    </span>
+    <br>
+    <code>{{textoInputCP}}</code>
+    <br>
+    <span>
+        Agora basta passar o valor para a input property, esse valor, no nosso exemplo é o currentItem,
+        considerando que o child element recebe o valor, quem passa é o parent element, no nosso exemplo, o valor
+        virá do AppComponent.
+    </span>
+    <br>
+    <code> {{textoInputValor}}</code>
+
+
+    <h4 class="mt-3"> Enviando dados para o componente pai</h4>
+    <span>
+        o @Output decorator em um componente filho ou diretiva permite o fluxo de dados do filho para o pai.
+        o componente filho utiliza o @Output decorator para subir um evento para notificar o componente pai
+        da mudança, para subir o evento, um @Output precisa ter o tipo EventEmitter, que é uma classe do
+        @angular/core que utilizamos para emitir eventos customizados.
+        O exemplo a seguir mostra como configurar um @Output() em um componente filho que envia dados de um
+        HTML para uma array no componente pai. Para usar o @Output() é preciso configurar parent e child.
+    </span>
+
+    <h5> Configurando o componente filho </h5>
+    <span> O componente emissor do evento precisa de uma property com a tag de @Output
+        e precisa de um método que lance o evento. Suponha então que na child class tenha-se o
+        seguinte cenário:
+    </span>
+    <pre class="bg-light"> {{ textoOutputP }} </pre>
+
+    <h5> Configurando o template do elemento filho</h5>
+    <span>
+        Ao clicar no botão o método addNewItem() do componente é acionado, ele possui como parâmetro
+        o valor da template variable #newItem, que nada mais é que o valor que o usuário irá
+        informar no campo de texto
+    </span>
+    <pre class="bg-light">
+              {{ textoOutputEF }}
+            </pre>
+    <h5>Configurando o componente pai</h5>
+    <span>
+        Neste exemplo, utilizamos o AppComponent, o qual terá uma lista de itens e um método
+        para adicionar mais itens. o método addItem() irá receber o argumento, no exemplo,
+        uma string.
+    </span>
+    <pre class="bg-light">
+                {{textoCodigoAddItem}}
+              </pre>
+
+    <h5>Configurando o template do elemento pai</h5>
+
+    <span>
+        No template, (app.component.html), linkamos o método do elemento pai (addItem()), com o
+        evento, marcado como @Output no elemento filho (newItemEvent). Essa chamada é feita na
+        tag do elemento filho, assim:
+
+        <pre class="bg-light">
+                  {{textoCodigoChamada}}
+                </pre>
+
+
+    </span>
+    <span>
+        O event binding, (newItemEvent)='addItem($event)', liga o evento do elemento filho ao
+        método do elemento pai. o objeto $event contém os dados que o usuário informa no . Para ver
+        o @Output() funcionando, adicione o seguinte no parent's template:
+    </span>
+
+    <pre class="bg-light">
+                {{textoExibicao}}
+              </pre>

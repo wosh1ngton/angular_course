@@ -1,0 +1,83 @@
+<h5 class="mt-3">
+    Definindo um Observable
+  </h5>
+  <span class="mt-3">
+    Um Observable é um contrato composto de algumas funcionalidades, ele deve definir um 
+    callback para manipular três tipos de notificações:
+    <table class="table table-stripped">
+      <thead>
+        <tr>
+          <th> Tipo </th>
+          <th> Detalhes </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>next</td>
+          <td>Parâmetro obrigatório, um handler para cada valor entregue. Chamado nenhuma ou mais vezes
+            depois que a execução se inicia.
+          </td>
+          </tr>
+          <tr>
+            <td>error</td>
+          <td>Opcional. Um handler para uma notificação de erro. Um erro para a execução da instância do 
+            Observable
+          </td>
+        </tr>
+        <tr>
+          <td>complete</td>
+          <td> Opcional: Um handler para notificar a execução completa. Valores atrasados podem 
+            continuar a serem entregues ao next handler depois que a execução é completa.
+          </td>
+        </tr>
+        
+      </tbody>
+    </table>
+    <h5 class="mt-3">
+      Subscrevendo
+    </h5>
+    <p class="mt-3">
+      Uma instância de um Observable somente publica valores quando é subscrito. A subscrição é feita 
+      através do método subscribe() da instância, passando um observer object para receber as 
+      notificações.
+      Alguns métodos do RxJS podem ser usados para criar observables, são eles:               
+      
+    </p>
+    <table class="table table-stripped table-bordered">
+      <thead>
+        <tr>
+          <th>Método RxJS</th>
+          <th>Detalhes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>of(...items)</td>
+          <td>Retorna uma instância de Observable que entrega os valores fornecidos como argumentos 
+            de forma síncrona
+          </td>
+        </tr>
+        <tr>
+          <td>from(iterable)</td>
+          <td>Converte seus argumentos para uma instância de Observable. Usualmente utilizado para 
+            converter uma array em um Observable.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="mt-3">
+      Uma função next() pode receber uma string message, event objects, valores numéricos,
+      ou estruturas, dependendo do contexto, em geral, os dados publicados por um observable 
+      são referenciados como um stream. Qualquer tipo de valor pode ser representado
+      com um observable, e os valores são publicados como um stream.
+    </p>
+
+  </span>
+  <h5 class="mt-3">
+    Chamando um subscribe
+  </h5>
+  <p class="mt-3"> Uma maneira de chamar um subscribe é passando um objeto com 3 
+    valores nomeados, sendo que os dois último são opcionais, um next, um error e um complete.
+    Veja no exemplo abaixo:
+  </p>
+  <app-coder [parametros]="chamadaSubscribe"></app-coder>

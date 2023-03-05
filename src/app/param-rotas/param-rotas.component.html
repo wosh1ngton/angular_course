@@ -1,0 +1,16 @@
+<h5 class="mt-3">Criando parâmetros opcionais</h5>
+<p class="mt-3">
+  Para criar parâmetros opcionais utilizamos o queryParamMap
+</p>
+<ul class="list-group">
+  <li class="list-group-item" *ngFor="let archive of archives">
+      <a [routerLink]="['archive', archive.year, archive.month]"> {{archive.year}}/{{archive.month}}</a>
+  </li>
+</ul>
+
+<p class="mt-3">
+  Clique em um link para ativar a rota com dois parâmetros, conforme é possível visualizar na 
+  barra de endereços. Ao clicar no link o router-outlet é ativado e exibido o componente associado 
+  ao router-link que foi clicado. lembrando que essa associação é definida no app.module.ts, associação 
+  path -> component, onde definimos as rotas da nossa aplicação.
+</p>

@@ -1,0 +1,16 @@
+<p class="mt-3">
+    Neste exemplo utilizamos o json-server para simular um servidor, mas provavelmente em uma aplicação real
+    o uso seria em uma plataforma asp.net ou Java. abaixo o código:        
+  </p>
+    <app-coder [parametros]="codigoServerJson"> </app-coder>
+  <p class="mt-3"> 
+    O uso do json-server não está no escopo deste tutorial, o importante aqui é compreender que o servidor
+    encapsula a responsabilidade pela regra de negócio de criação do token e pela autenticação.
+    A função isAuthenticated recebe o usuário e senha e verifica na nossa base de dados json se o par de chave 
+    valor estão na base, o server.post do endpoint /auth/login é o entry point do server devido a chamado do nosso
+   serviço de autenticação, que chama exatamente esse endpoint, passa um request que contém um body,
+   esse argumento é transmitido ao método isAuthenticated, caso o retorno seja falso um status 401 é retornado 
+   juntamente com a mensagem de 'email e /ou senha incorretos.', mas caso seja verdadeiro um token é criado a partir 
+   do usuário, senha, perfil e um retorno 200 é enviado.
+
+  </p>

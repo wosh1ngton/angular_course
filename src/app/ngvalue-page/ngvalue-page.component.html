@@ -1,0 +1,34 @@
+<span>
+    Ao trabalhar com formulários, eventualmente queremos enviar não apenas um id através de um 
+    select box, mas sim o objeto como um todo, imagine a seguinte situação, você tem um tipo de contato 
+    e gostaria que ao selecionar o o tipo de contato o objeto fosse integralmente enviado, tanto o id como
+    o nome do tipo de contato.
+    <br />
+    o objeto seria algo como:
+    <pre class="bg-light">
+      {{textoObjetoContact}}
+    </pre>
+
+    o select box seria assim:
+
+    <pre class="bg-light">
+      {{textoSelectBox}}
+    </pre>
+    <app-selectbo>
+
+    </app-selectbo>
+
+  </span>
+  <span>
+    Com essa abordagem somente o property bind de value é acionado, e somente o id do método de contato
+    é enviado, mas isso não é o que queremos, queremos o objeto todo, para enviar o objeto todo basta
+    substituir [value] por [ngValue] e contacts.id por contacts. Assim:                
+    
+  </span>
+  <pre class="bg-light">
+    {{textoNgValue}}
+  </pre>
+
+  <app-select-box2>
+
+  </app-select-box2>

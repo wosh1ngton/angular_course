@@ -1,0 +1,90 @@
+<h5> Princípios gerais de exceções</h5>
+<p class="mt-3">
+  As exceções são propagadas quando erros ou eventos inesperados ocorrem durante a execução de um
+  programa. Quando uma exceção é lançada, o fluxo regular do programa é interrompido, um erro é lançado
+  na pilha de chamadas, um catch poderá capturar o erro e tratá-lo, caso não exista um catch o error handler
+  padrão da linguagem irá ser acionado.
+  O bloco catch é utilizado para capturar/tratar o erro lançado, recuperando do erro ou finalizando 
+  o programa de uma maneira organizada, manipulando o erro e dando feedback ao usuário.
+  Para compreender o funcionamento do tratamento de exceções, é também importante compreender a pilha
+  de chamadas (callstack) de uma exceção. Quando uma exceção é lançada uma estrutura de dados armazena
+  a ordem em que os objetos e funções foram chamados.
+</p>
+<h5 class="mt-3">Tipos de Erros</h5>
+<p class="mt-3">
+  Há pelo menos dois tipos de erros, os experados e os inesperados. sobre os erros inesperados 
+  podemos ainda subdividi-los em três tipos: <br />
+
+   Servidor está offline; <br/>
+   Rede está off; (Server está on, mas o cliente não consegue alcançar, erro no endereço informado, por exemplo) <br/>
+   Exceções não tratadas. (Pode ser por conta de um bug) <br />
+
+</p>
+<p class="mt-3"> Há pelos menos dois tipos gerais de erros esperados: <br />
+Not Found errors (404); <br />
+Bad Request errors (400) <br />
+</p>
+<h5 class="mt-3">Exemplos práticos</h5>
+<p class="mt-3">
+  Um observable pode ser utilizado para retornar do servidor os erros de validação de um determinado 
+  formulário, esses erros podem ser subscritos e manipulados na property error do subscribe, veja o exemplo 
+  abaixo:
+</p>
+<app-coder [parametros]="subscribeComErros"></app-coder>
+<p class="mt-3">
+  Observe que a segunda property do observable passado ao subscribe leva um parâmetro do tipo 
+  Response, esse parâmetro guarda uma array de erros e várias propriedades como o status do erro,
+  podendo ser um erro esperado, como o erro 400, para erros inesperados utilizamos o else.
+  Está comentado no código o this.form.setErrors(e), esse código passaria para um objeto form 
+  os erros retornados do servidor.
+</p>
+<h5 class="mt-3"> Separando as responsabilidades </h5>
+<p class="mt-3">
+  O tratamento de erros deveria ser separado do componente, poderia estar na camada de serviços.
+  Para separar os conceitos vamos criar classes para o tratamento dos erros esperados,
+  NotFound e BadInput, ambas extendendo AppError. Assim, passamos a tratar os erros da nossa aplicação.
+  Na camada de serviços, utilizamos o método pipe para empilhar o mapeamento do response e capturarmos 
+  o erro, veja no código abaixo:                     
+  
+</p>
+<app-coder [parametros]="codigoPipeCatchError"></app-coder>
+<p class="mt-3">
+  No exemplo, foi transferido pro serviço a responsabilidade de lidar com o erro na camada http.
+  ele verifica o status do erro e lança o erro para quem chamou o serviço. Na sequência o componente 
+  verifica o tipo de erro da aplicação pelo tipo da instância do erro. Veja o código 3:
+  
+</p>
+<app-coder [parametros]="codigoErroPostComponent"></app-coder>
+<p class="mt-3">
+  o método é subscrito e em caso de erro ele verifica o tipo e exibe uma mensagem para o usuário.
+  O tipo do erro é uma implementação que não cabe ao componente e por isso foi delegado a camada 
+  de serviço essa verificação. Aqui no componente ele apenas verifica qual a classe do erro para que 
+  exiba a mensagem adequada.
+
+</p>
+<h5 class="mt-3">Criando um ErrorHandler global</h5>
+<p class="mt-3">
+  Imagine que você tenha um erro comum a vários componentes, um erro inesperado por exemplo. É um erro que 
+  pode ser reutilizado e portanto não precisa repetir a mensagem em todos os componentes. Para 
+  criar um manipulador global de um erro, utilize a classe nativa do Angular, ErrorHandler, extenda a classe 
+  e implemente o erro. Veja o exemplo no código 4.
+</p>
+<app-coder [parametros]="codigoAppErrorHandler"></app-coder>
+<p class="mt-3">Agora você precisa dizer ao Angular que toda vez que o ErrorHandler for 
+  chamado, ou seja, sempre que um erro acontecer, o Angular deve chamar o seu ErrorHandler 
+  e não o dele. Para isso é preciso ir no app.module.ts e dizer para substituir o provider 
+  ErrorHandler pelo AppErrorHandler, assim:
+
+
+</p>
+<app-coder [parametros]="codigoProviderErrorHandler"></app-coder>
+<p class="mt-3">
+  Agora sempre que um erro inesperado ocorrer, utilize a instrução throw para lançar para o 
+  ErrorHandler. Caso o tipo de erro possível seja apenas um erro inesperado, sequer é preciso 
+  chamar o callback de error do subscribe, pois o ErrorHandler é chamado automaticamente.
+  Em casos em que há na pilha de erros do callback possíveis erros esperados, é preciso utilizar 
+  o callback para poder tratar os erros esperados, como no código abaixo, em que o método delete 
+  precisa da chamada do callback de error e o método ngOnInit não, pois só trata de erros 
+  inesperados.
+</p>
+<app-coder [parametros]="codigoThrowErrorHandler"></app-coder>

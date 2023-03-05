@@ -1,0 +1,114 @@
+<h5 class="mt-3">
+    Implantando a sua aplicação
+  </h5>
+  <p class="mt-3">
+    A implantação de uma aplicação precisa levar em conta que ambiente de desenvolvimento e produção,
+    usualmente, possui alguma diferenças e portanto, você não vai querer copiar exatamente o que você
+    tem no ambiente de desenvolvimento para o ambiente de testes. a pasta node_modules, por exemplo,
+    é muito grande e não precisa ser copiada por inteiro, podemos, ao invés disso, utilizar o package.json
+    para baixar os pacotes necessários no servidor de produção.
+    Outra questão que chama atenção são os arquivos bundles, que são amontoados de arquivos js em um
+    único arquivo, para economizar chamadas de procedimento, ao invés do server chamar vários arquivos 
+    js, ele chama um único que contém todas as funções necessárias.
+  </p>
+  <h5 class="mt-3"> Técnicas de otimização </h5>
+  <h6> Minification</h6>
+  <p class="mt-3">Consiste em tirar os espaços em brancos, normalmente arquivos minificados são
+    nomeados da seguinte forma arquivo.min.js  </p>
+
+    <h6> Uglification </h6>
+    <p class="mt-3">Consiste em reduzir o nome das classes e métodos a duas letras, por exemplo:
+      HomeComponent se transforma em hC, onClick()vira oc().
+    </p>
+
+    <h6>Bundling</h6>
+    <p class="mt-3">
+      É a combinação de múltiplos  arquivos javascript em um só, dessa forma a aplicação executa o download 
+      apenas uma vez, ao invés de fazer várias requisições.
+    </p>
+    <h6 class="mt-3">Eliminação de código morto</h6>
+    <p class="mt-3"> Elimina códigos que não são utilizado em parte alguma da aplicação, libraries ou código</p>
+    <h6 class="mt-3">Ahead-of-time (AOT) compilation </h6>
+    <p class="mt-3">
+      Angular compiler transforma código javascript em outro código javascript, e o compilador atua
+      Just in Time, a desvantagem dessa abordagem é que para cada usuário o compilador terá 
+      que executar a compilação de toda a aplicação, quanto mais componentes, mais lenta fica, é ineficiente
+      para produção. Uma outra abordagem é utilizar a o modelo AOT (ahead of time),
+      nesse modelo a compilação é feita antes do deploy e não é preciso fazê-la para cada usuário,
+      o usuário irá baixar o arquivo final pré-compilado, assim a aplicação iniciará mais rápido,
+      os bundles possuem tamanho menor, os erros do template podem ser capturados em tempo de compilação,
+      já que nesse modelo a compilação não é em tempo de execução. Este modelo também é mais seguro.
+    </p>
+    <h5 class="mt-3">Building</h5>
+    <p class="mt-3">
+      As configurações de build de produção estão dentro do arquivo angular.json, dentro da chave "build" -> "configuration" 
+      onde há pelo menos três configurações, production, development e test. a pasta dist, na raiz da aplicação
+      corresponde a aplicação compilada com os arquivos necessários para a aplicação funcionar. Esta pasta é a versão
+      otimizada, minificada e com os assets necessários para levar a pasta para produção.
+    </p>
+    <h5 class="mt-3">Ambientes</h5>
+    <p class="mt-3">
+      usualmente os arquivos de definição de ambiente, "environment", são encontrados na pasta
+      app/environments, dentro dessa pasta, por padrão, existem dois arquivos typescript, um para o
+      ambiente de produção "environment.prod.ts e outro para desenvolvimento: environment.ts.
+      basicamente eles contêm um objeto de mesmo nome com a propertie production setada para true 
+      e false, respectivamente, por motivos óbvios.
+    </p>
+    <h5 class="mt-3">Linter</h5>
+    <p class="mt-3">
+      É um tipo de programa que verifica se seu código obedece as melhores práticas de
+      programação e organização do código, um linter conhecido é utilizado pelo Angular é o
+      EsLint. para ativá-lo é preciso instalar o pacote @angular-eslint/schematics e suas dependências,
+      para configuração utilize o comando ng add @angular-eslint/schematics, ele irá criar o arquivo de configuração do eslint, nesta versão
+      o arquivo se chama .eslintrc.json.
+      para ver as recomendações de melhoria no código e possíveis erros tecle ng lint. Com o comando 
+      ng lint --fix é possível consertar os erros e warnings passíveis de reparo.
+      O EsLint também pode ser utilizado através do VsCode, para isso, bastar baixar a extensão correspondente.
+      Fazendo isso, as mudanças sugeridas ficam visíveis já nos arquivos e podem ser vistas também na 
+      árvore de arquivos, com um número mostrando a quantidade de issues encontradas.
+    </p>
+
+    <h5 class="mt-3"> Opções de Deploy </h5>
+    <h6 class="mt-3">GitHub</h6>
+    <p class="mt-3">
+      Recomendável especialmente se você está trabalhando exclusivamente com o front end, não é possível
+      usar o github para hospedar suas APIs. Em cenários onde sua aplicação consome uma API de uma outra 
+      aplicação, faz sentido o uso do gitHub, a API no caso tem versionamento e implantação independente
+      da sua aplicação frontEnd.
+    </p>
+    <h6 class="mt-3">publicando no github</h6>
+    <p class="mt-3">
+      primeiro, acesse sua conta no GitHub, crie um novo repositório. Em seguida você vai precisar
+      registrar o seu repositório remoto (o que você acabou de criar) no seu ambiente local de desenvolvimento,
+      o próprio github te mostra como fazer isso, te dando inclusive o comando, o qual seria da
+      seguinte maneira: 
+    </p>
+    <code> git remote add origin https://github.com/user/repository.git </code>
+    <p class="mt-3"> Onde user e repository são seu usuário e repositório criado. Este 
+      comando deve ser dado dentro de um repositório github, no seu ambiente de desenvolvimento,
+      quando você criar um projeto angular com o CLI, automaticamente ele cria pra você um repositório
+      git.
+      Para subir seu projeto (fazer o deploy para o github), basta dar o comando abaixo:
+    </p>
+    <code>git push origin master</code>
+    <p class="mt-3">
+      o comando push empurra o código da branch origin para a branch master do seu repositório remoto.
+    </p>
+    <h6 class="mt-3"> Firebase </h6>
+    <p class="mt-3">
+      Solução construída pelo Google, que serve como repositório e host de aplicações,
+      funciona na nuvem é uma solução escalável para base de dados, possui alta produtividade.
+      Para fazer a implantação pelo Firebase, basta seguir os seguintes passos:
+      0) Através da plataforma web, crie um projeto no firebase
+      1) Instale o firebase-tools através do npm i firebase-tools.
+      2) logue no firebase através do firebase login, uma página web se abrirá para que você 
+      faça o login
+      3) comande com firebase init para transformar o projeto local em um projeto firebase
+      4) comande com firebase deploy para fazer o deploy.
+    </p>
+
+    <h6 class="mt-3"> Heroku </h6>
+    <p class="mt-3">
+      É um PASS (Plataform as a service) Plataforma em nuvem que permite que você crie, monitore e faça deploy de suas aplicação.
+      Possui suporte para várias linguagens e plataformas é clean e possui vasta documentação.
+    </p>

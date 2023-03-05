@@ -1,0 +1,16 @@
+<p class="mt-3">
+    O método post do HTTPClient possui 15 overloads e portanto várias implementações,
+    usualmente leva 3 parâmetros, a url, o body e as options http (opcionais). Como todo método httpclient 
+    ele retorna um Observable de alguma coisa, pode ser um ArrayBuffer, um blob, uma string um
+    evento, etc..
+  </p>
+  <app-coder [parametros]="codigoHttpClientPost"></app-coder>
+  <p class="mt-3">
+    O createPost recebe um input text field como parâmetro, faz uma chamada http post, esse método 
+    passa a url onde se deseja postar e como segundo argumento passa o valor postado no input. 
+    por último subscreve as alterações para ser notificado a medida que elas ocorrerem, a subscrição 
+    adiciona o valor postado no server a lista de posts, usa a função splice para adicionar no 
+    início da lista e não no final, como seria se fosse utilizado o push. <br />
+    Teste o código inserindo um dado qualquer.
+  </p>
+  <app-post></app-post>

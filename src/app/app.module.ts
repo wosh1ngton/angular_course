@@ -30,8 +30,122 @@ import { PerfilComponent } from './perfil/perfil.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ArchiveComponent } from './archive/archive.component';
 import { NoAccessComponent } from './no-access/no-access.component';
+import { DiretivaPageComponent } from './diretiva-page/diretiva-page.component';
+import { NgSwitchComponent } from './ng-switch/ng-switch.component';
+import { NgForComponent } from './ng-for/ng-for.component';
+import { NgClassComponent } from './ng-class/ng-class.component';
+import { NgStyleComponent } from './ng-style/ng-style.component';
+import { ComponentPageComponent } from './component-page/component-page.component';
+import { VisaoGeralComponentComponent } from './visao-geral-component/visao-geral-component.component';
+import { ViewEncapsulationComponent } from './view-encapsulation/view-encapsulation.component';
+import { SharingDataComponent } from './sharing-data/sharing-data.component';
+import { TemplateDrivenComponent } from './template-driven/template-driven.component';
+import { ReactiveDrivenComponent } from './reactive-driven/reactive-driven.component';
+import { RotaComponent } from './rota/rota.component';
+import { AutenticacaoComponent } from './autenticacao/autenticacao.component';
+import { OutrosPageComponent } from './outros-page/outros-page.component';
+import { ServicesComponent } from './services/services.component';
+import { ValidacaoPageComponent } from './validacao-page/validacao-page.component';
+import { NgformPageComponent } from './ngform-page/ngform-page.component';
+import { NgvaluePageComponent } from './ngvalue-page/ngvalue-page.component';
+import { ReactiveDrivenOverviewComponent } from './reactive-driven-overview/reactive-driven-overview.component';
+import { ValidacaoRdComponent } from './validacao-rd/validacao-rd.component';
+import { ValidacaoAssincronaComponent } from './validacao-assincrona/validacao-assincrona.component';
+import { ValidacaoFromComponent } from './validacao-from/validacao-from.component';
+import { FormArrayComponent } from './form-array/form-array.component';
+import { FormBuilderComponent } from './form-builder/form-builder.component';
+import { ServicesOverviewComponent } from './services-overview/services-overview.component';
+import { HttpGetComponent } from './http-get/http-get.component';
+import { HttpPostComponent } from './http-post/http-post.component';
+import { HttpPatchComponent } from './http-patch/http-patch.component';
+import { HttpDeleteComponent } from './http-delete/http-delete.component';
+import { DataServiceComponent } from './data-service/data-service.component';
+import { OverviewRotasComponent } from './overview-rotas/overview-rotas.component';
+import { InfoRotasComponent } from './info-rotas/info-rotas.component';
+import { ParamRotasComponent } from './param-rotas/param-rotas.component';
+import { OverviewAuthComponent } from './overview-auth/overview-auth.component';
+import { ClienteAuthComponent } from './cliente-auth/cliente-auth.component';
+import { ServidorAuthComponent } from './servidor-auth/servidor-auth.component';
+import { AutorizacaoComponent } from './autorizacao/autorizacao.component';
+import { OperacaoAssincronaComponent } from './operacao-assincrona/operacao-assincrona.component';
+import { DiComponent } from './di/di.component';
+import { ObservableComponent } from './observable/observable.component';
+import { PromisseComponent } from './promisse/promisse.component';
+import { CicloDeVidaComponent } from './ciclo-de-vida/ciclo-de-vida.component';
+import { TratamentoDeErrosComponent } from './tratamento-de-erros/tratamento-de-erros.component';
+import { DeployComponent } from './deploy/deploy.component';
 
 const routes : Routes = [  
+  {path: '', component: HomeComponent },
+  {path: 'diretivas', component: DiretivaPageComponent,
+    children: [
+      {path: 'if', component: NgifComponent },
+      {path: 'switch', component: NgSwitchComponent },
+      {path: 'for', component: NgForComponent },
+      {path: 'ngclasse', component: NgClassComponent },
+      {path: 'ngestilo', component: NgStyleComponent },
+    ]
+  },  
+  {path: 'componentes', component: ComponentPageComponent,
+    children : [
+      {path: 'overview', component: VisaoGeralComponentComponent },
+      {path: 'viewencapsualtion', component: ViewEncapsulationComponent },
+      {path: 'sharingdata', component: SharingDataComponent },
+    ] 
+  },
+  {path: 'template-driven', component: TemplateDrivenComponent,
+    children: [
+      {path: 'validacao', component: ValidacaoPageComponent},
+      {path: 'forms', component: NgformPageComponent},
+      {path: 'ng-values', component: NgvaluePageComponent},
+    ]
+  },
+  {path: 'reactive-driven', component: ReactiveDrivenComponent,
+    children: [
+      {path: 'visaogeral', component: ReactiveDrivenOverviewComponent },
+      {path: 'validacaoCustomizada', component: ValidacaoRdComponent },
+      {path: 'validacaoAssincrona', component: ValidacaoAssincronaComponent },
+      {path: 'validacaoForm', component: ValidacaoFromComponent },
+      {path: 'FormArray', component: FormArrayComponent },
+      {path: 'FormBuilder', component: FormBuilderComponent },
+    ]
+  },
+  {path: 'services', component: ServicesComponent,
+    children: [
+      {path: 'servicos', component: ServicesOverviewComponent},
+      {path: 'get', component: HttpGetComponent},
+      {path: 'post', component: HttpPostComponent},
+      {path: 'patch', component: HttpPatchComponent},
+      {path: 'delete', component: HttpDeleteComponent},
+      {path: 'dataservice', component: DataServiceComponent}
+
+    ]
+  },
+  {path: 'rotas', component: RotaComponent,
+    children: [
+      {path: 'geral', component: OverviewRotasComponent},
+      {path: 'ordem', component: InfoRotasComponent},
+      {path: 'querystring', component: ParamRotasComponent}
+    ]},
+  {path: 'autenticacao', component: AutenticacaoComponent,
+    children: [
+      {path: 'visaogeral', component: OverviewAuthComponent},
+      {path: 'cliente', component: ClienteAuthComponent},
+      {path: 'servidor', component: ServidorAuthComponent},
+      {path: 'autorizacao', component: AutorizacaoComponent}
+    ]
+  },
+  {path: 'outros', component: OutrosPageComponent,
+    children: [
+      {path: 'ajax', component: OperacaoAssincronaComponent},
+      {path: 'injecao', component: DiComponent},
+      {path: 'observables', component: ObservableComponent},
+      {path: 'promisse', component: PromisseComponent},
+      {path: 'lifecycle', component: CicloDeVidaComponent},
+      {path: 'erros', component: TratamentoDeErrosComponent},
+      {path: 'deploy', component: DeployComponent}
+    ]
+  },
   {path: 'followers/:id/:username', component: PerfilComponent },
   {path: 'followers', component: FollowersComponent },      
   {path: 'posts', component: PostComponent },  
@@ -66,7 +180,51 @@ const routes : Routes = [
     FollowersComponent,
     PerfilComponent,
     ArchiveComponent,
-    NoAccessComponent
+    NoAccessComponent,
+    DiretivaPageComponent,
+    NgSwitchComponent,
+    NgForComponent,
+    NgClassComponent,
+    NgStyleComponent,
+    ComponentPageComponent,
+    VisaoGeralComponentComponent,
+    ViewEncapsulationComponent,
+    SharingDataComponent,
+    TemplateDrivenComponent,
+    ReactiveDrivenComponent,
+    RotaComponent,
+    AutenticacaoComponent,
+    OutrosPageComponent,
+    ServicesComponent,
+    ValidacaoPageComponent,
+    NgformPageComponent,
+    NgvaluePageComponent,
+    ReactiveDrivenOverviewComponent,
+    ValidacaoRdComponent,
+    ValidacaoAssincronaComponent,
+    ValidacaoFromComponent,
+    FormArrayComponent,
+    FormBuilderComponent,
+    ServicesOverviewComponent,
+    HttpGetComponent,
+    HttpPostComponent,
+    HttpPatchComponent,
+    HttpDeleteComponent,
+    DataServiceComponent,
+    OverviewRotasComponent,
+    InfoRotasComponent,
+    ParamRotasComponent,
+    OverviewAuthComponent,
+    ClienteAuthComponent,
+    ServidorAuthComponent,
+    AutorizacaoComponent,
+    OperacaoAssincronaComponent,
+    DiComponent,
+    ObservableComponent,
+    PromisseComponent,
+    CicloDeVidaComponent,
+    TratamentoDeErrosComponent,
+    DeployComponent
   ],
   imports: [
     BrowserModule,

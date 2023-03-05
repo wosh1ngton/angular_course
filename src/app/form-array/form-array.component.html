@@ -1,0 +1,31 @@
+<h5 class="mt-3">Trabalhando com um FormArray </h5>
+        <span>
+          O FormArray é mais uma classe que assina a interface AbstractControl, mesma família do FormGroup. Para 
+          utilizar um FormArray você pode criar um objeto do tipo FormGroup e colocar um FormArray dentro dele,
+          como no código de exemplo abaixo:
+        </span>
+
+        <br/>
+        <app-coder [parametros]="codigoFormArray"></app-coder>
+        <p class="mt-3">
+          Imagine que você precise criar uma lista de itens de supermercado, a medida que o usuário preencha
+          um campo de texto eles devem ser armazenados em uma lista e exibidos na tela, outra funcionalidade 
+          importante é que os itens sejam removidos quando clicados. Para fazer isso, 
+          basta criar um método de adição de itens, cada item será parte do FormArray, a implementação 
+          deste método seria assim:
+        </p>
+        <app-coder [parametros]="codigoAddTopicoFormArray"></app-coder>
+        <p class="mt-3">
+          Perceba que a função addTopic recebe como parâmetro um input text field do html, perceba também que uma property 
+          de nome topics foi criada para facilitar a referência ao FormArray, sempre que o addTopic for chamado 
+          será inserido no FormArray um novo FormControl com o valor informado no FrontEnd, o código 
+          do FrontEnd fica assim:
+        </p>
+
+        <app-coder [parametros]="codigoFrontEndFormArray"></app-coder>
+
+        <p class="mt-3">
+          Teste o Componente abaixo: digite um texto qualquer e tecler enter para chamar o método addTopic, para 
+          remover, basta clicar sobre o item da lista que o método removeTopic será chamado.
+        </p>
+        <app-gerador-objetos></app-gerador-objetos>

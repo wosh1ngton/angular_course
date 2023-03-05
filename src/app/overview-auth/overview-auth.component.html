@@ -1,0 +1,61 @@
+<h5 class="mt-3">
+    Arquitetura proposta
+  </h5>
+
+  <p class="mt-3">
+    Abaixo uma abstração da arquitetura utilizada neste exemplo:
+  </p>
+
+  <img src="../assets/login.component.ts.png" width="1272px" />
+
+
+  <p class="mt-3">
+    O esquema de autenticação proposto utiliza um json-server para simular o backend,
+    a implementação da regra de login será feita no json-server. a base de dados com as informações 
+    de usuário, senha e perfil será armazenada em um arquivo json.
+    O primeiro passo é instalar o json-server através do comando:
+  </p>
+  <code>npm install json-server --save-dev </code>
+  <p class="mt-3">
+    Também se faz necessário instalar o jwt-token pois será utilizado para autenticar o 
+    usuário no cliente, de maneira simples o usuário entra com usuário e senha o server 
+    verifica se os dados informados constam na base json e retorna para o cliente um token,
+    o token é salvo no navegador e passa a ser utilizado como meio para verificar se o 
+    usuário está ou não autenticado. Para instalar o jwt utilize o comando abaixo:
+  </p>
+  <code>npm install jsonwebtoken --save</code>
+
+  <p class="mt-3">
+    aproveite para instalar o nodemon para que o json-server fique sempre no estado watch,
+    atualizando automaticamente.
+    <code>npm install nodemon --save-dev </code>
+    Finalizadas estas instalações crie uma entrada em scripts no package.json para simplificar 
+    o start do seu servidor json. 
+    
+  </p>
+  <code> 
+    "start-auth": "nodemon server/server.js"
+  </code> 
+  <h5 class="mt-3">Criando a base de dados </h5>
+  <p class="mt-3">
+    Convém inicialmente criar uma estrutura de diretórios para armazenar o servidor json,
+    como será utilizado apenas para testes locais podemos criar dentro da pasta do projeto,
+    ficaria assim: 
+   
+  </p>
+  <pre>
+    /server
+      server.js
+    /data
+      db.json
+  </pre>
+  <p class="mt-3">
+    Abaixo o nosso db.json:
+  </p>
+ <app-coder [parametros]="codigoDbJson">
+ </app-coder>
+ <p class="mt-3">
+  Criado o banco de dados precisamos construir as telas de login, 
+  e implementar os detalhes no server. Os detalhes disso estão explicitados nas abas 
+  Cliente e Servidor do menu acima.
+ </p>

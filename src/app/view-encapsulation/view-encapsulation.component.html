@@ -1,0 +1,39 @@
+<h3> View Encapsulation </h3>
+<span>
+    No angular, o estilo de um componente pode ser encapsulado para limitar-se ao componente, assim,
+    não afeta o restante da aplicação, dentro do @Component decorator é disponibilizada a opção
+    encapsulation, que pode ser utilizada para controlar como o encapsulamento é aplicado.
+    Existem os seguintes modos:
+</span>
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Modo</th>
+            <th>Detalhe</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        <tr>
+            <td> ViewEncapsulation.ShadowDom</td>
+            <td> O Angular utilizará o Shadow DOM API built-in do navegador para aplicar os estilos de forma isolada ao
+                componente, contudo,
+                nem todos os navegadores possuem suporte para tal.</td>
+        </tr>
+        <tr>
+            <td> ViewEncapsulation.Emulated</td>
+            <td> O Angular modifica os seletores CSS aplicados ao componente, dessa forma ele emula o Shadow DOM.
+                Exemplo: quando definimos no css do nosso componente um h1 color: red; os elementos h1
+                definidos no html do componente receberão um atributo do tipo ngcontent, e o angular criará
+                uma marcação css diferenciada para todos os h1 que tiverem esse atributo, assim:
+                <pre>
+                  {{textoEncapsulation}}
+                 </pre>
+            </td>
+        </tr>
+        <tr>
+            <td> ViewEncapsulation.None</td>
+            <td> O Shadow DOM não é aplicado, assim, os estilos são válidos globalmente.</td>
+        </tr>
+    </tbody>
+</table>

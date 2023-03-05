@@ -16,7 +16,7 @@ export class PostComponent implements OnInit {
   constructor(private service: PostService) { }
 
   createPost(input: HTMLInputElement) {
-    let post: any = {
+    const post: any = {
       title: input.value,
 
     };

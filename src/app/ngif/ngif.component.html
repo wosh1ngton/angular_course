@@ -1,1 +1,85 @@
-<p>ngif works!</p>
+<h3> Como adicionar ou remover elementos da página </h3>
+<span class="fs-6 lh-base">
+    Para adicionar ou remover um elemento, utilize *NgIf em conjunto com uma expressão ou variável booleana.
+    Por padrão, ngIf evita que seja exibido um elemento com um valor nulo associado. Há diversas formas de
+    adicionar ou
+    remover elementos, no exemplo abaixo, a div aparecerá se a condição do if retornar verdadeiro, caso retorne
+    falso, o elemento
+    é retirado da tela e também do DOM.
+</span>
+
+<div class="mt-3 row g-2 bg-light p-2">
+
+    <div class="col-auto">
+        <label for="totalDeCursos" class="align-middle">Total de Cursos</label>
+    </div>
+    <div class="col-auto">
+        <input type="number" #totalCursos class="form-control form-control-md">
+    </div>
+    <div class="col-auto">
+        <button class="btn btn-primary btn-md" (click)="onKeyUp(totalCursos.value)">Enviar</button>
+    </div>
+    <div class="col-auto">
+        <span class="align-middle">Informe um valor e clique em enviar para testar a diretiva ngIf </span>
+    </div>
+
+</div>
+
+<h5 class="m-2"> 1. Utilizando a diretiva *ngIf </h5>
+<span class="fs-6 lh-base">
+    Para testar o exemplo informe um valor para Total de Cursos no formulário logo acima, se o valor for maior
+    que 0 haverá cursos e a div com a mensagem "Lista de Cursos" aparecerá, caso seja 0 a div exibida será
+    a que possui a mensagem "Ainda não há cursos".
+</span>
+<app-coder [parametros]="textoHtml"></app-coder>
+
+<div *ngIf="courses.length > 0" class="p-3 bg-light text-primary border border-primary mt-3">
+    Lista de Cursos
+</div>
+
+<div *ngIf="courses.length === 0" class="p-3 bg-light text-danger border border-danger mt-3">
+    Ainda não há cursos
+</div>
+<h5 class="m-2"> 2. Utilizando *ngIf com template variable e ng-template </h5>
+<span class="fs-6 lh-base">
+    A seguir, têm-se o mesmo resultado do if anterior, utilizando ng-template e a instrução else,
+    repare que a template variable #noCourses e #coursesList foram utilizadas para chamar o ng-template
+    correspondente. a template variable é a referência para a div que será exibida conforme resultado
+    do if.
+</span>
+
+<app-coder [parametros]="textoHtmlIfNGTemplate"></app-coder>
+
+<div *ngIf="courses.length > 0; then coursesList else noCourses"> </div>
+<ng-template #coursesList class="border border-primary text-primary">
+    <div class="border border-primary text-primary-3 p-3 mt-3"> Lista de Cursos </div>
+</ng-template>
+
+<ng-template #noCourses>
+    <div class="border border-danger text-danger p-3 mt-3"> Ainda não há cursos </div>
+</ng-template>
+
+<h5 class="m-2">3. Utilizando hidden para adicionar ou remover elementos </h5>
+
+<span class="lh-base fs-6">
+    O atributo hidden é uma alternativa para ocultar e mostrar elementos, pode ser utilizado como uma property
+    bind em conjunto com uma expressão booleana, o resultado da expressão define se o elemento aparece ou não,
+    a principal diferenção para o ngIf é que, neste caso, ambas as divs aparecem no DOM, ou seja, se inspecionarmos
+    o HTML verificaremos que as duas divs estão no código fonte, embora não apareçam na tela.
+</span>
+<app-coder [parametros]="textoHtmlHidden"></app-coder>
+<div [hidden]="courses.length === 0" class="text-primary border border-primary p-3 mt-3">
+    Lista de cursos
+</div>
+<div [hidden]="courses.length > 0" class="text-danger border border-danger p-3 mt-3">
+    Ainda não há cursos
+</div>
+
+<h4 class="mt-3"> Leading Asterisk </h4>
+<span class="fs-6 lh-base">
+    O asterisco que precede as diretivas *ngIf, *ngFor e outras é utilizado para sinalizar a
+    substituição do conteúdo interno do elemento que o contém por um ng-template, na prática ele
+    facilita a construção dos blocos ngIf encapsulando a criação dos blocos, sem o seu uso a criação
+    de um ngIf teria que prever o if e o else, veja no código abaixo como seria:
+</span>
+<app-coder [parametros]="textNgIfSemAsterisco"></app-coder>

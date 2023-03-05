@@ -1,0 +1,24 @@
+<h5 class="mt-3">Separação de Conceitos </h5>
+<p class="mt-3">
+  Paradigma em que se baseia o conceito de serviços, estatui que uma classe deve ser responsável
+  por apenas um tipo de coisa, uma classe que faz muitas coisas é difícil de manter e testar. 
+  Por exemplo, apresentação da lógica de visão e recuperação de dados não devem estar na mesma classe,
+  isso aumenta acoplamento e reduz coesão pois as rotinas de recuperação de dados, possivelmente serão repetidas
+  em várias classes. Para solucionar essa questão, precisamos separar os conceitos de lógica de apresentação 
+  e tratamento de dados, para isso vamos criar um serviço de acesso a dados para o componente. Ou seja,
+  o serviço será a camada intermediária entre o componente e o backend.
+</p>
+<h5 class="mt-3">
+  Exemplo de separação de conceitos
+</h5>
+<p class="mt-3">
+  Veja no código abaixo que a classe PostService se encarrega de acessar e manipular os dados,
+  a maneira como ela faz isso está encapsulada na classe de serviço, esses detalhes não devem 
+  ser de responsabilidade do componente, o qual deve se preocupar tão somente com a apresentação.
+  Neste modelo o componente utiliza injeção de dependência para criar uma instância dos serviços que 
+  precisa em seu construtor, como os métodos do HttpClient retornam Observables, para poder 
+  ter acesso aos dados na camada de lógica de apresentação os métodos da classe subscrevem o retorno 
+  dos services methods e manipulam os dados (map, reduce) conforme conveniência.
+</p>
+<app-coder [parametros]="postService"></app-coder>
+<app-coder [parametros]="postComponent"></app-coder>

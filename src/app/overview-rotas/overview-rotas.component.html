@@ -1,0 +1,39 @@
+<h5 class="mt-3">Visão Geral</h5>
+<p class="mt-3">
+  Um Router é um serviço que provê navegação entre views e manipulação de URLs
+</p>
+<h5 class="mt-3">3 passos para configurar a navegação </h5>
+<p class="mt-3">
+  1º Configurar as rotas - é o mapeamento de um caminho para um componente;
+  2º Adicionar um router outlet, é onde é mostrado o componente correspondente quando uma dada rota 
+  se torna ativa;
+  3º Adicionar links.
+</p>
+<h5 class="mt-3">Configurando uma rota</h5>
+<p class="mt-3">
+  1. Para configurar uma rota são necessários os seguintes passos: importar o AppRoutingModule para o seu AppModule,
+  adicioná-lo ao seu imports array. 
+  <br />
+  2. Defina suas rotas no seu array de rotas. Cada rota neste array é um objeto JS que contém duas 
+  propriedades. A primeira propriedade, path, define a URL para a rota. A segunda propriedade,
+  component, define o componente que o Angular deve utilizar para o caminho. Veja o exemplo abaixo:
+</p>
+<app-coder [parametros]="codigoRotas"></app-coder>
+<p class="mt-3">
+  Dentro da seção de imports do AppModule, informe <code>RouterModule.forRoot(routes)</code> indicando 
+  ao módulo de rotas, as rotas disponíveis da sua aplicação.
+</p>
+<p class="mt-3">
+  3. Agora adicione suas rotas na sua aplicação, primeiro adicione links para os componentes, atribua 
+  a uma âncora o que você quer adicionar como rota para o routerLink attribute. Configure o valor do 
+  atributo ao componente para mostrar quando um usuário clica em cada link.<br />
+
+</p>
+<app-coder [parametros]="codigoRouterLink"></app-coder>
+<p class="mt-3">
+  Em seguida, atualize o template do componente para incluir o router-outlet. Este elemento informa 
+  ao angular para atualizar a view da aplicação com o componente da rota selecionada. o router-outlet é 
+  uma tag, você deve colocá-la onde quer que os componentes apareçam, veja o exemplo abaixo em funcionamento.
+</p>
+<router-outlet></router-outlet>
+<app-submenus [subMenus]="menusFollowers"> </app-submenus>
