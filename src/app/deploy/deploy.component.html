@@ -78,21 +78,39 @@
     </p>
     <h6 class="mt-3">publicando no github</h6>
     <p class="mt-3">
-      primeiro, acesse sua conta no GitHub, crie um novo repositório. Em seguida você vai precisar
-      registrar o seu repositório remoto (o que você acabou de criar) no seu ambiente local de desenvolvimento,
-      o próprio github te mostra como fazer isso, te dando inclusive o comando, o qual seria da
-      seguinte maneira: 
+      primeiro, acesse sua conta no GitHub, crie um novo repositório. 
+      Em seguida você vai precisar registrar o seu repositório remoto (o que você acabou de criar) 
+      no seu ambiente local de desenvolvimento, o próprio site do github te mostra como fazer isso, 
+      te dando inclusive o comando: 
     </p>
     <code> git remote add origin https://github.com/user/repository.git </code>
     <p class="mt-3"> Onde user e repository são seu usuário e repositório criado. Este 
       comando deve ser dado dentro de um repositório github, no seu ambiente de desenvolvimento,
       quando você criar um projeto angular com o CLI, automaticamente ele cria pra você um repositório
-      git.
-      Para subir seu projeto (fazer o deploy para o github), basta dar o comando abaixo:
+      git. Não fosse esse o caso, você poderia utilizar o comando "git init" para converter a pasta raiz
+      do seu projeto em um repositório git.
+      Para subir seu projeto (fazer o deploy para o github), o comando é o seguinte:
     </p>
     <code>git push origin master</code>
     <p class="mt-3">
       o comando push empurra o código da branch origin para a branch master do seu repositório remoto.
+      
+    </p>
+    <p class="mt-3">
+      Ao buildar sua aplicação, você pode definir onde será a saída dos seus arquivos de distribuição,
+      o comando para buildar definindo o diretório de saída é o seguinte:
+    </p>
+    <code> ng build --output-path docs </code>
+    <p class="mt-3">
+      Com esse comando, o compilador do angular criará uma pasta chamada docs na raiz da sua aplicação e nela
+      armazenará os arquivos compilados para deploy. 
+      No github, vá até o seu repositório, em seguida selecione a opção Settings, no menu esquerdo, no grupo
+      "Code and automation", procure pela opção "Pages", selecione-a. Nessa página você poderá configurar
+      o build da sua aplicação, escolha a branch que preferir e selecione a pasta /docs, em seguida clique no
+      botão Save. A partir disso a sua página está configurada para integração contínua, sempre que você
+      fizer um commit e der um push no seu repositório local para o github, será disparado o deploy e sua 
+      página será atualizada no endereço correspondente, usualmente o endereço é o seguinte:
+      https://user.github.io/repository/
     </p>
     <h6 class="mt-3"> Firebase </h6>
     <p class="mt-3">
