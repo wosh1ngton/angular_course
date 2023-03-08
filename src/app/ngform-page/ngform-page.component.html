@@ -15,7 +15,8 @@
   o botão enquando o formulário estiver no estado inválido, o atributo recebe o valor da template
   variable #f a qual é atribuída o valor do ngForm.
 </span>
-<pre class="bg-light">{{textoNgForm}}</pre>
+<app-coder [parametros]="textoNgForm"></app-coder>
+
 <h4>NgModelGroup</h4>
 <span>
   Outra maneira de separar conceitos é utilizando a diretiva ngModelGroup, quando a diretiva é adicionada
@@ -24,9 +25,7 @@
   e nomear o ngModelGroup como contato, criando uma template variable com o valor #contato e passando
   para a template variabel o valor de ngModelGroup, conforme demonstrado no código abaixo:
 </span>
-<pre class="bg-light">
-      {{textoNgModelGroup}}
-    </pre>
+<app-coder [parametros]="textoNgModelGroup"></app-coder>
 <span> ao clicar no checkbox é possível ver o valor da variável ngModel a ele associada,
   conseguimos isso através da instrução <code> f.value | json </code>
   <br />

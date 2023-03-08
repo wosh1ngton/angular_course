@@ -42,9 +42,30 @@ export class OverviewRotasComponent {
     pagina: 'diversas'
   };
 
+  codigoChildrenRotas = {
+    codigo: `
+    {path: 'rotas', component: RotaComponent,
+    children: [
+      {path: 'geral', component: OverviewRotasComponent,
+        children: [
+          {path: 'followers/:id', component: PerfilComponent },
+          {path: 'followers', component: FollowersComponent },  
+          {path: 'posts', component: PostComponent}    
+        ]
+      },
+      {path: 'ordem', component: InfoRotasComponent},
+      {path: 'querystring', component: ParamRotasComponent},
+      {path: '', redirectTo: 'geral', pathMatch: 'full'}
+    ]
+  }
+  `,
+  titulo: 'Código 3 - Utilizando chidren e redirectTo',
+  pagina: 'info-rotas.component.ts'
+  }
+
   menusFollowers = [
-    { id: 1, link: '/followers', nome: 'Followers' },
-    { id: 1, link: '/posts', nome: 'Posts' },
+    { id: 1, link: 'followers', nome: 'Followers' },
+    { id: 1, link: 'posts', nome: 'Posts' },
   ]
 
 }

@@ -5,6 +5,20 @@
   Lista de rotas com caminhos estáticos devem vir primeiro, a rota com wildcard deve 
   vir por último, pois ela casa com qualquer URL
 </p>
+<h5 class="mt-3">Definindo uma rota padrão </h5>
+<p class="mt-3">
+  Para definir uma rota como padrão dentre um conjunto, você pode utilizar a propriedade
+  redirectTo das suas rotas, por exemplo:
+</p>
+<code>  path: '', redirectTo: 'caminhoPadrao', patchMatch: 'full' </code>
+<p class="mt-3">
+  Neste exemplo, sempre que o path for vazio, o path será 'caminhoPadrao'. Por último, você
+  deve setar o patchMatch, atributo obrigatório quando se utiliza o redirectTo. o patchMatch 
+  pode ser setado como 'prefix' ou como 'full', ele define como o path da url será comparado, 
+  se será o valor inteiro do path (full), ou se será comparado com a parte final. quando
+  o path é apenas um caminho simples - um top level route, sem parâmetros, prefix e full surtirão o mesmo efeito 
+  prático.
+</p>
 <h5 class="mt-3">Pegando informação de rotas</h5>
 <p class="mt-3">
   Comumente é preciso passar informações de um componente para outro. Por exemplo, considere 

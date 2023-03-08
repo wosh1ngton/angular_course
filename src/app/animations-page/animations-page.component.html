@@ -1,0 +1,29 @@
+<h4 class="mt-3"> Trabalhando com animações </h4>
+<p class="mt-3">
+    Há duas formas principais de trabalho com animações, através do CSS e através do Javascript.
+    o css pode ser utilizado para animar e transicionar elementos, além das instruções que possui,
+    há libraries css que facilitam o processo de animação, por exemplo, a library animate.css.
+    Para utilizar a library é bem simples, basta baixar a library e incluir o link de referência no cabeçalho 
+    da sua página, ou se preferir, utilizar o CDN. 
+    A outra abordagem de animação, JS, possui como vantagem a maior abrangência e controle da
+    animação. Assim como no caso do css, há diversas libraries que podem ser utilizadas para 
+    animar a sua página, destacam-se: jQuery, GSAP, Zepto, Web Animations API. Esta última
+    é uma especificação que é implementada no Angular pelo módulo @angular/animations.
+    Este módulo possui uma série de funções para criar animações, tais como: 
+    trigger(), transition(), state(), animate() e outras.
+</p>
+<h4 class="mt-3">Conceituação</h4>
+<p class="mt-3">
+    Uma animação é a transição do estado a para o estado b, o estado do elemento pode ser
+    classificado da seguinte forma: <br />
+    void: o elemento foi criado, mas ainda não está no DOM; ou foi removido do DOM <br />
+    default (*): <br />
+    custom: <br />
+
+</p>
+<app-todo-list></app-todo-list>
+<p class="mt-3">
+    A maior parte dos navegadores possui suporte a animação, para os casos de exceção cabe o uso
+    do polyfills.ts, que faz exatamente esse trabalho de adequação de códigos mais modernos de 
+    js para que possam ser executados em navegadores antigos.
+</p>

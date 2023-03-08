@@ -1,4 +1,5 @@
 import { ErrorHandler, NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
@@ -74,6 +75,8 @@ import { PromisseComponent } from './promisse/promisse.component';
 import { CicloDeVidaComponent } from './ciclo-de-vida/ciclo-de-vida.component';
 import { TratamentoDeErrosComponent } from './tratamento-de-erros/tratamento-de-erros.component';
 import { DeployComponent } from './deploy/deploy.component';
+import { AnimationsPageComponent } from './animations-page/animations-page.component';
+import { TodoListComponent } from './todo-list/todo-list.component';
 
 const routes : Routes = [  
   {path: '', component: HomeComponent },
@@ -84,6 +87,7 @@ const routes : Routes = [
       {path: 'for', component: NgForComponent },
       {path: 'ngclasse', component: NgClassComponent },
       {path: 'ngestilo', component: NgStyleComponent },
+      {path: '', redirectTo: 'if', pathMatch: 'full'}
     ]
   },  
   {path: 'componentes', component: ComponentPageComponent,
@@ -91,6 +95,8 @@ const routes : Routes = [
       {path: 'overview', component: VisaoGeralComponentComponent },
       {path: 'viewencapsualtion', component: ViewEncapsulationComponent },
       {path: 'sharingdata', component: SharingDataComponent },
+      {path: 'animations', component: AnimationsPageComponent },
+      {path: '', redirectTo: 'overview', pathMatch: 'full'}
     ] 
   },
   {path: 'template-driven', component: TemplateDrivenComponent,
@@ -98,6 +104,7 @@ const routes : Routes = [
       {path: 'validacao', component: ValidacaoPageComponent},
       {path: 'forms', component: NgformPageComponent},
       {path: 'ng-values', component: NgvaluePageComponent},
+      {path: '', redirectTo: 'validacao', pathMatch: 'full'}
     ]
   },
   {path: 'reactive-driven', component: ReactiveDrivenComponent,
@@ -108,6 +115,7 @@ const routes : Routes = [
       {path: 'validacaoForm', component: ValidacaoFromComponent },
       {path: 'FormArray', component: FormArrayComponent },
       {path: 'FormBuilder', component: FormBuilderComponent },
+      {path: '', redirectTo: 'visaogeral', pathMatch: 'full'}
     ]
   },
   {path: 'services', component: ServicesComponent,
@@ -117,22 +125,32 @@ const routes : Routes = [
       {path: 'post', component: HttpPostComponent},
       {path: 'patch', component: HttpPatchComponent},
       {path: 'delete', component: HttpDeleteComponent},
-      {path: 'dataservice', component: DataServiceComponent}
+      {path: 'dataservice', component: DataServiceComponent},
+      {path: '', redirectTo: 'servicos', pathMatch: 'full'}
 
     ]
   },
   {path: 'rotas', component: RotaComponent,
     children: [
-      {path: 'geral', component: OverviewRotasComponent},
+      {path: 'geral', component: OverviewRotasComponent,
+        children: [
+          {path: 'followers/:id', component: PerfilComponent },
+          {path: 'followers', component: FollowersComponent },  
+          {path: 'posts', component: PostComponent}    
+        ]
+      },
       {path: 'ordem', component: InfoRotasComponent},
-      {path: 'querystring', component: ParamRotasComponent}
-    ]},
+      {path: 'querystring', component: ParamRotasComponent},
+      {path: '', redirectTo: 'geral', pathMatch: 'full'}
+    ]
+  },
   {path: 'autenticacao', component: AutenticacaoComponent,
     children: [
       {path: 'visaogeral', component: OverviewAuthComponent},
       {path: 'cliente', component: ClienteAuthComponent},
       {path: 'servidor', component: ServidorAuthComponent},
-      {path: 'autorizacao', component: AutorizacaoComponent}
+      {path: 'autorizacao', component: AutorizacaoComponent},
+      {path: '', redirectTo: 'visaogeral', pathMatch: 'full'}
     ]
   },
   {path: 'outros', component: OutrosPageComponent,
@@ -143,11 +161,11 @@ const routes : Routes = [
       {path: 'promisse', component: PromisseComponent},
       {path: 'lifecycle', component: CicloDeVidaComponent},
       {path: 'erros', component: TratamentoDeErrosComponent},
-      {path: 'deploy', component: DeployComponent}
+      {path: 'deploy', component: DeployComponent},
+      {path: '', redirectTo: 'ajax', pathMatch: 'full'}
     ]
   },
-  {path: 'followers/:id/:username', component: PerfilComponent },
-  {path: 'followers', component: FollowersComponent },      
+ 
   {path: 'posts', component: PostComponent },  
   {path: 'archive/:year/:month', component: ArchiveComponent },
   {path: 'archive', component: ArchiveComponent},  
@@ -224,10 +242,13 @@ const routes : Routes = [
     PromisseComponent,
     CicloDeVidaComponent,
     TratamentoDeErrosComponent,
-    DeployComponent
+    DeployComponent,
+    AnimationsPageComponent,
+    TodoListComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule,    
+    BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,

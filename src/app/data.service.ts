@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, InjectionToken, Input } from '@angular/core';
-import { response } from 'express';
 import { catchError, throwError } from 'rxjs';
 import { AppError } from './common/app-error';
 import { BadAuthorization } from './common/bad-authorization';
