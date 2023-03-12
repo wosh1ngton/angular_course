@@ -12,7 +12,8 @@ export class ComponentPageComponent {
     { id: 1, link: 'overview', nome: 'Visão Geral' },
     { id: 2, link: 'viewencapsualtion', nome: 'View Encapsulation' },
     { id: 3, link: 'sharingdata', nome: 'Compartilhando Dados' },
-    { id: 4, link: 'animations', nome: 'Animations'}
+    { id: 4, link: 'animations', nome: 'Animations'},
+    { id: 5, link: 'material', nome: 'Material'}
   ];
 
   updateViewMode(valor: string) {

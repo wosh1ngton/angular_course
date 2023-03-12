@@ -77,6 +77,15 @@ import { TratamentoDeErrosComponent } from './tratamento-de-erros/tratamento-de-
 import { DeployComponent } from './deploy/deploy.component';
 import { AnimationsPageComponent } from './animations-page/animations-page.component';
 import { TodoListComponent } from './todo-list/todo-list.component';
+import { ZippyComponent } from './zippy/zippy.component';
+import { MaterialComponent } from './material/material.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+
+import {MatFormFieldModule} from '@angular/material/form-field';
+
 
 const routes : Routes = [  
   {path: '', component: HomeComponent },
@@ -96,6 +105,7 @@ const routes : Routes = [
       {path: 'viewencapsualtion', component: ViewEncapsulationComponent },
       {path: 'sharingdata', component: SharingDataComponent },
       {path: 'animations', component: AnimationsPageComponent },
+      {path: 'material', component: MaterialComponent },
       {path: '', redirectTo: 'overview', pathMatch: 'full'}
     ] 
   },
@@ -244,7 +254,9 @@ const routes : Routes = [
     TratamentoDeErrosComponent,
     DeployComponent,
     AnimationsPageComponent,
-    TodoListComponent
+    TodoListComponent,
+    ZippyComponent,
+    MaterialComponent
   ],
   imports: [
     BrowserModule,    
@@ -252,6 +264,12 @@ const routes : Routes = [
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    MatFormFieldModule, 
+    MatSlideToggleModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    MatSelectModule,
+      
     RouterModule.forRoot(routes)
   ],
   providers: [
