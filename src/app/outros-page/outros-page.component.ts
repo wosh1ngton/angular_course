@@ -14,5 +14,6 @@ export class OutrosPageComponent {
     { id: 5, link: 'lifecycle', nome: 'Lyfecycle hooks' },
     { id: 6, link: 'erros', nome: 'Tratamento de Erros' },
     { id: 7, link: 'deploy', nome: 'Deploy' },
+    { id: 8, link: 'testes', nome: 'Testes' },
   ]
 }

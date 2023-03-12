@@ -79,12 +79,11 @@ import { AnimationsPageComponent } from './animations-page/animations-page.compo
 import { TodoListComponent } from './todo-list/todo-list.component';
 import { ZippyComponent } from './zippy/zippy.component';
 import { MaterialComponent } from './material/material.component';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatSelectModule } from '@angular/material/select';
 
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { DialogOverviewExampleDialogComponent } from './dialog-overview-example-dialog/dialog-overview-example-dialog.component';
+import { MatComponentsModule } from './mat-components.module';
+import { TestesPageComponent } from './testes-page/testes-page.component';
+import { VoteComponent } from './vote/vote.component';
 
 
 const routes : Routes = [  
@@ -172,6 +171,7 @@ const routes : Routes = [
       {path: 'lifecycle', component: CicloDeVidaComponent},
       {path: 'erros', component: TratamentoDeErrosComponent},
       {path: 'deploy', component: DeployComponent},
+      {path: 'testes', component: TestesPageComponent},
       {path: '', redirectTo: 'ajax', pathMatch: 'full'}
     ]
   },
@@ -256,20 +256,18 @@ const routes : Routes = [
     AnimationsPageComponent,
     TodoListComponent,
     ZippyComponent,
-    MaterialComponent
+    MaterialComponent,
+    DialogOverviewExampleDialogComponent,
+    TestesPageComponent,
+    VoteComponent
   ],
   imports: [
     BrowserModule,    
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule,
-    MatFormFieldModule, 
-    MatSlideToggleModule,
-    MatCheckboxModule,
-    MatRadioModule,
-    MatSelectModule,
-      
+    HttpClientModule,    
+    MatComponentsModule,
     RouterModule.forRoot(routes)
   ],
   providers: [

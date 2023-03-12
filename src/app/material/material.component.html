@@ -3,7 +3,11 @@
     Para utilizar o material, utilize o comando
     <code> ng add @angular/material</code> ele irá adicionar o material, durante o processo
     algumas questões serão realizadas. após instalado o pacote você já pode começar a utilizar
-    o Angular Material. Abaixo um exemplo do MatSlideToggleModule
+    o Angular Material.
+
+    no endereço: https://material.angular.io/ é possível ver o exemplo
+    de uso de cada um dos componentes existentes, abaixo alguns exemplos ilustrativos,
+    apenas para dar uma amostra do poder do Material
 </p>
 <mat-slide-toggle> Toggle me! </mat-slide-toggle> <br />
 
@@ -17,6 +21,7 @@
 {{teste | json}}
 
 <div *ngIf="showDetails.checked">Some details... </div>
+<br />
 <mat-radio-group [(ngModel)]="favoriteSeason">
     <mat-radio-button *ngFor="let season of seasons" [value]="season">
         {{season}}
@@ -24,7 +29,7 @@
 </mat-radio-group>
 <div>Your favorite season is: {{ favoriteSeason }}</div>
 
-<h5 class="mt-3">Utilizando o select do material</h5>
+<h4 class="mt-3">Utilizando o select do material</h4>
 
 
 <h4>mat-select </h4>
@@ -37,3 +42,83 @@
     </mat-select>
 </mat-form-field>
 <p> Selected food {{ selectedValue }}</p>
+
+<h4 class="mt-3"> Utilizando input do material </h4>
+<form class="example-form">
+    <mat-form-field class="example-full-width">
+        <mat-label>Message</mat-label>
+        <input matInput #message maxlength="256" placeholder="Ex. I need help with...">
+        <mat-hint align="start"><strong>Don't disclose personal info</strong> </mat-hint>
+        <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
+    </mat-form-field>
+</form>
+<br />
+<h4 class="mt-3">Date Picker</h4>
+<form class="formDatePicker">
+    <mat-form-field appearance="fill">
+        <mat-label>Choose a date</mat-label>
+        <input matInput [matDatepicker]="picker">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+</form>
+<br />
+<h4 class="mt-3"> Material Icons </h4>
+<span class="material-symbols-outlined">
+    add_circle
+</span>
+<span class="material-symbols-outlined">
+    logout
+</span>
+<span class="material-symbols-rounded">
+    home
+</span>
+<mat-icon aria-hidden="false" aria-label="Exemplo de home icon" fontIcon="home"> </mat-icon>
+
+<h4 class="mt-3">Botões do Material</h4>
+
+<section>
+  <div class="example-label">Raised</div>
+<div class="example-button-row">
+    <button mat-raised-button>Basic</button>
+    <button mat-raised-button color="primary">Primary</button>
+    <button mat-raised-button color="accent">Accent</button>
+    <button mat-raised-button color="warn">Warn</button>
+    <button mat-raised-button disabled>Disabled</button>
+    <a mat-raised-button href="https://www.google.com/" target="_blank">Link</a>
+  </div>
+  </section>
+<h4 class="mt-3">Abas do Material </h4>
+<mat-tab-group animationDuration="2000ms">
+    <mat-tab label="Primeiro"> Conteúdo Primeiro</mat-tab>
+    <mat-tab label="Segundo">Conteúdo Segundo</mat-tab>
+    <mat-tab label="Terceiro">Conteúdo Terceiro</mat-tab>
+</mat-tab-group>
+
+<h4 class="mt-3">Dialog Material </h4>
+<ol>
+    <li>
+        <mat-form-field>
+            <mat-label>Qual seu nome?</mat-label>
+            <input matInput [(ngModel)]="name">
+        </mat-form-field>
+    </li>
+    <li><button mat-raised-button (click)="openDialog()">Escolha um </button>
+        </li>
+        <li *ngIf="animal">
+            Escolha: <i> {{ animal }}</i>
+        </li>
+</ol>
+
+<h4 class="mt-3">Organizando seu código </h4>
+<p class="mt-3">
+    A fim de manter sua aplicação coesa e organizada, uma boa prática é criar um módulo 
+    específico para os módulos do material, observe que o app.module cresce consideravelmente
+    a medida que mais componentes do material são acrescidos, acaba poluindo o arquivo 
+    e isso não é interessante para a manutenção do código. Para resolver essa questão,
+    crie um novo módulo utilizando o angular CLI e transfira os módulos da array de 
+    imports para a array de exports do novo módulo criado, na array de imports do app.module 
+    você chamará apenas um módulo que contém as referências 
+    para os componentes do Material, aqui chamei de MatComponentsModule.
+</p>

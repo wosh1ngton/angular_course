@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogOverviewExampleDialogComponent } from '../dialog-overview-example-dialog/dialog-overview-example-dialog.component';
 interface Food {
   value: string;
   viewValue: string;
@@ -9,17 +11,43 @@ interface Car {
   viewValue: string;
 }
 
+export interface DialogData {
+  animal: string;
+  name: string;
+}
+
 @Component({
   selector: 'app-material',
   templateUrl: './material.component.html',
   styleUrls: ['./material.component.css']
 })
 export class MaterialComponent {
+  animal= '';
+  name ='';
+  /**
+   *
+   */
+  constructor(public dialog: MatDialog) {
+    
+    
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DialogOverviewExampleDialogComponent, {
+      data: {name: this.name, animal: this.animal},
+
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('caixa fechada');
+      this.animal = result;
+    })
+  }
   teste = 'true';
   isChecked = true;
   selectedValue = '';
   selectedCar = '';
-  
+
   favoriteSeason  = '';
   seasons : string[] = ['winter is comming', 'primavera chegou', 'Summer is hot', 'Autumn like Hades'];
   onChange($event: any) {
