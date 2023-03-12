@@ -1,0 +1,34 @@
+<h4 class="mt-3"> Como utilizar a diretiva ngSwitchCase</h4>
+<div>
+<span class="lh-base fs-6">
+  O ngSwitchCase directive é recomendável para quando queremos comparar uma property ou um field 
+  contra múltiplos valores, um exemplo prático de uso seria a ativação de menus quando clicados. 
+  Conforme exemplificado abaixo, neste cenário, tem-se uma lista de opções, quando a opção for clicada
+  o evento (click) atribui um valor para a property testeSwitch, esse valor atribuído é utilizado 
+  para verificar se a classe 'active' utilizada para destacar a opção clicada será ou não habilitada,
+  para que ela seja habilitada é necessário que a expressão "testeSwitch == 'valor'" seja verdadeira. Em sendo 
+  verdadeira além da ativação da classe active, a div correspondente será exibida, conforme instrução
+  ngSwitchCase.
+</span>
+
+
+</div>
+<app-coder [parametros]="textoSwitchCase"></app-coder>
+
+<ul class="nav nav-tabs mt-3">
+  <li class="nav-item"> 
+    <a href="#" class="nav-link" [class.active]="testeSwitch === 'mapa'" (click)="testeSwitch = 'mapa'">Mapa</a>  
+  </li>
+  <li class="nav-item"> 
+    <a href="#" class="nav-link" [class.active]="testeSwitch === 'lista'" (click)="testeSwitch = 'lista'">Lista</a> 
+  </li>
+  <li class="nav-item"> 
+    <a href="#" class="nav-link" [class.active]="testeSwitch === 'outros'" (click)="testeSwitch = 'outros'">Outros</a> 
+  </li>
+</ul>
+
+<div [ngSwitch]="testeSwitch">
+  <div *ngSwitchCase="'mapa'" class="p-2"> Conteúdo de Mapa </div>
+  <div *ngSwitchCase="'lista'" class="p-2"> Conteúdo de Lista </div>
+  <div *ngSwitchCase="'outros'" class="p-2"> Conteúdo de Outros </div>
+</div>

@@ -1,0 +1,11 @@
+<h4 class="mt-3"> Utilizando o NgStyle </h4>
+<span class="fs-6 lh-base">
+  Similar ao ngClass, o ngStyle permite que seja passado um objeto com as chaves funcionando
+  como o nome dos atributos css e os valores podem ser expressões que retornam o valor para 
+  o atributo.
+</span>
+<button
+  [style.backgrounColor]="canSave ? 'blue': 'red'"
+  [style.color]="canSave ? 'blue' : 'black'">             
+  Salvar 
+</button>

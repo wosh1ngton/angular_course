@@ -1,0 +1,36 @@
+<span>
+  Por padrão a diretiva ngForm é acrescentada "under the hood" em todos os formulários html
+  quando importamos o módulo FormsModule do Angular,
+  para termos uma referência da diretiva ngForm podemos utilizar uma template variable, setando
+  dentro da tag form #f="ngForm", observe que é a mesma lógica para exportar o valor de ngModel
+  para uma template variable em um input field.
+</span>
+<h4>ngSubmit</h4>
+<span class="mt-3">
+  o NgForm tem uma output property chamada ngSubmit, sendo uma output property ela é do tipo
+  EventEmitter e portanto é uma forma de enviar dados a um parent item através do evento ngSubmit.
+  Para ver o resultado clique no botão enviar e veja o objeto que está sendo enviado através do console
+  das ferramentas do desenvolvedor. <br />
+  Repare o elemento button, utilizamos um atributte binding, onde o atributo disabled desabilita
+  o botão enquando o formulário estiver no estado inválido, o atributo recebe o valor da template
+  variable #f a qual é atribuída o valor do ngForm.
+</span>
+<app-coder [parametros]="textoNgForm"></app-coder>
+
+<h4>NgModelGroup</h4>
+<span>
+  Outra maneira de separar conceitos é utilizando a diretiva ngModelGroup, quando a diretiva é adicionada
+  a uma div os input fields dentro dela passam a ser considerados atributos de um objeto. Imagine que os
+  primeiros campos de um formulário são todos referentes a contato, você pode envolvê-los em uma div
+  e nomear o ngModelGroup como contato, criando uma template variable com o valor #contato e passando
+  para a template variabel o valor de ngModelGroup, conforme demonstrado no código abaixo:
+</span>
+<app-coder [parametros]="textoNgModelGroup"></app-coder>
+<span> ao clicar no checkbox é possível ver o valor da variável ngModel a ele associada,
+  conseguimos isso através da instrução <code> f.value | json </code>
+  <br />
+  sendo f o valor do ngForm em formato json, por isso todo os valores são exibidos, incluindo o input field
+  nome e comentário.
+</span>
+
+<app-contact-form></app-contact-form>

@@ -25,8 +25,9 @@ export class AppErrorHandler implements ErrorHandler {
 
         // alert("Um erro inesperado ocorreu");
         // console.log(err);
+        console.log(err.message);
         throw new AppError(err);
-
+        
     }
 
 

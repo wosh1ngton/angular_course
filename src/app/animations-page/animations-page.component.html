@@ -1,0 +1,109 @@
+<h4 class="mt-3"> Trabalhando com animações </h4>
+<p class="mt-3">
+    Há duas formas principais de trabalho com animações, através do CSS e através do Javascript.
+    o css pode ser utilizado para animar e transicionar elementos, além das instruções que possui,
+    há libraries css que facilitam o processo de animação, por exemplo, a library animate.css.
+    Para utilizar a library é bem simples, basta baixar a library e incluir o link de referência no cabeçalho 
+    da sua página, ou se preferir, utilizar o CDN. 
+    A outra abordagem de animação, JS, possui como vantagem a maior abrangência e controle da
+    animação. Assim como no caso do css, há diversas libraries que podem ser utilizadas para 
+    animar a sua página, destacam-se: jQuery, GSAP, Zepto, Web Animations API. Esta última
+    é uma especificação que é implementada no Angular pelo módulo @angular/animations.
+    Este módulo possui uma série de funções para criar animações, tais como: 
+    trigger(), transition(), state(), animate() e outras.
+</p>
+<h4 class="mt-3">Conceituação</h4>
+<p class="mt-3">
+    Uma animação é a transição do estado a para o estado b, o estado do elemento pode ser
+    classificado da seguinte forma: <br />
+    void: o elemento foi criado, mas ainda não está no DOM; ou foi removido do DOM <br />
+    default (*): <br />
+    custom: <br />
+
+</p>
+<h5 class="mt-3">fade-in e fade-out</h5>
+<p class="mt-3">
+    Abaixo um exemplo da animação fade-in, digite um valor na caixa de texto e veja a transição 
+    do elemento, ele começa com 0 de opacidade e transiciona, drante 2 segundos, para 1. Em outras 
+    palavras ele vai surgindo aos poucos diminuindo o nível de transparência do elemento. 
+    Após inserir alguns registros e observar o efeito fade-in, clique no item e veja o efeito inverso,
+    fade-out, o elemento será excluído da tela e sumirá aos poucos, transicionando do estado 
+    default para void.   
+</p>
+<app-todo-list></app-todo-list>
+<app-coder [parametros]="codigoFadeIn"></app-coder>
+<p class="mt-3">
+    a animação é configurada na anotação do componente, recebe uma array com uma trigger,
+    a trigger recebe um nome que será utilizado para chamar a animação, no exemplo, o nome
+    foi deifnido como fade, nesse caso o elemento html deverá ser chamado utilizando o 
+    mesmo nome, assim:
+
+</p>
+<code> @fade </code> <br />
+<p class="mt-3">
+    após o parâmetro que define o nome, uma outra array é setada com os efeitos desejados,
+    o método transition que define qual será a mudança de estado desejada, aqui no exemplo,
+    a primeira transição reconhece a mudança de estado de void  para default(*), 
+    a animação é caracterizada por um estilo e por uma animação que define o tempo
+    de transição, no exemplo, são 2 segundos.
+    A segunda transição captura a mudança do estado default para void, ou seja,
+    o angular sabe quando um elemento está mudando de estado e produz a animação com 
+    base nessa mudança de estado.
+    É possível simplificar o código através do uso da função state, definindo nela o 
+    estado de void e assim as funções de transição não mais precisarão definir o estilo 
+    em cada chamada.
+</p>
+<app-coder [parametros]="codigoAnimationSimplificado"></app-coder>
+<p class="mt-3">Note que retiramos os objetos style das transições e definimos o valor 
+    da opacidade dentro de state, definindo void como sendo opacidade 0.
+    Também é possível simplificar as transições, veja que a função transition é chamada 
+    por duas vezes e a única variável que muda é a alteração de estados, e se fosse possível 
+    setar as duas transições de estado de forma simultânea? pois é possível, veja no código 
+    abaixo:
+</p>
+<app-coder [parametros]="codigoTransicaoSimplificada"></app-coder>
+<p class="mt-3">:enter é um syntatic sugar para void => * e :leave para * => void,
+    também poderia ser escrito da seguinte forma "* <=> void"
+</p>
+<h5 class="mt-3">Reutilizando o trigger de animação </h5>
+<p class="mt-3">
+    Para fazer reuso da animação crie um novo arquivo, animations.ts, e cole a função trigger no arquivo 
+    exportando-o com o nome que irá usar para a chamada e importando os módulos necessários, por último, chame pela função criada no arquivo 
+    na array animations do seu componente.
+</p>
+
+<h5 class="mt-3">Keyframes</h5>
+<p class="mt-3">
+    Keyframes são utilizados para animações mais complexas. é um parâmetro da função 
+    animate, a qual recebe um valor para a transição e depois uma array de keyframes,
+    essa array pode conter vários styles.
+</p>
+<app-coder [parametros]="codigoKeyFrame"> </app-coder>
+<h5 class="mt-3">Reutilizando a animação </h5>
+<p class="mt-3">
+    Assim como exportamos a função trigger, também podemos fazer o mesmo com a animate. Assim,
+    podemos reutilizá-la em qualquer outra trigger sem precisar reescrever. Isso é muito comum
+    quando temos um efeito como o slide, por exemplo, e queremos adicionar algo mais a ele, customizá-lo,
+    para não ter que reescrever todo o efeito, separamos o efeito em um código apartado e 
+    chamamos ele dentro da função transition, veja o exemplo abaixo:
+</p>
+<app-coder [parametros]="codigoReusoAnimation"></app-coder>
+<p class="mt-3">
+    Note que isolamos o código da animação em uma constante e depois chamamos o código 
+    com a função useAnimation.
+</p>
+<p class="mt-3">
+    A maior parte dos navegadores possui suporte a animação, para os casos de exceção cabe o uso
+    do polyfills.ts, que faz exatamente esse trabalho de adequação de códigos mais modernos de 
+    js para que possam ser executados em navegadores antigos.
+    Há diversas outras funcionalidades do pacote de @angular/animations, como query, group, animateChild, stagger.
+    Todas essas funcionalidades podem ser melhor estudadas na documentação, o objetivo deste texto 
+    era conferir uma visão geral das possiblidades.
+</p>
+<h5 class="mt-3"> Custom states </h5>
+<p class="mt-3">
+    Caso haja necessidade de animar elementos que estão sempre no DOM e portanto não mudam de estado,
+    você precisará criar estados customizados e trabalhar com eles. pra isso existe a função state.
+</p>
+<app-zippy></app-zippy>
+

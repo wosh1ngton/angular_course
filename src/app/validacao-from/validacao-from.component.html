@@ -1,0 +1,32 @@
+<span class="mt-3">
+    Caso deseje checar um erro que pode ser originado de qualquer parte do formulário, ou seja,
+    pode vir de mais de um campo, é possível fazer uma validação no formulário. Suponha que deseje 
+    testar se o usuário e senha do componente de login retornaram o valor correto, o form validation 
+    pode ser utilizado para isso. 
+    <br />
+    Abaixo, uma função que gera um erro para o formulário ao tentar logar.
+
+  </span>
+  <app-coder [parametros]="erroUsuarioSenha"></app-coder>
+  <span class="mt-3">
+    Para mostrar o erro, utilizamos o ngIf dentro de uma Div se o form tiver quaisquer erros,
+    eles serão mostrados. Caso precise testar vários erros, convém criar uma div, dentro da div principal 
+    para cada erro adicional.
+
+  </span>
+  
+  <app-coder [parametros]="erroUsuarioSenhaTemplate"></app-coder>
+  <h5 class="mt-3">Aninhamento de grupos no Reactive Driven</h5>
+  <span>
+    Para aninhar grupos na abordagem reactive driven, utilize a diretiva FormGroupName dentro do template 
+    dessa forma, o Angular entenderá que há formGroups aninhados no componente, por exemplo. Se você possui 
+    no seu componente um código assim:
+  </span>
+  <app-coder [parametros]="codigoFormGroupAninhado"></app-coder>
+  <span class="mt-3">
+    deverá implementar o seu template assim:
+  </span>
+  <app-coder [parametros]="codigoFormGroupTemplate"> </app-coder>
+  <span>
+
+  </span>

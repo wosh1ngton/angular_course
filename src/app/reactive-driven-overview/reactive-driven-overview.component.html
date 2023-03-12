@@ -1,0 +1,35 @@
+<h5 class="mt-3">Funcionamento do Reactive Driven</h5>
+<span>
+    Reactive form transfere mais responsabilidades para o desenvolvedor, o controle dos formulários passa
+    a ser feito diretamente no componente e as associações destes formControls com os input fields
+    no template são feitas através de diretivas próprias tais como:
+    <strong> formControlName </strong> o qual é representado como um atributo, usado
+    para linkar ao input field do FormControl.
+    O <strong> formGroupName</strong> usado para linkar os FormGroups do componente com os grupos
+    do template. Por último o <strong> [formGroup]</strong>, representado como uma property bind,
+    a qual vincula o formulário do template com o form object criado no componente. <br />
+
+    O formulário de login, abaixo representado, fora criado usando
+    a abordagem reactive driven do angular. Para tanto, criou-se um objeto FormGroup, composto de outros dois
+    objetos FormControl, um para o username e outro para o password. No template, esses objetos são invocados
+    utilizando o atributte binding no form <code> [formGroup]="form" </code> e atribuição de valor
+    nos inputs utilizando o atributo formControlName para username e password.
+</span>
+<h5 class="mt-3">Validação de Dados no Reactive Driven </h5>
+<span class="mt-3">
+    No reactive form os atributos do HTML não são utilizados para validação, para criar validações é preciso
+    fazê-lo dentro do formControl correspondente, um formControl possui alguns parâmetros, todos eles
+    são opcionais, o primeiro trata do estado inicial do form, o segundo é um validator que é do tipo
+    ValidatorFn[] | ValidatorFn[], ou seja é uma função do tipo Validator (classe built-in do Angular)
+    ou uma array de funções Validator. No Código 1 é possível ver o uso de vários validators e como
+    implementá-los.
+</span>
+<h5 class="mt-3"> Simplificando a chamada do formControl </h5>
+<span>
+    as propriedades do form control podem ser obtidas por meio do método get, assim: form.get('name').valid, para
+    simplificar
+    essa chamada convém criar uma property no componente, conforme código 2:
+</span>
+<app-coder [parametros]="t"> </app-coder>
+<app-coder [parametros]="codigoSimplificado"> </app-coder>
+<!-- <app-signup-form></app-signup-form> -->

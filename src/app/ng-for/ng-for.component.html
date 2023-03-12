@@ -1,0 +1,67 @@
+<h4 class="mt-3">Utilizando o NgFor</h4>
+<span class="fs-6 lh-base">
+  Utilizado para renderizar uma lista de objetos o NgFor tem também valores exportáveis,
+  são valores que podem ser extraídos com o uso de palavras reservadas, estes valores são:
+  first: boolean; index: number; last: boolean; even: boolean; odd: boolean; count int, o significado é
+  auto-explicativo. No exemplo abaixo o usuário informa a quantidade de cursos que quer exibir,
+  valor entre 1 e 10 e o ngFor faz a exibição do html correspondente. Também é possível incluir os
+  índices e marcar se deseja apenas as ocorrências pares ou ímpares.
+</span>
+<div class="row g-2 p-3 bg-light mt-2">
+  <div class="col-auto">
+    <label class="align-middle" for="totalDeCursos"> Informe a quantidade de cursos<br /> a serem exibidos</label>
+  </div>
+  <div class="col-auto">
+    <input type="number" class="form-control" id="totalDeCursos" #total>
+  </div>
+  <div class="col-auto">
+    <input type="button" class="btn btn-primary" value="Ver Cursos" (click)="onClickSendTotal(total.value)">
+  </div>
+  <div class="col-auto form-check form-switch m-3">              
+    <input type="checkbox" class="form-check-input" id="flexSwitchIndice"  [(ngModel)]="mySwitch" > 
+    <label for="flexSwitchIndice" class="form-check-label"> Mostrar índices? </label>
+  </div>
+  <div class="col-auto form-check form-switch m-3">              
+    <input type="checkbox" class="form-check-input" id="flexSwitchIndice" [(ngModel)]="switchPar"> 
+    <label for="flexSwitchIndice" class="form-check-label"> Mostrar apenas pares? </label>
+  </div>
+  <div class="col-auto form-check form-switch m-3">              
+    <input type="checkbox" class="form-check-input" id="flexSwitchIndice" [(ngModel)]="switchImpar"> 
+    <label for="flexSwitchIndice" class="form-check-label"> Mostrar apenas ímpares? </label>
+  </div>
+</div>
+<ul class="list-group list-group-flush">            
+  <li class="list-group-item" *ngFor="let curso of cursos; let i = index; let isEven = even; let isOdd = odd; trackBy: trackby">
+
+    <div *ngIf="switchImpar === true; then impares; else null;"> </div>
+    <div *ngIf="switchPar === true; then pares; else null;"> </div>
+    <div *ngIf="switchPar === false && switchImpar === false; then todos; else null;"> </div>
+
+    <ng-template #impares>
+        <span *ngIf="isEven"> <span [hidden]="mySwitch === false"> {{ i }} - </span> {{ curso.nome }}  </span>
+    </ng-template>
+
+    <ng-template #pares>
+      <span *ngIf="isOdd"> <span [hidden]="mySwitch === false"> {{ i }} - </span> {{ curso.nome }} </span>
+    </ng-template>
+
+    <ng-template #todos>
+      <span> <span [hidden]="mySwitch === false"> {{ i }} - </span> {{ curso.nome }}  </span>                 
+    </ng-template>              
+  </li>
+</ul>
+
+
+<app-coder [parametros]="textoFor"></app-coder>
+<h4> Uso do trackBy </h4>
+<span class="m-2 fs-6 lh-base">
+  A diretiva NgFor possui a variável trackBy que recebe uma função, a função implementa a forma como
+  as mudanças nos elementos serão rastreados pelo angular, caso ela não seja implementada o padrão do Angular é utilizar
+  a referência do objeto, ou seja, será sempre um valor novo quando a página for atualizada, caso deseje
+  que o Angular substitua os itens da lista somente quando forem de fato adicionados novos itens,
+  implemente o método trackByFn, este método recebe dois parâmetros: index e item. O uso do trackBy é especialmente
+  útil quando temos um grande volume de dados, usando o trackBy diminuímos o uso de recursos, auxiliando
+  no desempenho da aplicação.
+</span>
+
+<app-coder [parametros]="textoTrackBy"></app-coder>

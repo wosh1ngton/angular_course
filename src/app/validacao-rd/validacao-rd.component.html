@@ -1,0 +1,13 @@
+<h5 class="mt-3">Criando uma validação customizada no Reactive Driven</h5>
+<span>
+  Para criar uma validação customizada é preciso criar uma ValidatorFn e passá-la ao seu formControl
+  o validatorFn é uma interface e portanto possui um padrão para sua implementação. Para implementar 
+  é preciso um AbstractControl que retorne um ValidatorError ou nulo.
+</span>
+<app-coder [parametros]="pp" > </app-coder>
+<h5 class="mt-3">Implementando no template </h5>
+<span>
+  O uso no template é exatamente igual ao que seria feito com um validador comum, no componente o 
+  validator é chamado através de uma chamada ao método estático criado no username.validator, assim:
+</span>
+<app-coder [parametros]="validadorSignUp"> </app-coder>

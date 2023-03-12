@@ -1,0 +1,26 @@
+<h5 class="mt-3">Método get do HttpClient</h5>
+Para simular o backend das aplicações será utilizado o serviço jsonplaceholder, encontrado no endereço
+jsonplaceholder.typicode.com, este site provê uma série de endpoints com dados para testes.
+Para buscar dados via chamadas remotas você pode utilizar o HttpModule, é um módulo que contém a classe
+HttpClient, essa classe possui o método get, o qual faz requisições http,
+essa classe é injetada como um serviço e pode ser usada no padrão de injeção de dependência, ou seja,
+por meio de inserção de uma variável tipada no construtor do componente onde deverá ser utilizada.
+<br />
+A chamada do método get pode ser feita conforme código abaixo:
+<app-coder [parametros]="codigoHttpClientGet"></app-coder>
+<span class="mt-3">
+    Observe que há uma chamada encadeada na chamada do método, após o get o método subscribe() é chamado,
+    isso se deve a necessidade que o método get tem de retornar um Observable, um Observable representa uma
+    sequência de valores ou eventos que ocorrem ao longo do tempo, é desenhada para lidar com fluxos de
+    dados assíncronos e reativos, permitindo que você subscreva para receber atualizações a partir dos
+    fluxos e execute ações quando as atualizações ocorrerem.
+    <br />
+    Um Observable precisa de um response, o response é passado do método get para o subscribe, o subscribe
+    pode receber os dados e manipulá-los. Veja no exemplo que os dados recebidos do get são atribuídos
+    a variável this.posts.
+    Em outras palavras, o método subscribe() define como obter ou gerar valores ou mensagens para serem
+    publicadas.
+</span>
+<app-post></app-post>
+
+<h5 class="mt-3">Método post do HttpClient</h5>

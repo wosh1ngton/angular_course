@@ -1,0 +1,17 @@
+<h5 class="mt-3">Autorização vs Autenticação</h5>
+        <p class="mt-3"> 
+          Agora que cuidamos da autenticação, partiremos para a autorização, com o que temos até agora não como impedir,
+          por exemplo, que alguém acesse diretamente a página localhost:4200/admin, ou seja, de nada adianta autenticarmos alguém 
+          se não pudermos avaliar se essa identidade possui autorização para acessar determinadas páginas, é o que faremos 
+          agora. Para utilizarmos a autorização, podemos lançar mão do serviço authservice, como no código abaixo:
+        </p>
+        <app-coder [parametros]="codigoAuthServiceCliente"> </app-coder>
+
+        <p class="mt-3">
+          Essa classe utiliza o serviço de autorização para redirecionar qualquer usuário que não seja administrador para
+          a página no-access, para isso, ela implementa a interface CanActivate, que possui um método de mesmo nome, basicamente 
+          este método retorna um booleano que decide se determinada rota será ou não ativada, no caso, a rota não será ativada se o retorno for false.
+          Um detalhe final é que é preciso dizer, na constate que guarda as rotas da aplicação, a condição de ativação para as rotas,
+          informando o authguard como sendo a condição, assim:
+        </p>
+        <app-coder [parametros]="codigoRotaGuardCondicao"></app-coder>

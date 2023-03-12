@@ -1,0 +1,78 @@
+<h4 class="mt-3"> Testes Unitários, para que?</h4>
+<p class="mt-3">
+    Imagine que você precise testar uma funcionalidade na sua aplicação, o impulso inicial
+    é rodar a aplicação e dar os inputs necessários para ver o resultado, é um tipo de teste.
+    Mas para isso, eventualmente vocÊ precisará logar no seu app, fazer chamada ao banco de
+    dados, a depender do teste, pode ser algo complexo e que demande uma série de ações e
+    preenchimento de vários campos.
+    Já com teste automatizado é possível chamar diretamente a funcionalidade que queremos
+    testar e passar os valores diretamente, economizando tempo e isolando o teste para o que
+    realmente queremos testar.
+    O teste unitário, nos termos do Angular, testa um compomente de forma isolada,
+    sem considerar recursos externos, como APIs e banco de dados, por exemplo,
+    considera apenas o typescript para fins de teste.
+    Caso o componente testado utilize uma API para se comunicar, o teste fará uso de
+    uma fakeApi, assumindo que a API está funcionando de maneira correta. Da mesma forma
+    se o componente utiliza um router, um fakeRouter será utilizado.
+
+</p>
+<h4 class="mt-3">Testes de Integração</h4>
+<p class="mt-3">
+    Esse tipo de teste verifica a integração do componente Angular com os demais recursos
+    utilizados pela aplicação, API, base de dados, file system, etc.
+</p>
+
+<h4 class="mt-3">End to End test</h4>
+<p class="mt-3">
+    Testa a aplicação como um todo, confere mais confiança a estabilidade da aplicação,
+    por outro lado é um teste lento que consome muitos recursos.
+</p>
+<h4 class="mt-3"> Fundamentos dos testes </h4>
+
+<mat-list role="list">
+    <mat-list-item role="listitem">As funções devem ser pequenas - menos de 10 linhas de código </mat-list-item>
+    <mat-list-item role="listitem">Nomeação apropriada</mat-list-item>
+    <mat-list-item role="listitem">Responsabilidade única</mat-list-item>
+</mat-list>
+
+<h4 class="mt-3">Testes na prática </h4>
+<p class="mt-3">Para rodar a engine de testes, utilize o comando ng test. ao fazer isso 
+    o Angular irá testar todos os casos de testes que você possui, usualmente o próprio 
+    Angular constrói um arquivo .spec para cada componente criado e para cada serviço.
+    Você pode verificar se o teste falhou ou passou tanto no terminal quanto também no seu 
+    browser.
+</p>
+<h4 class="mt-3">Construindo um teste </h4>
+<p class="mt-3">Imagine que você possua uma função que recebe um dado número, 
+    se o valor for menor que 0 retorna 0, caso contrário retorna o número acrescido de 1.
+    algo assim:
+</p>
+<app-coder [parametros]="testeCompute"></app-coder>
+<p class="mt-3"> O teste para verificar se a função retorna o valor correto seria assim:</p>
+<app-coder [parametros]="testeSpecCompute"></app-coder>
+<p class="mt-3">
+    Repare que a função describe recebe um nome para o teste e depois uma função,
+    essa função é uma função "it", a qual no primeiro parâmetro
+    espera uma string que descreva a expectativa para o resultado do teste,
+    no segundo parâmetro, espera por uma asserção, que é o teste de fato.
+    No exemplo atribui-se o resultado do retorno da função a uma constante,
+    em seguida a função expect recebe como parâmetro o retorno do teste, em seguida 
+    esse valor foi passado para o callback toBe que espera por zero.
+    Se o valor for 0 o teste passa, caso contrário ele falha.
+</p>
+
+<h4 class="mt-3">Testes com mudança de estado </h4>
+<p class="mt-3">Imagine que você queira testar um componente que muda o estado da aplicação,
+    por exemplo, ao clicar em um botão você adiciona 1 a um número e ao clicar em outro 
+    você decrementa 1. O teste para isso seria assim:
+</p>
+<app-coder [parametros]="testeComponent"></app-coder>
+<p class="mt-3">mas temos um problema nessa implementação, assim que o primeiro teste passar,
+    o segundo fatalmente irá falhar, pois o valor foi acrescido em 1, logo o teste da parte de 
+    baixo vai retornar 0 e não -1. Esse tipo de problema viola um conceito fundamental de testes:
+    o isolamento, cada teste deve ser executado de forma isolada, para resolver isso,
+    utilizamos a função afterEach.
+    Em testes automatizados dizemos que a função beforeEach() é um set up, que configura o 
+    que for necessário no pré-teste, e tem-se a função afterEach() que é um tear down, ou seja,
+    limpa o que eventualmente pode poluir e prejudicar os testes.
+</p>

@@ -1,0 +1,22 @@
+<h4 class="mt-3"> Utilizando o ngClass </h4>
+<span class="fs-6 lh-base">
+    Suponha a necessidade da criação de um componente para favoritar um determinado item,
+    esse componente deve ficar preenchido quando clicado pela primeira vez (favoritado) e deve
+    se esvaziar quando desfavoritado, para implementar essa ação você pode utilizar um duplo
+    class binding, onde sempre que o item for clicado a classe oposta a que está
+    ativada é habilitada, assim:
+
+    <app-coder [parametros]="textoClassBinding"></app-coder>
+</span>
+<span class="mb-4"> Clique na estrela para visualizar o funcionamento do componente </span>
+<app-favorite [favorito]="post.isFavorite" (change)="onFavoriteChanged($event)"> </app-favorite>
+<br />
+<span class="fs-6">
+    Uma abordagem alternativa seria utilizar o ngClass, passando um objeto chave valor onde o nome da
+    classe é a chave e a propriedade é o valor, assim:
+</span>
+<app-coder [parametros]="textoNgClass"></app-coder>
+<span> O que também pode ser feito com o uso de uma expressão no class binding, passando a
+    expressão como um objeto, bastante similar ao ngClass, assim:
+</span>
+<app-coder [parametros]="textoExpressaoClassBinding"></app-coder>

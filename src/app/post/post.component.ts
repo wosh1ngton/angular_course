@@ -3,7 +3,7 @@ import { AppError } from '../common/app-error';
 import { BadInput } from '../common/bad-input';
 import { NotFoundError } from '../common/not-found.error';
 import { PostService } from '../post.service';
-import { catchError, tap } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-post',
@@ -16,7 +16,7 @@ export class PostComponent implements OnInit {
   constructor(private service: PostService) { }
 
   createPost(input: HTMLInputElement) {
-    let post: any = {
+    const post: any = {
       title: input.value,
 
     };

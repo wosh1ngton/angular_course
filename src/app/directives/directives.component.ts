@@ -54,6 +54,9 @@ export class DirectivesComponent implements OnInit {
     //new DirectiveService
     this.courses = service.getCourses();
   }
+  ngOnInit(): void {
+    throw new Error('Method not implemented.');
+  }
   title = "List of Courses";
   authors = ['fulano','cicrano','beltrano'];
   courses = ['Course1','Course2','Course3'];
@@ -84,7 +87,6 @@ export class DirectivesComponent implements OnInit {
     console.log(this.email3);
   }
 
-  ngOnInit(): void {
-  }
+
 
 }

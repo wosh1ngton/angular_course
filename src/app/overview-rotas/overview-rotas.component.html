@@ -1,0 +1,83 @@
+<h5 class="mt-3">Visão Geral</h5>
+<p class="mt-3">
+  Um Router é um serviço que provê navegação entre views e manipulação de URLs
+</p>
+<h5 class="mt-3">3 passos para configurar a navegação </h5>
+<p class="mt-3">
+  1º Configurar as rotas: é o mapeamento de um caminho - path - para um componente; <br />
+  2º Adicionar um router outlet: é onde é mostrado o componente correspondente quando uma dada rota 
+  se torna ativa; <br />
+  3º Adicionar links: pode ser feito utilizando o atributo routerLink nos elementos de âncora.
+</p>
+<h5 class="mt-3">Configurando uma rota</h5>
+<p class="mt-3">
+  Para configurar uma rota são necessários os seguintes passos: <br /> 
+  importar o AppRoutingModule para o seu AppModule; <br />  
+  Adicioná-lo ao seu imports array. 
+  <br />
+  Defina suas rotas no seu array de rotas. Cada rota neste array é um objeto JS que contém duas 
+  propriedades. A primeira propriedade, path, define a URL para a rota. A segunda propriedade,
+  component, define o componente que o Angular deve utilizar para o caminho. Veja o exemplo abaixo:
+</p>
+<app-coder [parametros]="codigoRotas"></app-coder>
+<p class="mt-3">
+  Dentro da seção de imports do AppModule, informe <code>RouterModule.forRoot(routes)</code> indicando 
+  ao módulo de rotas, as rotas disponíveis da sua aplicação.
+</p>
+<p class="mt-3">
+  Adicione as rotas na sua aplicação, para isso, atribua 
+  a uma âncora no atributo routerLink o caminho da rota correspondente. <br />
+
+</p>
+<app-coder [parametros]="codigoRouterLink"></app-coder>
+<p class="mt-3">
+  Em seguida, atualize o template do componente, em que as views aparecerão, com a tag router-outlet. Este elemento informa 
+  ao angular para atualizar a view da aplicação com o componente da rota selecionada. o router-outlet é 
+  uma tag, você deve colocá-la onde quer que os componentes apareçam, veja o exemplo abaixo em funcionamento.
+</p>
+<h5 class="mt-3">Rotas aninhadas</h5>
+<p class="mt-3">
+  Há situações em que temos uma rota principal, por exemplo: "host:porta/rota" há um determinado
+  componente associado a esta rota e na mesma página gostaríamos de exibir outras âncoras 
+  que tenham seus caminhos e componentes associados renderizados na mesma página da rota principal.
+  Neste cenário, percebe-se que há uma relação entre a rota principal e as rotas a serem 
+  aninhadas na página. Para possibilitar que tudo fique na mesma página, é preciso utilizar 
+  a propriedade children, conforme exemplo abaixo:
+</p>
+<app-coder [parametros]="codigoChildrenRotas"></app-coder>
+<p class="mt-3">
+  o código acima pode ser testado nesta página, veja que a primeira array de elementos children
+  faz referência ao path 'geral', que é a presente página, conforme é possível
+  verificar na barra de endereços, esse mesmo caminho tem sua própria
+  array de children, a qual pode ser testada na barra followers, no final dessa página,
+  ao clicar no link percebe-se que as views são exibidas dentro da página atual.
+</p>
+<h5 class="mt-3">Uso de caminhos relativos</h5>
+<p class="mt-3">
+  A barra "/" indica que o caminho é absoluto e deve iniciar a partir da string, logo após a 
+  barra, por exemplo, se no routerLink o valor indicado é <br />
+  <code> routerLink='/followers' </code> <br />
+  o caminho a ser buscado será host:porta/followers <br />
+  Caso o valor indicado no routerLink seja apenas a "/" <br />
+  <code> routerLink='/' </code> <br />
+  a engine do Angular buscará por 
+  host:porta <br />
+  Uma outra possibilidade é informar apenas a string, nesse caso, a engine utilizará o caminho 
+  existente na barra de endereços + o valor informado no routerLink, por exemplo, se na barra de endereços 
+  o valor é host:porta/followers e o valor de routerLink é followers <br />
+  <code>routerLink="followers"</code> <br />
+  Neste caso o endereço buscado será <br />
+  host:porta/followers/followers <br />
+  Caso utilize './', a engine se mantém no mesmo caminho, se utilizar '../', volta um nível na 
+  hierarquia. <br />
+  <code> routerLink='./' </code>
+</p>
+<p class="mt-3">Para possibilitar a busca pelo id do seguidor é preciso dizer ao routerLink 
+  qual é o id, para isso, precisamos utilizar o routerLink de forma dinâmica, como uma property 
+  binding, tendo em vista que os ids são dinâmicos, cada registro tem um id único,
+  a sintaxe para isso é assim: <br />
+  <code> [routerLink]="['./', follower.id]" </code> <br />
+  O primeiro valor é o valor do caminho, o segundo valor é o parâmetro, no caso, o valor de id.
+</p>
+<app-submenus [subMenus]="menusFollowers"> </app-submenus>
+<router-outlet></router-outlet>

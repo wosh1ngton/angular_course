@@ -1,0 +1,99 @@
+<h5 class="mt-3">Conceitos Gerais</h5>
+        <p class="mt-3">
+          Uma instância de componente tem um ciclo de vida, que inicia quando o Angular cria a 
+          instância do componente e renderiza o componente junto com seus childs items. O ciclo de vida 
+          continua com a detecção de alterações, a medida que o Angular verifica por alterações nos dados 
+          do componente, em ambos, componente e template. O ciclo de vida finaliza quando o Angular 
+          destrói a instância do componente e remove o template do DOM. As diretivas tem um ciclo 
+          de vida similar, a medida que o Angular cria, atualiza e destrói instâncias no curso da execução.
+          A aplicação pode utilizar métodos para manipular o ciclo de vida dos componentes e seus eventos.
+        </p>
+        <p class="mt-3">
+          Um exemplo de um life cycle event seria: Quando o Angular (criar ou renderizar, ou criar e renderizar 
+          seus filhos, destruir um componente) faça algo definido. Um destes eventos é o ngOnInit() o qual 
+          é criado automaticamente pelo CLI, observe que os componentes padrões levam a interface OnInit(),
+          a criação do componente por padrão implementa a interface OnInit() a qual possui a função 
+          ngOnInit(): void. Este método será invocado quando o componente for inicializado, ou seja, está 
+          associado ao life cycle hook de inicialização do componente.
+        </p>
+
+        <h5 class="mt-3">Os hook methods podem ser descritos conforme tabela abaixo </h5>
+        <table class="table table-stripped table-bordered">
+          <thead>
+            <tr>
+              <th>Hook Method</th>
+              <th>Propósito</th>
+              <th>Timing</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>ngOnChanges()</td>
+              <td>Acionado quando o Angular seta ou reseta data-bound input properties. O método recebe 
+                um objeto SimpleChanges dos valores atuais e anteriores de uma property. (Observação:
+                Isso acontece frequentemente, logo, qualquer operação aqui impacta significativamente a performance)
+              </td>
+              <td>
+                Chamado antes do ngOnInit() (se o componente tiver bound-inputs) e sempre que um ou mais data-bound 
+                input properties sejam alteradas. (Observação: Se o seu componente não possui inputs ou uso do componente
+                sem acionamento dos inputs, o framework não invocará o ngOnChanges().
+              </td>
+            </tr>
+            <tr>
+              <td>ngOnInit()</td>
+              <td> Inicializa a diretiva ou componente depois do primeiro display dos data-bound properties 
+                e atribuições das diretivas ou properties dos componentes.
+              </td>
+              <td>Chamado uma vez, depois do primeiro ngOnChanges(). é chamado inclusive quando o ngOnChanges() não é,
+                caso onde não há template-bound inputs. </td>
+            </tr>
+            <tr>
+              <td>ngDoCheck()</td>
+              <td>Detecta e atua sob mudanças que o Angular não pode ou não vai detectar por si só.</td>
+              <td>Chamado imediatamente depois do ngOnChanges() em cada change detection, e imediamente depois 
+                do ngOnInit() durante a execução inicial do componente.
+              </td>
+            </tr>
+            <tr>
+              <td>ngAfterContentInit()</td>
+              <td> Atual quando o Angular projeta conteúdo externo dentro dos component views, ou dentro da view 
+                em que a diretiva está.
+              </td>
+              <td>Chamado uma única vez, depois do primeiro ngDoCheck()</td>
+            </tr>
+            <tr>
+              <td>ngAfterContentChecked()</td>
+              <td> Atua quando o Angular checa o conteúdo projetado dentro da diretiva ou componente.</td>
+              <td>Chamado depois do ngAfterContentInit() e para cada ngDoCheck()</td>
+            </tr>
+            <tr>
+              <td>ngAfterViewInit()	</td>
+              <td> Atua depois que o Angular inicializa os component views e chidls views, ou as views 
+                que contém a diretiva
+              </td>
+              <td>Chamado uma vez, depois do ngAfterContentChecked()</td>
+            </tr>
+            <tr>
+              <td>ngAfterViewChecked()</td>
+              <td>Atua depois do Angular checar as comoponent views e child views, ou as views que contém as diretivas</td>
+              <td>Chamado depois do ngAfterViewInit() e em cada ngAfterContentChecked()</td>
+            </tr>
+            <tr>
+              <td>ngOnDestroy()	</td>
+              <td>Limpa tudo antes do Angular destruir a diretiva ou o componente. Unsubscribe Observables e 
+                event handlers associados para evitar memory leaks.
+              </td>
+              <td>Chamado imediamente antes do Angular destruir a diretiva ou componente</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h5 class="mt-3">Uso do ngOnInit()</h5>
+        <p class="mt-3">
+          Um exemplo clássico do uso de ngOnInit() é para fazer uma chamada remota de valores a serem 
+          exibidos na página, é comum o uso de chamadas https em sistemas de informação. Fazer essa chamada 
+          no construtor da aplicação não é aconselhável pois a criação do componente pelo construtor 
+          deve ser segura, consumir poucos recursos e ser simples. O método ngOnInit() pode ser utilizado 
+          para isso. Não é recomendável que construtores sejam complexos, eles devem se ater a iniciar variáveis 
+          locais para valores simples.
+        </p>

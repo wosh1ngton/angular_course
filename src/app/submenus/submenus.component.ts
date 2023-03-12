@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 interface SubMenu {
   id: number,
@@ -11,21 +11,18 @@ interface SubMenu {
   templateUrl: './submenus.component.html',
   styleUrls: ['./submenus.component.css']
 })
-export class SubmenusComponent implements OnInit {
-
-  constructor() { }
+export class SubmenusComponent  {
   
-  @Output() menuAtivado = new EventEmitter<string>();
-  menuAtivo = '';
+  //@Output() menuAtivado = new EventEmitter<string>();
+  //menuAtivo = '';
   @Input() subMenus : SubMenu[] = []
 
-  ngOnInit(): void {
-  }
+  
 
-  ativarSubMenu(value: string) {
-    this.menuAtivado.emit(value);
-    this.menuAtivo = value;
-    console.log(value);
-  }
+  // ativarSubMenu(value: string) {
+  //   this.menuAtivado.emit(value);
+  //   this.menuAtivo = value;
+  //   console.log(value);
+  // }
 
 }
